@@ -1,0 +1,40 @@
+$linkColor: #2196f3;
+.menu-config-container {
+  .option {
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    .p-button {
+      margin-right: .5rem;
+    }
+
+    i {
+      margin-right: .5rem;
+      font-size: .75rem;
+      color: var(--text-color-secondary);
+
+      &.scale-active {
+        font-size: 1.25rem;
+        color: $linkColor;
+      }
+    }
+    a {
+      margin-right: .5rem;
+    }
+    .sun {
+      width: 3rem;
+      content: url("../../../../assets/image/sun.png");
+    }
+    .moon {
+      width: 3rem;
+      content: url("../../../../assets/image/moon.png");
+    }
+  }
+}
+
+:host {
+  .p-toolbar {
+    background-color: transparent !important;
+  }
+}

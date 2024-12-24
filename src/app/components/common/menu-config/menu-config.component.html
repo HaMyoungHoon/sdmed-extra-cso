@@ -1,0 +1,49 @@
+<div class="menu-config-container">
+  <p-toolbar>
+    <div class="p-toolbar-group-left">
+      <p-button class="p-button-sm" icon="pi pi-bars" (click)="toggleMenu()" *ngIf="menuButtonVisible"></p-button>
+    </div>
+    <div class="p-toolbar-group-right option">
+      <div class="flex flex-column mr-1">
+        <label class="flex justify-content-center" *ngIf="expiredDateVisible">{{"menu-config.label.expired" | translate}}</label>
+        <label class="flex justify-content-center" *ngIf="expiredDateVisible">{{expiredDate}}</label>
+        <p-button class="flex justify-content-center" (click)="tokenRefresh()" *ngIf="expiredButtonVisible">{{"menu-config.button.refresh" | translate}}</p-button>
+      </div>
+      <a class="sun" (click)="changeTheme(false)" *ngIf="isDarkMode"></a>
+      <a class="moon" (click)="changeTheme(true)" *ngIf="!isDarkMode"></a>
+      <p-button (click)="langToKo()" class="mr-1" *ngIf="!isKoLang">{{"menu-config.button.ko" | translate}}</p-button>
+      <p-button (click)="langToEn()" class="mr-1" *ngIf="isKoLang">{{"menu-config.button.en" | translate}}</p-button>
+    </div>
+  </p-toolbar>
+  <p-drawer [visible]="menuVisible" [baseZIndex]="1000" (onHide)="menuClose()">
+    <p-menu class="w-full h-full" [model]="menuItems">
+      <ng-template #submenuheader let-item>
+        <span class="text-primary font-bold" *ngIf="item.routerLink == undefined">{{item.label | translate}}</span>
+        <a pRipple class="text-primary font-bold" [routerLink]="item.routerLink" *ngIf="item.routerLink">
+          <span [class]="item.icon"></span>
+          <span class="ml-2">{{item.label | translate}}</span>
+        </a>
+      </ng-template>
+      <ng-template #item let-item>
+        <a pRipple class="flex align-items-center p-menu-item-link" [routerLink]="item.routerLink">
+          <div *ngIf="!isSVGIcon(item)">
+            <span [class]="item.icon"></span>
+          </div>
+          <div *ngIf="isSVGIcon(item)">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" [attr.height]="itemHeight(item)" [attr.width]="itemWidth(item)"
+                   [attr.viewBox]="itemViewBox(item)" [attr.fill]="fillColor()">
+                <path [attr.d]="itemPath(item)" />
+              </svg>
+            </span>
+          </div>
+          <span class="ml-2">{{item.label | translate}}</span>
+          <p-badge *ngIf="item.badge" class="ml-auto" [value]="item.badge" />
+          <span *ngIf="item.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">
+            {{item.shortcut}}
+          </span>
+        </a>
+      </ng-template>
+    </p-menu>
+  </p-drawer>
+</div>

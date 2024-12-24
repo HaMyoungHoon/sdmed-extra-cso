@@ -1,0 +1,94 @@
+import {BillType} from "../bill-type";
+import {ContractType} from "../contract-type";
+import {DeliveryDiv} from "../delivery-div";
+import {PharmaModel} from "../pharma/pharma-model";
+
+export class HospitalModel {
+  thisPK: string = "";
+  code: number = 0;
+  orgName: string = "";
+  innerName: string = "";
+  ownerName: string = "";
+  taxpayerNumber: string = "";
+  phoneNumber: string = "";
+  faxNumber: string = "";
+  zipCode: string = "";
+  address: string = "";
+  addressDetail: string = "";
+  businessType: string = "";
+  businessItem: string = "";
+  billType: BillType = BillType.None;
+  contractType: ContractType = ContractType.None;
+  deliveryDiv: DeliveryDiv = DeliveryDiv.None;
+  licenseNumber: string = "";
+  nursingHomeNumber: string = "";
+  mail: string = "";
+  mobilePhone: string = "";
+  openDate?: Date;
+  closeDate?: Date;
+  etc1: string = "";
+  etc2: string = "";
+  imageUrl: string = "";
+  inVisible: boolean = false;
+  pharmaList: PharmaModel[] = [];
+
+  init(data: HospitalModel): HospitalModel {
+    this.thisPK = data.thisPK;
+    this.code = data.code;
+    this.orgName = data.orgName;
+    this.innerName = data.innerName;
+    this.ownerName = data.ownerName;
+    this.taxpayerNumber = data.taxpayerNumber;
+    this.phoneNumber = data.phoneNumber;
+    this.faxNumber = data.faxNumber;
+    this.zipCode = data.zipCode;
+    this.address = data.address;
+    this.addressDetail = data.addressDetail;
+    this.businessType = data.businessType;
+    this.businessItem = data.businessItem;
+    this.billType = data.billType;
+    this.contractType = data.contractType;
+    this.deliveryDiv = data.deliveryDiv;
+    this.licenseNumber = data.licenseNumber;
+    this.nursingHomeNumber = data.nursingHomeNumber;
+    this.mail = data.mail;
+    this.mobilePhone = data.mobilePhone;
+    this.openDate = data.openDate;
+    this.closeDate = data.closeDate;
+    this.etc1 = data.etc1;
+    this.etc2 = data.etc2;
+    this.imageUrl = data.imageUrl;
+    this.inVisible = data.inVisible;
+    this.pharmaList = data.pharmaList;
+    return this;
+  }
+  copyLhsFromRhs(lhs: HospitalModel, rhs: HospitalModel): void {
+    lhs.thisPK = rhs.thisPK;
+    lhs.code = rhs.code;
+    lhs.orgName = rhs.orgName;
+    lhs.innerName = rhs.innerName;
+    lhs.ownerName = rhs.ownerName;
+    lhs.taxpayerNumber = rhs.taxpayerNumber;
+    lhs.phoneNumber = rhs.phoneNumber;
+    lhs.faxNumber = rhs.faxNumber;
+    lhs.zipCode = rhs.zipCode;
+    lhs.address = rhs.address;
+    lhs.addressDetail = rhs.addressDetail;
+    lhs.businessType = rhs.businessType;
+    lhs.businessItem = rhs.businessItem;
+    lhs.billType = rhs.billType;
+    lhs.contractType = rhs.contractType;
+    lhs.deliveryDiv = rhs.deliveryDiv;
+    lhs.licenseNumber = rhs.licenseNumber;
+    lhs.nursingHomeNumber = rhs.nursingHomeNumber;
+    lhs.mail = rhs.mail;
+    lhs.mobilePhone = rhs.mobilePhone;
+    lhs.openDate = rhs.openDate;
+    lhs.closeDate = rhs.closeDate;
+    lhs.etc1 = rhs.etc1;
+    lhs.etc2 = rhs.etc2;
+    lhs.imageUrl = rhs.imageUrl;
+    lhs.inVisible = rhs.inVisible;
+    lhs.pharmaList = rhs.pharmaList;
+  }
+}
