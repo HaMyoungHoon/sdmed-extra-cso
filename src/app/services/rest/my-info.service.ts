@@ -31,17 +31,4 @@ export class MyInfoService {
   putUserBankImage(blobModel: BlobUploadModel): Promise<RestResult<UserDataModel>> {
     return this.httpResponse.put(`${this.baseUrl}/file/${FAmhohwa.getThisPK()}/bankImage`, blobModel);
   }
-  getBlobModel(file: File, ext: string): BlobUploadModel {
-    const thisPK = FAmhohwa.getThisPK();
-    const userName = FAmhohwa.getUserName();
-    const blobName = `user/${userName}/${FExtensions.currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
-    const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
-    return FExtensions.applyClass(BlobUploadModel, (obj) => {
-      obj.blobUrl = blobUrl;
-      obj.blobName = blobName;
-      obj.uploaderPK = thisPK;
-      obj.originalFilename = file.name;
-      obj.mimeType = FExtensions.getMimeTypeExt(ext);
-    });
-  }
 }
