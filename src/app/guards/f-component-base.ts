@@ -45,7 +45,13 @@ export abstract class FComponentBase implements AfterViewInit {
       return;
     }
     await this.getMyState();
+    if (this.myState != UserStatus.Live) {
+      return;
+    }
     await this.getMyRole();
+    if (!this.haveRole) {
+      return;
+    }
     await this.ngInit();
   }
   async getMyRole(): Promise<void> {

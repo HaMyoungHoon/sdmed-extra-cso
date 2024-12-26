@@ -23,13 +23,11 @@ import {InputText} from "primeng/inputtext";
   standalone: true,
 })
 export class SignDialogComponent extends FDialogComponentBase {
-  id: string;
-  pw: string;
+  id: string = "";
+  pw: string = "";
   constructor() {
     super();
     this.roleCheck = false;
-    this.id = "";
-    this.pw = "";
   }
 
   async signIn(): Promise<void> {
