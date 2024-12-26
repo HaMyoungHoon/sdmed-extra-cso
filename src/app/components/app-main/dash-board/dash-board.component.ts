@@ -12,4 +12,8 @@ export class DashBoardComponent extends FComponentBase {
   constructor() {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
   }
+
+  override async ngInit(): Promise<void> {
+
+  }
 }
