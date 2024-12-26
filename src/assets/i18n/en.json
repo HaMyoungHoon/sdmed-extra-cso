@@ -1,5 +1,25 @@
 {
-  "menu-1": "menu 1",
+  "menu-1": {
+    "title": "home",
+    "sub-menu": {
+      "sub-1": "dashboard"
+    }
+  },
+  "menu-2": {
+    "title": "edi",
+    "sub-menu": {
+      "sub-1": "edi request",
+      "sub-2": "edi list"
+    }
+  },
+  "menu-3": {
+    "title": "etc",
+    "sub-menu": {
+      "sub-1": "my info",
+      "sub-2": "medicine price",
+      "sub-3": "qna"
+    }
+  },
 
   "menu-config": {
     "label": {

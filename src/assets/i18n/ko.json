@@ -1,5 +1,25 @@
 {
-  "menu-1": "메뉴 1",
+  "menu-1": {
+    "title": "홈",
+    "sub-menu": {
+      "sub-1": "대시보드"
+    }
+  },
+  "menu-2": {
+    "title": "edi",
+    "sub-menu": {
+      "sub-1": "edi 요청",
+      "sub-2": "edi 목록"
+    }
+  },
+  "menu-3": {
+    "title": "기타",
+    "sub-menu": {
+      "sub-1": "내정보",
+      "sub-2": "기준약가",
+      "sub-3": "qna"
+    }
+  },
 
   "menu-config": {
     "label": {
