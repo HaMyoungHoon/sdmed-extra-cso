@@ -2,3 +2,22 @@
 
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
+
+.collapse {
+  display: none;
+}
+
+.p-galleria-nav-button {
+  background-color: rgba(220, 220, 220, 150) !important;
+}
+.p-galleria-next-icon, .p-galleria-prev-icon {
+  color: black;
+}
+.p-galleria-caption {
+  height: fit-content !important;
+  padding: 0.5rem !important;
+}
+
+app-qna-write .p-editor-content, .ql-editor {
+  min-height: 360px;
+}
