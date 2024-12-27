@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, inject} from "@angular/core";
+import {AfterContentInit, AfterViewInit, Component, inject} from "@angular/core";
 import * as FAmhohwa from "./f-amhohwa";
 import * as FConstants from "./f-constants";
 import * as FExtensions from "./f-extensions";
@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
   standalone: false
 })
 
-export abstract class FComponentBase implements AfterViewInit {
+export abstract class FComponentBase implements AfterContentInit {
   myRole: number = 0;
   myState: UserStatus = UserStatus.None;
   haveRole: boolean = false;
@@ -38,20 +38,24 @@ export abstract class FComponentBase implements AfterViewInit {
     this.router = inject(Router);
   }
 
-  async ngAfterViewInit(): Promise<void> {
+  async ngAfterContentInit(): Promise<void> {
     this.isMobile = !navigator.userAgent.includes("Window");
     const authToken = FAmhohwa.getLocalStorage(FConstants.AUTH_TOKEN);
     if (FAmhohwa.isExpired(authToken)) {
       return;
     }
+    this.setLoading();
     await this.getMyState();
     if (this.myState != UserStatus.Live) {
+      this.setLoading(false);
       return;
     }
     await this.getMyRole();
     if (!this.haveRole) {
+      this.setLoading(false);
       return;
     }
+    this.setLoading(false);
     await this.ngInit();
   }
   async getMyRole(): Promise<void> {
