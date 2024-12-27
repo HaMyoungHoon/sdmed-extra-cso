@@ -32,6 +32,9 @@
     },
     "is-new-tab": "opens in a new tab if possible."
   },
+  "qna-write": {
+    "title": "title"
+  },
   "error": {
     "title": "cannot found page",
     "contents": "The page address may be incorrect, deleted, or changed.\nPlease double-check the URL you entered.",
@@ -44,12 +47,14 @@
     "edit": "edit",
     "move": "move",
     "add": "add",
+    "remove": "remove",
     "refresh": "refresh",
     "close": "close",
     "change": "change",
     "sample-download": "sample download",
     "in-visible": "invisible",
-    "logout": "logout"
+    "logout": "logout",
+    "not-supported-file": "not supported file format"
   },
   "primeng": {
     "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
