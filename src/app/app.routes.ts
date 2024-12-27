@@ -13,6 +13,8 @@ export const routes: Routes = [
       { path: FConstants.MY_INFO_URL, loadChildren: () => import("./components/app-main/etc/my-info/my-info.module").then(m => m.MyInfoModule) },
       { path: FConstants.MEDICINE_PRICE_LIST_URL, loadChildren: () => import("./components/app-main/etc/medicine-price-list/medicine-price-list.module").then(m => m.MedicinePriceListModule) },
       { path: FConstants.QNA_LIST_URL, loadChildren: () => import("./components/app-main/etc/qna/qna-list.module").then(m => m.QnaListModule) },
+      { path: FConstants.QNA_WRITE_URL, loadChildren: () => import("./components/app-main/etc/qna/qna-write/qna-write.module").then(m => m.QnaWriteModule) },
+      { path: FConstants.QNA_VIEW_URL, loadChildren: () => import("./components/app-main/etc/qna/qna-view/qna-view.module").then(m => m.QnaViewModule) }
     ]
   },
   { path: FConstants.NOTFOUND_URL.slice(1), loadChildren: () => import("./components/not-found/not-found.module").then(m => m.NotFoundModule) },
