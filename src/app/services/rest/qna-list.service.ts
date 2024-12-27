@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {HttpResponseInterceptorService} from "../common/http-response-interceptor.service";
 import {RestResult} from "../../models/common/rest-result";
 import {QnAHeaderModel} from "../../models/rest/qna/qna-header-model";
@@ -6,7 +6,7 @@ import {QnAContentModel} from "../../models/rest/qna/qna-content-model";
 import {QnAReplyModel} from "../../models/rest/qna/qna-reply-model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class QnaListService {
   private baseUrl = "/apiCSO/extra/qnaList";
@@ -16,8 +16,11 @@ export class QnaListService {
   getList(): Promise<RestResult<QnAHeaderModel[]>> {
     return this.httpResponse.get(`${this.baseUrl}/list`);
   }
-  getData(thisPK: string): Promise<RestResult<QnAContentModel>> {
-    return this.httpResponse.get(`${this.baseUrl}/data/${thisPK}`);
+  getHeaderData(thisPK: string): Promise<RestResult<QnAHeaderModel>> {
+    return this.httpResponse.get(`${this.baseUrl}/data/header/${thisPK}`);
+  }
+  getContentData(thisPK: string): Promise<RestResult<QnAContentModel>> {
+    return this.httpResponse.get(`${this.baseUrl}/data/content/${thisPK}`);
   }
   postData(title: string, qnaContentModel: QnAContentModel): Promise<RestResult<QnAHeaderModel>> {
     this.httpResponse.addParam("title", title);
