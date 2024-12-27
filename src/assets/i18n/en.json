@@ -32,6 +32,13 @@
     },
     "is-new-tab": "opens in a new tab if possible."
   },
+  "qna-list": {
+    "header": {
+      "title": "title",
+      "state": "state",
+      "reg-date": "reg date"
+    }
+  },
   "qna-write": {
     "title": "title"
   },

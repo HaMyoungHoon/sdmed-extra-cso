@@ -32,6 +32,13 @@
     },
     "is-new-tab": "가능한 경우 새 탭으로 엽니다."
   },
+  "qna-list": {
+    "header": {
+      "title": "제목",
+      "state": "상태",
+      "reg-date": "등록일"
+    }
+  },
   "qna-write": {
     "title": "제목"
   },
