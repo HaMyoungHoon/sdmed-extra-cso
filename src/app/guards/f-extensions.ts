@@ -8,6 +8,7 @@ import * as FConstants from "./f-constants";
 import {QnAFileModel} from "../models/rest/qna/qna-file-model";
 import {QnAReplyFileModel} from "../models/rest/qna/qna-reply-file-model";
 import {BlobUploadModel} from "../models/rest/blob-upload-model";
+import {UploadFileBuffModel} from "../models/common/upload-file-buff-model";
 
 export function dToMon(date: Date): string {
   let ret = date.getMonth() + 1;
@@ -151,6 +152,36 @@ export function customSort<T>(event: SortEvent, isSorted: boolean | null, table:
 export function findIndexInList<T = any>(value: T, list: T[]): number {
   return list.indexOf(value)
 }
+export function distinct<T>(array: T[], keySelector?: (item: T) => any): T[] {
+  if (!keySelector) {
+    return Array.from(new Set(array));
+  }
+
+  const seen = new Set<any>();
+  return array.filter((item) => {
+    const key = keySelector(item);
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+}
+export function distinctByFields<T>(array: T[], fields: (keyof T | string)[]): T[] {
+  const seen = new Set<string>();
+  return array.filter((item) => {
+    const key = fields.map((field) => typeof field === "string" ? getNestedValue(item, field) : item[field]).join("|");
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+}
+function getNestedValue(obj: any, path: string): any {
+  return path.split(".").reduce((o, key) => (o ? o[key] : undefined), obj);
+}
+
 
 export function ellipsis(data?: string, length: number = 20): string {
   if (data == null) {
@@ -177,12 +208,11 @@ export function getUserBlobModel(file: File, ext: string): BlobUploadModel {
   });
 }
 
-export function getQnAPostFileModel(file: File, thisPK: string, ext: string): QnAFileModel {
+export function getQnAPostFileModel(file: File, ext: string): QnAFileModel {
   const userID = FAmhohwa.getUserID();
   const blobName = `qna/${userID}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
   const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
   return applyClass(QnAFileModel, (obj) => {
-    obj.headerPK = thisPK;
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
     obj.originalFilename = file.name;
@@ -216,22 +246,59 @@ export function getEDIUploadFileModel(file: File, thisPK: string, ext: string): 
   });
 }
 
+export async function gatheringAbleFile(fileList: FileList, notAble: (file: File) => void): Promise<UploadFileBuffModel[]> {
+  const ret: UploadFileBuffModel[] = [];
+  for (let buff of fileList) {
+    const ext = await getFileExt(buff);
+    if (!isAbleUpload(ext)) {
+      notAble(buff);
+      continue;
+    }
+    ret.push(applyClass(UploadFileBuffModel, (obj) => {
+      obj.file = buff;
+      obj.filename = buff.name;
+      obj.mimeType = getMimeTypeExt(ext);
+      obj.blobUrl = parseFileBlobUrl(buff, ext);
+    }));
+  }
+  return ret;
+}
+
 export function getFilenameExt(filename: string): string {
-  const dotIndex = filename.indexOf(".") + 1;
+  const dotIndex = filename.lastIndexOf(".") + 1;
   if (dotIndex <= 0 || dotIndex >= filename.length) {
     return "";
   }
   return filename.substring(dotIndex).toLowerCase();
 }
+export function parseFileBlobUrl(file: File, ext?: string): string {
+  if (ext == null) {
+    return FConstants.ASSETS_NO_IMAGE;
+  }
+  if (isImage(ext)) {
+    return URL.createObjectURL(file);
+  } else if (ext == "zip") {
+    return FConstants.ASSETS_ZIP_IMAGE;
+  } else if (ext == "pdf") {
+    return FConstants.ASSETS_PDF_IMAGE;
+  } else if (ext == "xlsx" || ext == "xls") {
+    return FConstants.ASSETS_XLSX_IMAGE;
+  } else if (ext == "docx" || ext == "doc" ) {
+    return FConstants.ASSETS_DOCX_IMAGE;
+  }
+
+  return FConstants.ASSETS_NO_IMAGE;
+}
 export async function getFileExt(file: File, byteCount: number = 8): Promise<string> {
   const magicNumber = await getMagicNumber(file, byteCount);
-  if (magicNumber.startsWith("50 4B 03 04")) return "zip";
+  if (magicNumber.startsWith("50 4B 03 04")) return getFilenameExt(file.name);
   if (magicNumber.startsWith("50 4B 30 30 50 4B 03 04")) return "zip";
   if (magicNumber.startsWith("25 50 44 46")) return "pdf";
   if (magicNumber.startsWith("FF D8 FF")) return "jpeg";
   if (magicNumber.startsWith("89 50 4E 47")) return "png";
   if (magicNumber.startsWith("42 4D")) return "bmp";
   if (magicNumber.startsWith("52 49 46 46") && (await getMagicNumber(file, 12)).includes("57 45 42 50")) return "webp";
+  if (magicNumber.startsWith("00 00 00 18 66 74 79 70")) return "heic";
   if (magicNumber.startsWith("66 74 79 70 68 65 69 63")) return "heic";
 
   return "unknown";
@@ -245,6 +312,14 @@ export async function getMagicNumber(file: File, byteCount: number = 8): Promise
   } catch {
   }
   return header.toUpperCase();
+}
+export function isAbleUpload(ext: string): boolean {
+  if (isImage(ext)) return true;
+  if (ext == "zip") return true;
+  if (ext == "pdf") return true;
+  if (ext == "xlsx" || ext == "xls") return true;
+  if (ext == "docx" || ext == "doc") return true;
+  return false;
 }
 export function isImage(ext: string): boolean {
   if (ext == "jpeg") return true;

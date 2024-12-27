@@ -1,7 +1,7 @@
 import {afterNextRender, ChangeDetectorRef, Component} from "@angular/core";
-import {Toolbar, ToolbarModule} from "primeng/toolbar";
-import {Button, ButtonModule} from "primeng/button";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {Toolbar} from "primeng/toolbar";
+import {Button} from "primeng/button";
+import {NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {TranslatePipe} from "@ngx-translate/core";
 import {LanguageService} from "../../../services/common/language.service";
@@ -13,13 +13,10 @@ import * as FAmhohwa from "../../../guards/f-amhohwa";
 import * as FConstants from "../../../guards/f-constants";
 import {FDialogService} from "../../../services/common/f-dialog.service";
 import * as FExtensions from "../../../guards/f-extensions";
-import {Menu, MenuModule} from "primeng/menu";
-import {Ripple, RippleModule} from "primeng/ripple";
-import {Badge, BadgeModule} from "primeng/badge";
-import {CheckboxModule} from "primeng/checkbox";
-import {FormsModule} from "@angular/forms";
+import {Menu} from "primeng/menu";
+import {Ripple} from "primeng/ripple";
+import {Badge} from "primeng/badge";
 import {CommonService} from "../../../services/rest/common.service";
-import {Tooltip} from "primeng/tooltip";
 import {Drawer} from "primeng/drawer";
 
 @Component({
