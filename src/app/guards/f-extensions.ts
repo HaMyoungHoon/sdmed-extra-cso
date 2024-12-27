@@ -9,6 +9,7 @@ import {QnAFileModel} from "../models/rest/qna/qna-file-model";
 import {QnAReplyFileModel} from "../models/rest/qna/qna-reply-file-model";
 import {BlobUploadModel} from "../models/rest/blob-upload-model";
 import {UploadFileBuffModel} from "../models/common/upload-file-buff-model";
+import {QnAState} from "../models/rest/qna/qna-state";
 
 export function dToMon(date: Date): string {
   let ret = date.getMonth() + 1;
@@ -82,6 +83,16 @@ export function plusMonths(targetDate: Date, months: number): Date {
   return ret;
 }
 
+export function getQnAStateSeverity(data?: QnAState): any {
+  switch (data) {
+    case QnAState.None: return "warning";
+    case QnAState.OK: return "success";
+    case QnAState.Recep: return "warning";
+    case QnAState.Reply: return "info";
+  }
+
+  return "warning";
+}
 
 export async function tryCatchAsync<T>(fn: () => Promise<T>, onError?: (e: any) => void): Promise<T | null> {
   try {
