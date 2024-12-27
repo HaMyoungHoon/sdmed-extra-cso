@@ -15,7 +15,7 @@ export const MY_INFO_URL = "myInfo";
 export const MEDICINE_PRICE_LIST_URL = "medicine-price-list";
 export const QNA_LIST_URL = "qnaList";
 export const QNA_WRITE_URL = "qnaWrite";
-export const QNA_VIEW_URL = "qnaView/:thisPK";
+export const QNA_VIEW_URL = "qnaList/:thisPK";
 
 export const ASSETS_NO_IMAGE = "assets/image/no-image-1920.png";
 export const ASSETS_ZIP_IMAGE = "assets/image/zip-image.png";
