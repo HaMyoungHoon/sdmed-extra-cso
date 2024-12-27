@@ -1,0 +1,31 @@
+<div class="qna-write-container flex flex-wrap flex-column">
+  <app-progress-spin [isLoading]="isLoading" />
+  <div class="flex grid justify-content-center m-2">
+    <p-float-label class="field mr-1">
+      <input type="text" pInputText id="title" [(ngModel)]="title" [disabled]="!haveRole" (keydown)="titleKeyDown($event)">
+      <label for="title">{{"qna-write.title" | translate}}</label>
+    </p-float-label>
+    <p-button class="field align-content-center" size="small" [disabled]="!saveAble" (click)="saveData()">{{"common-desc.save" | translate}}</p-button>
+  </div>
+  <div class="flex justify-content-center" >
+    <p-editor #quillEditor id="quillEditor" [(ngModel)]="content" (onTextChange)="editorChange($event)" (onInit)="quillOnInit($event)" />
+  </div>
+  <div class="flex grid justify-content-center m-2">
+    <p-button class="field align-content-center" size="small" (click)="fileUpload()">{{"common-desc.add" | translate}}</p-button>
+    <p-card class="w-fit field" *ngIf="uploadFileBuffModel.length > 0">
+      <p-galleria [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
+                  [containerStyle]="{'width': '200px', 'height': '250px'}" [numVisible]="0" [(activeIndex)]="activeIndex">
+        <ng-template pTemplate="item" let-item>
+          <p-image [src]="item.blobUrl" [alt]="item.filename" width="200" height="200" />
+        </ng-template>
+        <ng-template pTemplate="caption" let-item>
+          <div class="flex">
+            <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{'common-desc.remove' | translate}}" (click)="deleteUploadFile(item)" />
+            <label class="m-1">{{ellipsis(item.file.name)}}</label>
+          </div>
+        </ng-template>
+      </p-galleria>
+    </p-card>
+  </div>
+  <input #inputFiles class="collapse" type="file" [accept]="acceptFiles" (change)="fileSelected($event)" [multiple]="true" />
+</div>
