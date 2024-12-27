@@ -14,8 +14,14 @@ export const EDI_LIST = "ediList";
 export const MY_INFO_URL = "myInfo";
 export const MEDICINE_PRICE_LIST_URL = "medicine-price-list";
 export const QNA_LIST_URL = "qnaList";
+export const QNA_WRITE_URL = "qnaWrite";
+export const QNA_VIEW_URL = "qnaView/:thisPK";
 
 export const ASSETS_NO_IMAGE = "assets/image/no-image-1920.png";
+export const ASSETS_ZIP_IMAGE = "assets/image/zip-image.png";
+export const ASSETS_PDF_IMAGE = "assets/image/pdf-image.png";
+export const ASSETS_XLSX_IMAGE = "assets/image/excel-image.png";
+export const ASSETS_DOCX_IMAGE = "assets/image/word-image.png";
 
 export const BLOB_URL = "https://mhhablob1.blob.core.windows.net";
 export const BLOB_CONTAINER_NAME = "mhhablob1";
