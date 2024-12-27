@@ -21,6 +21,7 @@ export class QnaWriteComponent extends FComponentBase {
   qnaContentModel = new QnAContentModel();
   title: string = "";
   content: string = "";
+  htmlValue: string = "";
   saveAble: boolean = false;
   uploadFileBuffModel: UploadFileBuffModel[] = [];
   activeIndex: number = 0;
@@ -33,7 +34,7 @@ export class QnaWriteComponent extends FComponentBase {
 
   async saveData(): Promise<void> {
     this.qnaContentModel = new QnAContentModel();
-    this.qnaContentModel.content = this.content;
+    this.qnaContentModel.content = this.htmlValue;
     this.setLoading();
     let fileRet = await this.uploadAzure();
     if (!fileRet) {
@@ -96,11 +97,12 @@ export class QnaWriteComponent extends FComponentBase {
     }
     quill[0].remove();
   }
-  editorChange(_: EditorTextChangeEvent): void {
+  editorChange(data: EditorTextChangeEvent): void {
+    this.htmlValue = data.htmlValue;
     this.checkSavable();
   }
   checkSavable(): void {
-    if (this.content.length <= 0) {
+    if (this.htmlValue.length <= 0) {
       this.saveAble = false;
       return;
     }
