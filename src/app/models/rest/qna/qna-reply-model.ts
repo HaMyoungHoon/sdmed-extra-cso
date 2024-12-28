@@ -6,6 +6,6 @@ export class QnAReplyModel {
   userPK: string = "";
   id: string = "";
   content: string = "";
-  regDate: string = "";
+  regDate: Date = new Date();
   fileList: QnAReplyFileModel[] = [];
 }
