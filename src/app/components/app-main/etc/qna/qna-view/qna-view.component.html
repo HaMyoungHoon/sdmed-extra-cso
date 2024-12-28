@@ -1,1 +1,42 @@
-<p>qna-view works!</p>
+<div class="qna-view-container">
+  <p-accordion [multiple]="multipleEnable" [value]="['0', '1']">
+    <p-accordion-panel value="0">
+      <p-accordion-header>{{qnaHeaderModel.title}}</p-accordion-header>
+      <p-accordion-content>
+        <div><p-tag [value]="QnAStateToQnAStateDesc(qnaHeaderModel.qnaState)" [severity]="getQnAStateSeverity(qnaHeaderModel.qnaState)"/></div>
+        <div>{{dateToYYYYMMdd(qnaHeaderModel.regDate)}}</div>
+        <p-card>
+          <div>{{qnaContentModel.content}}</div>
+        </p-card>
+        <p-galleria [value]="qnaContentModel.fileList" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
+                    [containerStyle]="{'width': '200px', 'height': '250px'}" [numVisible]="0">
+          <ng-template pTemplate="item" let-item>
+            <p-image [src]="item.blobUrl" [alt]="item.originalFilename" width="200" height="200" />
+          </ng-template>
+        </p-galleria>
+      </p-accordion-content>
+    </p-accordion-panel>
+    <p-accordion-panel value="1" *ngIf="qnaContentModel.replyList.length > 0">
+      <p-accordion-header>{{"qna-view.content.title" | translate}}</p-accordion-header>
+      <p-accordion-content>
+        <!-- QnAReply -->
+        <p-accordion [multiple]="multipleEnable" class="shadow-8">
+          <p-accordion-panel *ngFor="let replyModel of qnaContentModel.replyList">
+            <p-accordion-header>{{dateToYYYYMMdd(replyModel.regDate)}}</p-accordion-header>
+            <p-accordion-content>
+              <p-card>
+                {{replyModel.content | safeHtml}}
+              </p-card>
+              <p-galleria [value]="replyModel.fileList" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
+                          [containerStyle]="{'width': '200px', 'height': '250px'}" [numVisible]="0">
+                <ng-template pTemplate="item" let-item>
+                  <p-image [src]="item.blobUrl" [alt]="item.originalFilename" width="200" height="200" />
+                </ng-template>
+              </p-galleria>
+            </p-accordion-content>
+          </p-accordion-panel>
+        </p-accordion>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+</div>

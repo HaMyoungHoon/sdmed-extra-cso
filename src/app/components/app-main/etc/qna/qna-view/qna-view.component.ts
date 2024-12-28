@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, input} from "@angular/core";
 import {FComponentBase} from "../../../../../guards/f-component-base";
 import {QnaListService} from "../../../../../services/rest/qna-list.service";
 import {UserRole} from "../../../../../models/rest/user/user-role";
@@ -6,6 +6,8 @@ import {ActivatedRoute} from "@angular/router";
 import {QnAHeaderModel} from "../../../../../models/rest/qna/qna-header-model";
 import {QnAContentModel} from "../../../../../models/rest/qna/qna-content-model";
 import * as FExtensions from "../../../../../guards/f-extensions";
+import {transformToBoolean} from "primeng/utils";
+import {QnAStateToQnAStateDesc} from "../../../../../models/rest/qna/qna-state";
 
 @Component({
   selector: "app-qna-view",
@@ -52,4 +54,9 @@ export class QnaViewComponent extends FComponentBase {
     }
     this.fDialogService.warn("getContent", ret.msg);
   }
+
+  multipleEnable = input(true, { transform: (v: any) => transformToBoolean(v) });
+  protected readonly dateToYYYYMMdd = FExtensions.dateToYYYYMMdd;
+  protected readonly QnAStateToQnAStateDesc = QnAStateToQnAStateDesc;
+  protected readonly getQnAStateSeverity = FExtensions.getQnAStateSeverity;
 }
