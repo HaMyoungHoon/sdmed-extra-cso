@@ -5,6 +5,6 @@ export class QnAHeaderModel {
   userPK: string = "";
   id: string = "";
   title: string = "";
-  regDate: string = "";
+  regDate: Date = new Date();
   qnaState: QnAState = QnAState.None;
 }
