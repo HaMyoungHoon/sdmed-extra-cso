@@ -49,7 +49,7 @@ export function dateToMonthFullString(date?: Date): string {
   }
   return `${dToMon(date)}-${dToD(date)} ${dToH(date)}:${dToMin(date)}:${dToS(date)}`;
 }
-export function dateToMonthYYYYMMdd(date?: Date | null): string {
+export function dateToYYYYMMdd(date?: Date | null): string {
   if (date == null) {
     return "????-??-??"
   }
@@ -205,55 +205,55 @@ export function ellipsis(data?: string, length: number = 20): string {
   return data;
 }
 
-export function getUserBlobModel(file: File, mimeType: string): BlobUploadModel {
+export function getUserBlobModel(file: File, ext: string): BlobUploadModel {
   const thisPK = FAmhohwa.getThisPK();
   const userID = FAmhohwa.getUserID();
-  const blobName = `user/${userID}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${getExtFromMimeType(mimeType)}`;
+  const blobName = `user/${userID}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
   const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
   return applyClass(BlobUploadModel, (obj) => {
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
     obj.uploaderPK = thisPK;
     obj.originalFilename = file.name;
-    obj.mimeType = mimeType;
+    obj.mimeType = getMimeTypeExt(ext);
   });
 }
 
-export function getQnAPostFileModel(file: File, mimeType: string): QnAFileModel {
+export function getQnAPostFileModel(file: File, ext: string): QnAFileModel {
   const userID = FAmhohwa.getUserID();
-  const blobName = `qna/${userID}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${getExtFromMimeType(mimeType)}`;
+  const blobName = `qna/${userID}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
   const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
   return applyClass(QnAFileModel, (obj) => {
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
     obj.originalFilename = file.name;
-    obj.mimeType = mimeType;
+    obj.mimeType = getMimeTypeExt(ext);
   });
 }
 
-export function getQnAReplyPostFileModel(file: File, thisPK: string, mimeType: string): QnAReplyFileModel {
+export function getQnAReplyPostFileModel(file: File, thisPK: string, ext: string): QnAReplyFileModel {
   const userName = FAmhohwa.getUserID();
-  const blobName = `qna/${userName}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${getExtFromMimeType(mimeType)}`;
+  const blobName = `qna/${userName}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
   const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
   return applyClass(QnAReplyFileModel, (obj) => {
     obj.replyPK = thisPK;
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
     obj.originalFilename = file.name;
-    obj.mimeType = mimeType;
+    obj.mimeType = getMimeTypeExt(ext);
   });
 }
 
-export function getEDIUploadFileModel(file: File, thisPK: string, mimeType: string): EDIUploadFileModel {
+export function getEDIUploadFileModel(file: File, thisPK: string, ext: string): EDIUploadFileModel {
   const userName = FAmhohwa.getUserID();
-  const blobName = `edi/${userName}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${getExtFromMimeType(mimeType)}`;
+  const blobName = `edi/${userName}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
   const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
   return applyClass(EDIUploadFileModel, (obj) => {
     obj.ediPK = thisPK;
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
     obj.originalFilename = file.name;
-    obj.mimeType = mimeType;
+    obj.mimeType = getMimeTypeExt(ext);
   });
 }
 
@@ -341,75 +341,6 @@ export function isImage(ext: string): boolean {
   if (ext == "heic") return true;
 
   return false;
-}
-export function getExtFromMimeType(mimeType: string): string {
-  switch (mimeType) {
-    case FContentsType.type_aac: return "aac";
-    case FContentsType.type_abw: return "abw";
-    case FContentsType.type_arc: return "arc";
-    case FContentsType.type_avi: return "avi";
-    case FContentsType.type_azw: return "azw";
-    case FContentsType.type_bin: return "bin";
-    case FContentsType.type_bz: return "bz";
-    case FContentsType.type_bz2: return "bz2";
-    case FContentsType.type_csh: return "csh";
-    case FContentsType.type_css: return "css";
-    case FContentsType.type_csv: return "csv";
-    case FContentsType.type_doc: return "doc";
-    case FContentsType.type_epub: return "epub";
-    case FContentsType.type_gif: return "gif";
-    case FContentsType.type_htm: return "htm";
-    case FContentsType.type_html: return "html";
-    case FContentsType.type_heic: return "heic";
-    case FContentsType.type_heif: return "heif";
-    case FContentsType.type_ico: return "ico";
-    case FContentsType.type_ics: return "ics";
-    case FContentsType.type_jar: return "jar";
-    case FContentsType.type_jpeg: return "jpeg";
-    case FContentsType.type_jpg: return "jpg";
-    case FContentsType.type_js: return "js";
-    case FContentsType.type_json: return "json";
-    case FContentsType.type_mid: return "mid";
-    case FContentsType.type_midi: return "midi";
-    case FContentsType.type_mpeg: return "mpeg";
-    case FContentsType.type_mpkg: return "mpkg";
-    case FContentsType.type_odp: return "odp";
-    case FContentsType.type_ods: return "ods";
-    case FContentsType.type_odt: return "odt";
-    case FContentsType.type_oga: return "oga";
-    case FContentsType.type_ogv: return "ogv";
-    case FContentsType.type_ogx: return "ogx";
-    case FContentsType.type_png: return "png";
-    case FContentsType.type_pdf: return "pdf";
-    case FContentsType.type_ppt: return "ppt";
-    case FContentsType.type_rar: return "rar";
-    case FContentsType.type_rtf: return "rtf";
-    case FContentsType.type_sh: return "sh";
-    case FContentsType.type_svg: return "svg";
-    case FContentsType.type_swf: return "swf";
-    case FContentsType.type_tar: return "tar";
-    case FContentsType.type_tif: return "tif";
-    case FContentsType.type_tiff: return "tiff";
-    case FContentsType.type_ttf: return "ttf";
-    case FContentsType.type_txt: return "txt";
-    case FContentsType.type_vsd: return "vsd";
-    case FContentsType.type_wav: return "wav";
-    case FContentsType.type_weba: return "weba";
-    case FContentsType.type_webm: return "webm";
-    case FContentsType.type_webp: return "webp";
-    case FContentsType.type_woff: return "woff";
-    case FContentsType.type_xhtml: return "xhtml";
-    case FContentsType.type_xls: return "xls";
-    case FContentsType.type_xlsx: return "xlsx";
-    case FContentsType.type_xlsm: return "xlsm";
-    case FContentsType.type_xml: return "xml";
-    case FContentsType.type_xul: return "xul";
-    case FContentsType.type_zip: return "zip";
-    case FContentsType.type_3gp: return "3gp";
-    case FContentsType.type_3g2: return "3g2";
-    case FContentsType.type_7z: return "7z";
-    default: return "unknown";
-  }
 }
 export function getMimeTypeExt(ext: string): string {
   switch (ext) {
