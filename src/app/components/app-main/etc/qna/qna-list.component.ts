@@ -50,7 +50,7 @@ export class QnaListComponent extends FComponentBase {
 
   protected readonly customSort = FExtensions.customSort;
   protected readonly filterTable = FExtensions.filterTable;
-  protected readonly dateToMonthYYYYMMdd = FExtensions.dateToMonthYYYYMMdd;
+  protected readonly dateToYYYYMMdd = FExtensions.dateToYYYYMMdd;
   protected readonly QnAStateToQnAStateDesc = QnAStateToQnAStateDesc;
   protected readonly getQnAStateSeverity = getQnAStateSeverity;
 }

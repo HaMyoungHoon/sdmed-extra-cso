@@ -29,7 +29,7 @@
         <td>
           <p-tag [value]="QnAStateToQnAStateDesc(data.qnaState)" [severity]="getQnAStateSeverity(data.qnaState)"/>
         </td>
-        <td>{{dateToMonthYYYYMMdd(data.regDate)}}</td>
+        <td>{{dateToYYYYMMdd(data.regDate)}}</td>
         <td>
           <p-button size="small" (click)="open(data)">{{"common-desc.open" | translate}}</p-button>
         </td>
