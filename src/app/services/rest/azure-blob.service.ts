@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import {BlobServiceClient, BlockBlobUploadResponse} from "@azure/storage-blob";
+import {BlobHTTPHeaders, BlobServiceClient, BlockBlobUploadResponse} from "@azure/storage-blob";
 
 @Injectable({
   providedIn: "root"
@@ -12,11 +12,10 @@ export class AzureBlobService {
     const blobServiceClient = new BlobServiceClient(`${this.blobUrl}?${sasKey}`);
     const containerClient = blobServiceClient.getContainerClient(this.containerName);
     const blobClient = containerClient.getBlockBlobClient(blobName);
-    blobClient.setHTTPHeaders({
-      blobContentType: mimeType
-    }).then();
+    const blobHeader: BlobHTTPHeaders = { blobContentType: mimeType };
     return blobClient.upload(file, file.size, {
-      onProgress: (log) => onProgress?.(log)
+      onProgress: (log) => onProgress?.(log),
+      blobHTTPHeaders: blobHeader
     });
   }
 }
