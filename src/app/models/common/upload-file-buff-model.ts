@@ -3,6 +3,7 @@ export class UploadFileBuffModel {
   filename: string = "";
   mimeType: string = "";
   blobUrl: string = "";
+  ext: string = "";
 
   revokeBLob(): void {
     if (this.blobUrl.includes("blob://")) {
