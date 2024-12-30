@@ -15,6 +15,7 @@ import {QnAReplyModel} from "../../../../../models/rest/qna/qna-reply-model";
 import {UploadFileBuffModel} from "../../../../../models/common/upload-file-buff-model";
 import {DOCUMENT} from "@angular/common";
 import {restTry} from "../../../../../guards/f-extensions";
+import * as FConstants from "../../../../../guards/f-constants";
 
 @Component({
   selector: "app-qna-view",
@@ -223,8 +224,18 @@ export class QnaViewComponent extends FComponentBase {
   }
 
   multipleEnable = input(true, { transform: (v: any) => transformToBoolean(v) });
+  accordionValue = ["0"];
+
+  get downloadFileTooltip(): string {
+    return "common-desc.save";
+  }
+  get removeFileTooltip(): string {
+    return "common-desc.remove";
+  }
+
   protected readonly dateToYYYYMMdd = FExtensions.dateToYYYYMMdd;
   protected readonly QnAStateToQnAStateDesc = QnAStateToQnAStateDesc;
   protected readonly getQnAStateSeverity = FExtensions.getQnAStateSeverity;
   protected readonly ellipsis = FExtensions.ellipsis;
+  protected readonly galleriaContainerStyle = FConstants.galleriaContainerStyle;
 }

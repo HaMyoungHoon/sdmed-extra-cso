@@ -155,6 +155,10 @@ export class QnaWriteComponent extends FComponentBase {
       this.uploadFileBuffModel.splice(index, 1);
     }
   }
+  get removeFileTooltip(): string {
+    return "common-desc.remove";
+  }
 
   protected readonly ellipsis = FExtensions.ellipsis;
+  protected readonly galleriaContainerStyle = FConstants.galleriaContainerStyle;
 }

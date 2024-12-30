@@ -1,7 +1,7 @@
 <div class="qna-container">
   <p-table #listTable [value]="viewList" [scrollable]="true" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 50]" [loading]="isLoading"
-           [globalFilterFields]="['title']" (sortFunction)="customSort($event, isSorted, listTable, initValue, viewList)" [customSort]="true"
-           size="small" stripedRows="true" [tableStyle]="{'min-width': '20rem'}">
+           [globalFilterFields]="filterFields" (sortFunction)="customSort($event, isSorted, listTable, initValue, viewList)" [customSort]="true"
+           size="small" stripedRows="true" [tableStyle]="tableStyle">
     <ng-template #caption>
       <div class="flex p-0">
         <div class="flex">
@@ -11,7 +11,7 @@
           <p-inputicon>
             <i class="pi pi-search"></i>
           </p-inputicon>
-          <input pInputText type="text" (input)="filterTable(listTable, $event, 'contains')" placeholder="Search keyword" />
+          <input pInputText type="text" (input)="filterTable(listTable, $event, filterTableOption)" placeholder="Search keyword" />
         </p-iconfield>
       </div>
     </ng-template>

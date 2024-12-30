@@ -48,9 +48,15 @@ export class QnaListComponent extends FComponentBase {
     await this.router.navigate([`${FConstants.QNA_LIST_URL}/${data.thisPK}`]);
   }
 
+  get filterFields(): string[] {
+    return ["title"];
+  }
+
   protected readonly customSort = FExtensions.customSort;
   protected readonly filterTable = FExtensions.filterTable;
   protected readonly dateToYYYYMMdd = FExtensions.dateToYYYYMMdd;
   protected readonly QnAStateToQnAStateDesc = QnAStateToQnAStateDesc;
   protected readonly getQnAStateSeverity = getQnAStateSeverity;
+  protected readonly tableStyle = FConstants.tableStyle;
+  protected readonly filterTableOption = FConstants.filterTableOption;
 }

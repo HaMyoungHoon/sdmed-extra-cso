@@ -14,13 +14,13 @@
     <p-button class="field align-content-center" size="small" (click)="fileUpload()">{{"common-desc.add" | translate}}</p-button>
     <p-card class="w-fit field" *ngIf="uploadFileBuffModel.length > 0">
       <p-galleria [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
-                  [containerStyle]="{'width': '200px', 'height': '250px'}" [numVisible]="0" [(activeIndex)]="activeIndex">
+                  [containerStyle]="galleriaContainerStyle" [numVisible]="0" [(activeIndex)]="activeIndex">
         <ng-template pTemplate="item" let-item>
           <p-image [src]="item.blobUrl" [alt]="item.filename" width="200" height="200" />
         </ng-template>
         <ng-template pTemplate="caption" let-item>
           <div class="flex">
-            <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{'common-desc.remove' | translate}}" (click)="deleteUploadFile(item)" />
+            <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="deleteUploadFile(item)" />
             <label class="m-1">{{ellipsis(item.file.name)}}</label>
           </div>
         </ng-template>
