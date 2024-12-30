@@ -1,4 +1,4 @@
-import {AfterContentInit, AfterViewInit, Component, inject} from "@angular/core";
+import {AfterContentInit, AfterViewInit, Component, inject, OnDestroy} from "@angular/core";
 import * as FAmhohwa from "./f-amhohwa";
 import * as FConstants from "./f-constants";
 import * as FExtensions from "./f-extensions";
@@ -10,6 +10,7 @@ import {AppConfigService} from "../services/common/app-config.service";
 import {AzureBlobService} from "../services/rest/azure-blob.service";
 import {UserStatus} from "../models/rest/user/user-status";
 import {Router} from "@angular/router";
+import {Subject} from "rxjs";
 
 @Component({
   selector: "f-component-base",
@@ -17,12 +18,13 @@ import {Router} from "@angular/router";
   standalone: false
 })
 
-export abstract class FComponentBase implements AfterContentInit {
+export abstract class FComponentBase implements AfterContentInit, OnDestroy {
   myRole: number = 0;
   myState: UserStatus = UserStatus.None;
   haveRole: boolean = false;
   isLoading: boolean = false;
   isMobile: boolean = false;
+  protected sub: Subject<any>[] = [];
   protected commonService: CommonService;
   protected fDialogService: FDialogService;
   protected translateService: TranslateService;
@@ -58,6 +60,9 @@ export abstract class FComponentBase implements AfterContentInit {
     this.setLoading(false);
     await this.ngInit();
   }
+  async ngOnDestroy(): Promise<void> {
+    await this.ngDestroy();
+  }
   async getMyRole(): Promise<void> {
     this.setLoading();
     const ret = await FExtensions.restTry(async() => await this.commonService.getMyRole(),
@@ -90,6 +95,11 @@ export abstract class FComponentBase implements AfterContentInit {
 
   async ngInit(): Promise<void> {
 
+  }
+  async ngDestroy(): Promise<void> {
+    for (const buff of this.sub) {
+      buff.complete();
+    }
   }
 
   setLoading(data: boolean = true): void {

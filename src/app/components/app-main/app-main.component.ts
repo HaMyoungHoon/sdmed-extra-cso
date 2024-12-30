@@ -4,6 +4,7 @@ import {NavigationEnd, NavigationStart, Router, RouterOutlet} from "@angular/rou
 import * as FAmhohwa from "../../guards/f-amhohwa";
 import * as FConstants from "../../guards/f-constants";
 import {MenuConfigComponent} from "../common/menu-config/menu-config.component";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: "app-app-main",
@@ -15,6 +16,7 @@ import {MenuConfigComponent} from "../common/menu-config/menu-config.component";
 export class AppMainComponent implements AfterViewInit {
   @ViewChild("menuConfig") menuConfig!: MenuConfigComponent;
   viewPage: boolean;
+  protected sub: Subject<any>[] = [];
   constructor(private cd: ChangeDetectorRef, private router: Router, private fDialogService: FDialogService) {
     this.viewPage = false;
   }
@@ -32,7 +34,9 @@ export class AppMainComponent implements AfterViewInit {
     this.bindRouteEvents();
   }
   openSignIn(): void {
-    this.fDialogService.openSignIn().subscribe(() => {
+    const sub = new Subject<any>();
+    this.sub.push(sub);
+    this.fDialogService.openSignIn().pipe(takeUntil(sub)).subscribe(() => {
       this.closeSignIn();
     });
   }
