@@ -42,6 +42,13 @@
   "qna-write": {
     "title": "제목"
   },
+  "qna-view": {
+    "header": {
+      "title": "제목",
+      "state": "상태",
+      "reg-date": "등록일"
+    }
+  },
   "error": {
     "title": "요청하신 페이지를 찾을 수 없습니다.",
     "contents": "페이지의 주소가 잘못 입력되었거나,\n찾으시려는 페이지의 주소가 삭제 또는 변경되어 사용할 수 없는 상태입니다.\n입력하신 주소가 정확한지 한 번 더 확인해 주시기 바랍니다.",
@@ -58,6 +65,7 @@
     "refresh": "새로고침",
     "close": "닫기",
     "change": "변경",
+    "complete": "완료",
     "sample-download": "샘플 다운로드",
     "in-visible": "숨김",
     "logout": "로그아웃",

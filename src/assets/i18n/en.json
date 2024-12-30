@@ -42,6 +42,13 @@
   "qna-write": {
     "title": "title"
   },
+  "qna-view": {
+    "header": {
+      "title": "title",
+      "state": "state",
+      "reg-date": "reg date"
+    }
+  },
   "error": {
     "title": "cannot found page",
     "contents": "The page address may be incorrect, deleted, or changed.\nPlease double-check the URL you entered.",
@@ -58,6 +65,7 @@
     "refresh": "refresh",
     "close": "close",
     "change": "change",
+    "complete": "complete",
     "sample-download": "sample download",
     "in-visible": "invisible",
     "logout": "logout",
