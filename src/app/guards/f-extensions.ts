@@ -301,6 +301,19 @@ export function parseFileBlobUrl(file: File, ext?: string): string {
 
   return FConstants.ASSETS_NO_IMAGE;
 }
+export function extToBlobUrl(ext: string): string {
+  if (ext == "zip") {
+    return FConstants.ASSETS_ZIP_IMAGE;
+  } else if (ext == "pdf") {
+    return FConstants.ASSETS_PDF_IMAGE;
+  } else if (ext == "xlsx" || ext == "xls") {
+    return FConstants.ASSETS_XLSX_IMAGE;
+  } else if (ext == "docx" || ext == "doc" ) {
+    return FConstants.ASSETS_DOCX_IMAGE;
+  }
+
+  return FConstants.ASSETS_NO_IMAGE;
+}
 export async function getFileExt(file: File, byteCount: number = 8): Promise<string> {
   const magicNumber = await getMagicNumber(file, byteCount);
   if (magicNumber.startsWith("50 4B 03 04")) return getFilenameExt(file.name);
@@ -312,6 +325,7 @@ export async function getFileExt(file: File, byteCount: number = 8): Promise<str
   if (magicNumber.startsWith("52 49 46 46") && (await getMagicNumber(file, 12)).includes("57 45 42 50")) return "webp";
   if (magicNumber.startsWith("00 00 00 18 66 74 79 70")) return "heic";
   if (magicNumber.startsWith("66 74 79 70 68 65 69 63")) return "heic";
+  if (magicNumber.startsWith("47 49 46")) return "gif";
 
   return "unknown";
 }
@@ -340,6 +354,7 @@ export function isImage(ext: string): boolean {
   if (ext == "bmp") return true;
   if (ext == "webp") return true;
   if (ext == "heic") return true;
+  if (ext == "gif") return true;
 
   return false;
 }
