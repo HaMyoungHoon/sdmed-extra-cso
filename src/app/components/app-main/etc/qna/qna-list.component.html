@@ -20,19 +20,15 @@
         <th pSortableColumn="title">{{"qna-list.header.title" | translate}} <p-sortIcon field="title"/></th>
         <th pSortableColumn="state">{{"qna-list.header.state" | translate}} <p-sortIcon field="state"/></th>
         <th pSortableColumn="regDate">{{"qna-list.header.reg-date" | translate}} <p-sortIcon field="regDate"/></th>
-        <th>{{"common-desc.open" | translate}}</th>
       </tr>
     </ng-template>
     <ng-template #body let-data>
-      <tr>
+      <tr class="qna-tr" (click)="open(data)">
         <td>{{data.title}}</td>
         <td>
           <p-tag [value]="QnAStateToQnAStateDesc(data.qnaState)" [severity]="getQnAStateSeverity(data.qnaState)"/>
         </td>
         <td>{{dateToYYYYMMdd(data.regDate)}}</td>
-        <td>
-          <p-button size="small" (click)="open(data)">{{"common-desc.open" | translate}}</p-button>
-        </td>
       </tr>
     </ng-template>
 
