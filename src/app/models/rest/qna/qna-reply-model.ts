@@ -4,7 +4,7 @@ export class QnAReplyModel {
   thisPK: string = "";
   headerPK: string = "";
   userPK: string = "";
-  id: string = "";
+  name: string = "";
   content: string = "";
   regDate: Date = new Date();
   fileList: QnAReplyFileModel[] = [];
