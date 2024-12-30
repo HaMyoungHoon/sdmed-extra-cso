@@ -3,6 +3,7 @@ import {RestResult} from "../../models/common/rest-result";
 import {UserStatus} from "../../models/rest/user/user-status";
 import {UserDataModel} from "../../models/rest/user/user-data-model";
 import {HttpResponseInterceptorService} from "../common/http-response-interceptor.service";
+import {HttpResponse} from "@angular/common/http";
 
 @Injectable({
   providedIn: "root"
@@ -40,5 +41,9 @@ export class CommonService {
     }
     this.httpResponse.addParam("blobUrl", blobUrl);
     return this.httpResponse.get(`${this.baseUrl}/generate/sas`);
+  }
+
+  downloadFile(url: string): Promise<HttpResponse<Blob>> {
+    return this.httpResponse.getBlob(url);
   }
 }
