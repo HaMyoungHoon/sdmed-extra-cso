@@ -11,6 +11,7 @@ export class MedicineModel {
   pharma: string = "";
   name: string = ""
   customPrice: number = 0;
+  charge: number = 0;
   maxPrice: number = 0;
   inVisible: boolean = false;
   medicineSubModel: MedicineSubModel = new MedicineSubModel();
@@ -26,6 +27,7 @@ export class MedicineModel {
     this.pharma = data.pharma;
     this.name = data.name;
     this.customPrice = data.customPrice;
+    this.charge = data.charge;
     this.maxPrice = data.maxPrice;
     this.inVisible = data.inVisible;
     this.medicineSubModel = data.medicineSubModel;
@@ -42,6 +44,7 @@ export class MedicineModel {
     lhs.pharma = rhs.pharma;
     lhs.name = rhs.name;
     lhs.customPrice = rhs.customPrice;
+    lhs.charge = rhs.charge;
     lhs.maxPrice = rhs.maxPrice;
     lhs.inVisible = rhs.inVisible;
     lhs.medicineSubModel = rhs.medicineSubModel;
