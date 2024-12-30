@@ -12,13 +12,14 @@ import {Image} from "primeng/image";
 import {Tooltip} from "primeng/tooltip";
 import {Tag} from "primeng/tag";
 import {Editor} from "primeng/editor";
+import {FormsModule} from "@angular/forms";
 
 
 
 @NgModule({
   declarations: [QnaViewComponent],
   imports: [
-    CommonModule, QnaViewRoutingModule, Accordion, AccordionPanel, AccordionHeader, AccordionContent, TranslatePipe, Card, SafeHtmlPipe, GalleriaModule, Button, Image, Tooltip, Tag, Editor
+    CommonModule, QnaViewRoutingModule, Accordion, AccordionPanel, AccordionHeader, AccordionContent, TranslatePipe, Card, SafeHtmlPipe, GalleriaModule, Button, Image, Tooltip, Tag, Editor, FormsModule
   ]
 })
 export class QnaViewModule { }
