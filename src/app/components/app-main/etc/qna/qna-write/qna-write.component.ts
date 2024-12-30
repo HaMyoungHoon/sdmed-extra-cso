@@ -137,7 +137,7 @@ export class QnaWriteComponent extends FComponentBase {
   }
 
   get acceptFiles(): string {
-    return ".jpg,.jpeg,.png,.webp,.bmp,.xlsx,.pdf,.heif,.heic";
+    return ".jpg,.jpeg,.png,.webp,.bmp,.xlsx,.pdf,.heif,.heic,.gif";
   }
 
   deleteUploadFile(data: UploadFileBuffModel): void {
