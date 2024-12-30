@@ -16,7 +16,7 @@
       <p-galleria [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
                   [containerStyle]="galleriaContainerStyle" [numVisible]="0" [(activeIndex)]="activeIndex">
         <ng-template pTemplate="item" let-item>
-          <p-image [src]="item.blobUrl" [alt]="item.filename" width="200" height="200" />
+          <img [src]="item.blobUrl" [alt]="item.originalFilename" class="qna-image"/>
         </ng-template>
         <ng-template pTemplate="caption" let-item>
           <div class="flex">
