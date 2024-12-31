@@ -16,6 +16,7 @@ import {UploadFileBuffModel} from "../../../../../models/common/upload-file-buff
 import {DOCUMENT} from "@angular/common";
 import {restTry} from "../../../../../guards/f-extensions";
 import * as FConstants from "../../../../../guards/f-constants";
+import {QnAReplyFileModel} from "../../../../../models/rest/qna/qna-reply-file-model";
 
 @Component({
   selector: "app-qna-view",
@@ -81,6 +82,13 @@ export class QnaViewComponent extends FComponentBase {
     return FExtensions.extToBlobUrl(ext);
   }
   async downloadFile(item: QnAFileModel): Promise<void> {
+    const ret = await FExtensions.tryCatchAsync(async() => await this.commonService.downloadFile(item.blobUrl),
+      e => this.fDialogService.error("downloadFile", e));
+    if (ret && ret.body) {
+      saveAs(ret.body, item.originalFilename);
+    }
+  }
+  async downloadReplyFile(item: QnAReplyFileModel): Promise<void> {
     const ret = await FExtensions.tryCatchAsync(async() => await this.commonService.downloadFile(item.blobUrl),
       e => this.fDialogService.error("downloadFile", e));
     if (ret && ret.body) {

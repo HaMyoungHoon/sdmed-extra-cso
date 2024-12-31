@@ -1,4 +1,5 @@
 <div class="qna-view-container flex flex-wrap">
+  <app-progress-spin [isLoading]="isLoading" />
   <p-card class="flex flex-wrap flex-column w-full justify-content-center shadow-2">
     <div class="flex grid w-full justify-content-center">
       <div class="m-1 select-none">
@@ -52,7 +53,7 @@
             </ng-template>
             <ng-template pTemplate="caption" let-item>
               <div class="flex">
-                <p-button class="align-content-center" size="small" icon="pi pi-download" [rounded]="true" pTooltip="{{downloadFileTooltip | translate}}" (click)="downloadFile(item)" />
+                <p-button class="align-content-center" size="small" icon="pi pi-download" [rounded]="true" pTooltip="{{downloadFileTooltip | translate}}" (click)="downloadReplyFile(item)" />
                 <label class="m-1">{{ellipsis(item.originalFilename)}}</label>
               </div>
             </ng-template>
@@ -67,20 +68,18 @@
       <p-button class="m-1 field align-content-center" size="small" [disabled]="!saveAble" (click)="saveReplyData()">{{"common-desc.save" | translate}}</p-button>
       <p-button class="m-1 field align-content-center" size="small" (click)="fileUpload()">{{"common-desc.add" | translate}}</p-button>
       <p-button class="m-1 field align-content-center" size="small" (click)="completeQnA()">{{"common-desc.complete" | translate}}</p-button>
-      <p-card class="w-fit field" *ngIf="uploadFileBuffModel.length > 0">
-        <p-galleria [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
-                    [containerStyle]="galleriaContainerStyle" [numVisible]="0" [(activeIndex)]="activeIndex">
-          <ng-template pTemplate="item" let-item>
-            <img [src]="item.blobUrl" [alt]="item.originalFilename" class="qna-image"/>
-          </ng-template>
-          <ng-template pTemplate="caption" let-item>
-            <div class="flex">
-              <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="deleteUploadFile(item)" />
-              <label class="m-1">{{ellipsis(item.file.name)}}</label>
-            </div>
-          </ng-template>
-        </p-galleria>
-      </p-card>
+      <p-galleria [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
+                  [containerStyle]="galleriaContainerStyle" [numVisible]="0" [(activeIndex)]="activeIndex">
+        <ng-template pTemplate="item" let-item>
+          <img [src]="item.blobUrl" [alt]="item.originalFilename" class="qna-image"/>
+        </ng-template>
+        <ng-template pTemplate="caption" let-item>
+          <div class="flex">
+            <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="deleteUploadFile(item)" />
+            <label class="m-1">{{ellipsis(item.file.name)}}</label>
+          </div>
+        </ng-template>
+      </p-galleria>
     </div>
     <input #inputFiles class="collapse" type="file" [accept]="acceptFiles" (change)="fileSelected($event)" [multiple]="true" />
   </div>
