@@ -13,7 +13,7 @@ import {ProgressSpinner} from "primeng/progressspinner";
   standalone: true,
 })
 export class ProgressSpinComponent {
-  @Input() isLoading: boolean = false;
+  @Input() isLoading?: boolean;
   constructor() {
   }
 }
