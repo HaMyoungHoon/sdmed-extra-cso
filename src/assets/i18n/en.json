@@ -32,10 +32,22 @@
     },
     "is-new-tab": "opens in a new tab if possible."
   },
-  "qna-list": {
+  "edi-list": {
     "header": {
+      "start-date": "start date",
+      "end-date": "end date"
+    },
+    "table": {
+      "org-name": "hospital name",
+      "edi-state": "state",
+      "reg-date": "reg date",
+      "apply-date": "apply date"
+    }
+  },
+  "qna-list": {
+    "table": {
       "title": "title",
-      "state": "state",
+      "qna-state": "state",
       "reg-date": "reg date"
     }
   },
@@ -43,11 +55,6 @@
     "title": "title"
   },
   "qna-view": {
-    "header": {
-      "title": "title",
-      "state": "state",
-      "reg-date": "reg date"
-    }
   },
   "error": {
     "title": "cannot found page",
