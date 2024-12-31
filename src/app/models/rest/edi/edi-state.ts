@@ -20,7 +20,7 @@ export function stringToEDIState(data?: string): EDIState {
 
   return StringToEDIState[data];
 }
-export function ediStateToEDIStateDesc(ediState?: EDIState): string {
+export function EDIStateToEDIStateDesc(ediState?: EDIState): string {
   return EDIStateDesc[ediState ?? EDIState.None];
 }
 export const EDIStateDesc: { [key in EDIState]: string } = {
