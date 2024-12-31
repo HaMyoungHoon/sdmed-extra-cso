@@ -10,6 +10,7 @@ import {QnAReplyFileModel} from "../models/rest/qna/qna-reply-file-model";
 import {BlobUploadModel} from "../models/rest/blob-upload-model";
 import {UploadFileBuffModel} from "../models/common/upload-file-buff-model";
 import {QnAState} from "../models/rest/qna/qna-state";
+import {EDIState} from "../models/rest/edi/edi-state";
 
 export function dToMon(date: Date): string {
   let ret = date.getMonth() + 1;
@@ -83,6 +84,17 @@ export function plusMonths(targetDate: Date, months: number): Date {
   return ret;
 }
 
+export function getEdiStateSeverity(data?: EDIState): any {
+  switch (data) {
+    case EDIState.None: return "info";
+    case EDIState.OK: return "success";
+    case EDIState.Reject: return "danger";
+    case EDIState.Pending: return "warning";
+    case EDIState.Partial: return "info";
+  }
+
+  return "danger";
+}
 export function getQnAStateSeverity(data?: QnAState): any {
   switch (data) {
     case QnAState.None: return "warning";
