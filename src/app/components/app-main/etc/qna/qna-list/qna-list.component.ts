@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
-import {FComponentBase} from "../../../../guards/f-component-base";
-import {UserRole} from "../../../../models/rest/user/user-role";
-import {QnAHeaderModel} from "../../../../models/rest/qna/qna-header-model";
-import * as FExtensions from "../../../../guards/f-extensions";
-import * as FConstants from "../../../../guards/f-constants";
-import {QnaListService} from "../../../../services/rest/qna-list.service";
-import {QnAStateToQnAStateDesc} from "../../../../models/rest/qna/qna-state";
-import {getQnAStateSeverity} from "../../../../guards/f-extensions";
+import {FComponentBase} from "../../../../../guards/f-component-base";
+import {UserRole} from "../../../../../models/rest/user/user-role";
+import {QnAHeaderModel} from "../../../../../models/rest/qna/qna-header-model";
+import * as FExtensions from "../../../../../guards/f-extensions";
+import * as FConstants from "../../../../../guards/f-constants";
+import {QnaListService} from "../../../../../services/rest/qna-list.service";
+import {QnAStateToQnAStateDesc} from "../../../../../models/rest/qna/qna-state";
+import {getQnAStateSeverity} from "../../../../../guards/f-extensions";
 
 @Component({
   selector: "app-qna-list",

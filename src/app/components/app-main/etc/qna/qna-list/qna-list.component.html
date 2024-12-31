@@ -1,4 +1,4 @@
-<div class="qna-container">
+<div class="qna-list-container">
   <p-table #listTable [value]="viewList" [scrollable]="true" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 50]" [loading]="isLoading"
            [globalFilterFields]="filterFields" (sortFunction)="customSort($event, isSorted, listTable, initValue, viewList)" [customSort]="true"
            size="small" stripedRows="true" [tableStyle]="tableStyle">
@@ -17,9 +17,9 @@
     </ng-template>
     <ng-template #header>
       <tr>
-        <th pSortableColumn="title">{{"qna-list.header.title" | translate}} <p-sortIcon field="title"/></th>
-        <th pSortableColumn="state">{{"qna-list.header.state" | translate}} <p-sortIcon field="state"/></th>
-        <th pSortableColumn="regDate">{{"qna-list.header.reg-date" | translate}} <p-sortIcon field="regDate"/></th>
+        <th pSortableColumn="title">{{"qna-list.table.title" | translate}} <p-sortIcon field="title"/></th>
+        <th pSortableColumn="qnaState">{{"qna-list.table.qna-state" | translate}} <p-sortIcon field="qnaState"/></th>
+        <th pSortableColumn="regDate">{{"qna-list.table.reg-date" | translate}} <p-sortIcon field="regDate"/></th>
       </tr>
     </ng-template>
     <ng-template #body let-data>
@@ -31,6 +31,5 @@
         <td>{{dateToYYYYMMdd(data.regDate)}}</td>
       </tr>
     </ng-template>
-
   </p-table>
 </div>
