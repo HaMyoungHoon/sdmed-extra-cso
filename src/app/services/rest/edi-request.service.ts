@@ -3,9 +3,9 @@ import {HttpResponseInterceptorService} from "../common/http-response-intercepto
 import {RestResult} from "../../models/common/rest-result";
 import {EDIApplyDateModel} from "../../models/rest/edi/edi-apply-date-model";
 import {HospitalModel} from "../../models/rest/hospital/hospital-model";
-import {PharmaModel} from "../../models/rest/pharma/pharma-model";
-import {MedicineModel} from "../../models/rest/medicine/medicine-model";
 import {EDIUploadModel} from "../../models/rest/edi/edi-upload-model";
+import {EDIPharmaBuffModel} from "../../models/rest/edi/edi-pharma-buff-model";
+import {EDIMedicineBuffModel} from "../../models/rest/edi/edi-medicine-buff-model";
 
 @Injectable({
   providedIn: "root"
@@ -21,10 +21,10 @@ export class EdiRequestService {
   getHospitalList(): Promise<RestResult<HospitalModel[]>> {
     return this.httpResponse.get(`${this.baseUrl}/list/hospital`);
   }
-  getPharmaList(hosPK: string): Promise<RestResult<PharmaModel[]>> {
+  getPharmaList(hosPK: string): Promise<RestResult<EDIPharmaBuffModel[]>> {
     return this.httpResponse.get(`${this.baseUrl}/list/pharma/${hosPK}`);
   }
-  getMedicineList(hosPK: string, pharmaPK: string[]): Promise<RestResult<MedicineModel[]>> {
+  getMedicineList(hosPK: string, pharmaPK: string[]): Promise<RestResult<EDIMedicineBuffModel[]>> {
     this.httpResponse.addParam("pharmaPK", pharmaPK.join(","));
     return this.httpResponse.get(`${this.baseUrl}/list/medicine/${hosPK}`);
   }

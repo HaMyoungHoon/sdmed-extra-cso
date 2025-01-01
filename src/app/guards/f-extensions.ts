@@ -256,12 +256,11 @@ export function getQnAReplyPostFileModel(file: File, thisPK: string, ext: string
   });
 }
 
-export function getEDIUploadFileModel(file: File, thisPK: string, ext: string, mimeType: string): EDIUploadFileModel {
+export function getEDIUploadFileModel(file: File, ext: string, mimeType: string): EDIUploadFileModel {
   const userName = FAmhohwa.getUserID();
   const blobName = `edi/${userName}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
   const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
   return applyClass(EDIUploadFileModel, (obj) => {
-    obj.ediPK = thisPK;
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
     obj.originalFilename = file.name;

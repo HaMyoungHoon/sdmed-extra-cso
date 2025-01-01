@@ -32,6 +32,13 @@
     },
     "is-new-tab": "opens in a new tab if possible."
   },
+  "edi-request": {
+    "list": {
+      "apply-date": "apply date"
+    },
+    "hospital": "apply hospital",
+    "pharma": "apply pharma"
+  },
   "edi-list": {
     "header": {
       "start-date": "start date",
