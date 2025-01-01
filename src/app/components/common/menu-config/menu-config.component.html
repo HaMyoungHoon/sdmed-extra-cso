@@ -5,8 +5,8 @@
     </div>
     <div class="p-toolbar-group-right option">
       <div class="flex flex-column mr-1">
-        <label class="flex justify-content-center" *ngIf="expiredDateVisible">{{"menu-config.label.expired" | translate}}</label>
-        <label class="flex justify-content-center" *ngIf="expiredDateVisible">{{expiredDate}}</label>
+        <label class="flex justify-content-center" *ngIf="expiredButtonVisible">{{"menu-config.label.expired" | translate}}</label>
+        <label class="flex justify-content-center" *ngIf="expiredButtonVisible">{{expiredDate}}</label>
         <p-button class="flex justify-content-center" (click)="tokenRefresh()" *ngIf="expiredButtonVisible">{{"menu-config.button.refresh" | translate}}</p-button>
       </div>
       <a class="sun" (click)="changeTheme(false)" *ngIf="isDarkMode"></a>
