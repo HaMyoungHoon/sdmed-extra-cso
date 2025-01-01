@@ -115,7 +115,7 @@ export class QnaViewComponent extends FComponentBase {
       this.setLoading(false);
       return;
     }
-    this.uploadFileBuffModel.forEach(x => x.revokeBLob());
+    this.uploadFileBuffModel.forEach(x => x.revokeBlob());
 
     this.setLoading(false);
   }
@@ -230,7 +230,7 @@ export class QnaViewComponent extends FComponentBase {
     }
 
     if (index >= 0) {
-      data.revokeBLob();
+      data.revokeBlob();
       this.uploadFileBuffModel.splice(index, 1);
     }
   }

@@ -5,7 +5,7 @@ export class UploadFileBuffModel {
   blobUrl: string = "";
   ext: string = "";
 
-  revokeBLob(): void {
+  revokeBlob(): void {
     if (this.blobUrl.includes("blob://")) {
       URL.revokeObjectURL(this.blobUrl);
     }

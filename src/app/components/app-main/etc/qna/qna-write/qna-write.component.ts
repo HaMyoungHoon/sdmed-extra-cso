@@ -47,7 +47,7 @@ export class QnaWriteComponent extends FComponentBase {
       this.setLoading(false);
       return;
     }
-    this.uploadFileBuffModel.forEach(x => x.revokeBLob());
+    this.uploadFileBuffModel.forEach(x => x.revokeBlob());
 
     this.setLoading(false);
     this.router.navigate([`/${FConstants.QNA_LIST_URL}`]).then();
@@ -151,7 +151,7 @@ export class QnaWriteComponent extends FComponentBase {
     }
 
     if (index >= 0) {
-      data.revokeBLob();
+      data.revokeBlob();
       this.uploadFileBuffModel.splice(index, 1);
     }
   }
