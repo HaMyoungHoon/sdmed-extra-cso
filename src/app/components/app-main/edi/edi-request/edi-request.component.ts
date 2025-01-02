@@ -102,7 +102,6 @@ export class EdiRequestComponent extends FComponentBase {
   }
 
   async saveData(): Promise<void> {
-    console.log(this.selectPharma);
     if (this.selectApplyDate == null) {
       return;
     }
@@ -200,7 +199,7 @@ export class EdiRequestComponent extends FComponentBase {
         });
       }));
     });
-    ret.regDate = FExtensions.dateToYYYYMMdd(new Date());
+    ret.regDate = new Date();
 
     return ret;
   }
