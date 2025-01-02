@@ -86,16 +86,10 @@ export class AppConfigService {
     }
   }
   private startViewTransition(state: AppState): void {
-
-    try {
-      const transition = (document as any).startViewTransition(() => {
-        this.toggledDarkMode(state);
-      });
-      transition.ready.then(() => this.onTransitionEnd());
-    } catch (e) {
-      console.log(e);
-      console.log(state);
-    }
+    const transition = (document as any).startViewTransition(() => {
+      this.toggledDarkMode(state);
+    });
+    transition.ready.then(() => this.onTransitionEnd());
   }
   private toggledDarkMode(state: AppState): void {
     if (state.darkTheme) {
