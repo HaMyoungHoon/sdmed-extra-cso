@@ -11,8 +11,9 @@ export class EDIUploadModel {
   day: string = "";
   hospitalPK: string = "";
   orgName: string = "";
+  name: string = "";
   ediState: EDIState = EDIState.None;
-  regDate: string = "";
+  regDate: Date = new Date();
   pharmaList: EDIUploadPharmaModel[] = [];
   fileList: EDIUploadFileModel[] = [];
   responseList: EDIUploadResponseModel[] = [];
