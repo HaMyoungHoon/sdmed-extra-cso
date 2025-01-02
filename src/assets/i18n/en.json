@@ -51,6 +51,22 @@
       "apply-date": "apply date"
     }
   },
+  "edi-view": {
+    "apply-date": "apply date",
+    "reg-date": "reg date",
+    "hospital-name": "hospital name",
+    "user-name": "user name",
+    "edi-state": "state",
+    "pharma-name": "pharma name",
+    "carried-over": "(carried over)",
+    "approx-apply-date": "approx apply date",
+    "medicine-name": "medicine name",
+    "medicine-count": "count",
+    "medicine-charge": "charge",
+    "medicine-price": "price",
+    "medicine-total-price": "total price",
+    "medicine-date": "medicine price date"
+  },
   "qna-list": {
     "table": {
       "title": "title",

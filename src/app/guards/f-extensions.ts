@@ -12,6 +12,9 @@ import {UploadFileBuffModel} from "../models/common/upload-file-buff-model";
 import {QnAState} from "../models/rest/qna/qna-state";
 import {EDIState} from "../models/rest/edi/edi-state";
 
+export function numberWithCommas(data: string): string {
+  return data.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 export function dToMon(date: Date): string {
   let ret = date.getMonth() + 1;
   return ret >= 10 ? `${ret}` : `0${ret}`;
@@ -84,7 +87,7 @@ export function plusMonths(targetDate: Date, months: number): Date {
   return ret;
 }
 
-export function getEdiStateSeverity(data?: EDIState): any {
+export function getEDIStateSeverity(data?: EDIState): any {
   switch (data) {
     case EDIState.None: return "info";
     case EDIState.OK: return "success";

@@ -1,1 +1,75 @@
-<p>edi-view works!</p>
+<div class="edi-view-container">
+  <app-progress-spin [isLoading]="isLoading" />
+  <div>
+    <span>{{"edi-view.apply-date" | translate}} : </span>
+    <span>{{getApplyDate()}}</span>
+    <span>{{"edi-view.reg-date" | translate}} : </span>
+    <span>{{dateToYYYYMMdd(uploadModel.regDate)}}</span>
+  </div>
+  <div>
+    <span>{{"edi-view.hospital-name" | translate}} : </span>
+    <span>{{uploadModel.orgName}}</span>
+  </div>
+  <div>
+    <span>{{"edi-view.edi-state" | translate}}</span>
+    <span>
+      <p-tag [value]="StringToEDIStateDesc[uploadModel.ediState]" [severity]="getEDIStateSeverity(uploadModel.ediState)" />
+    </span>
+  </div>
+  <p-accordion [multiple]="multipleEnable">
+    <p-accordion-panel *ngFor="let pharma of uploadModel.pharmaList" value="{{accordionIndex(pharma)}}">
+      <p-accordion-header>
+        <div>
+          <span>{{pharma.orgName}}</span>
+        </div>
+        <div *ngIf="pharma.isCarriedOver">
+          <span>{{"edi-view.carried-over" | translate}}</span>
+          <span>{{"edi-view.approx-apply-date" | translate}}</span>
+          <span>{{getPharmaApplyDate(pharma)}}</span>
+        </div>
+        <div>
+          <span>{{"edi-view.edi-state" | translate}}</span>
+          <span>
+            <p-tag [value]="StringToEDIStateDesc[pharma.ediState]" [severity]="getEDIStateSeverity(uploadModel.ediState)" />
+          </span>
+        </div>
+      </p-accordion-header>
+      <p-accordion-content>
+        <p-table #listTable [value]="pharma.medicineList" [scrollable]="true" [paginator]="true" [rows]="10" [tableStyle]="tableStyle" size="small" stripedRows="true">
+          <ng-template #header>
+            <tr>
+              <th>{{"edi-view.medicine-name" | translate}}</th>
+              <th>{{"edi-view.medicine-count" | translate}}</th>
+              <th>{{"edi-view.medicine-charge" | translate}}</th>
+              <th>{{"edi-view.medicine-price" | translate}}</th>
+              <th>{{"edi-view.medicine-total-price" | translate}}</th>
+              <th>{{"edi-view.medicine-date" | translate}}</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-medicine>
+            <tr>
+              <td>{{ellipsis(medicine.name)}}</td>
+              <td>{{medicine.count}}</td>
+              <td>{{medicine.charge}}</td>
+              <td>{{medicine.price}}</td>
+              <td>{{getMedicineTotalPrice(medicine)}}</td>
+              <td>{{getMedicineApplyDate(medicine)}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+  <p-galleria class="flex justify-content-center" tabindex="-1" [value]="uploadModel.fileList" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
+              [containerStyle]="galleriaContainerStyle" [numVisible]="0">
+    <ng-template pTemplate="item" let-item>
+      <img [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="edi-image" />
+    </ng-template>
+    <ng-template pTemplate="caption" let-item>
+      <div class="flex">
+        <p-button class="align-content-center" size="small" icon="pi pi-download" [rounded]="true" pTooltip="{{downloadFileTooltip | translate}}" (click)="downloadEDIFile(item)" />
+        <label class="m-1">{{ellipsis(item.originalFilename)}}</label>
+      </div>
+    </ng-template>
+  </p-galleria>
+</div>

@@ -51,6 +51,22 @@
       "apply-date": "적용일"
     }
   },
+  "edi-view": {
+    "apply-date": "반영요청일",
+    "reg-date": "등록일",
+    "hospital-name": "병원명",
+    "user-name": "이름",
+    "edi-state": "상태",
+    "pharma-name": "제약사명",
+    "carried-over": "(이월됨)",
+    "approx-apply-date": "예정반영일",
+    "medicine-name": "약품명",
+    "medicine-count": "개수",
+    "medicine-charge": "수수료율",
+    "medicine-price": "가격",
+    "medicine-total-price": "총액",
+    "medicine-date": "가격반영일"
+  },
   "qna-list": {
     "table": {
       "title": "제목",
