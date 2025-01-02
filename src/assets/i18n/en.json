@@ -9,7 +9,8 @@
     "title": "edi",
     "sub-menu": {
       "sub-1": "edi request",
-      "sub-2": "edi list"
+      "sub-2": "edi list",
+      "sub-3": "edi due date"
     }
   },
   "menu-3": {
@@ -62,7 +63,7 @@
     "approx-apply-date": "approx apply date",
     "medicine-name": "medicine name",
     "medicine-count": "count",
-    "medicine-charge": "charge",
+    "medicine-charge": "charge %",
     "medicine-price": "price",
     "medicine-total-price": "total price",
     "medicine-date": "medicine price date"
@@ -78,6 +79,41 @@
     "title": "title"
   },
   "qna-view": {
+  },
+  "my-info": {
+    "accordion-header": {
+      "detail": "my info",
+      "child": "lower user"
+    },
+    "detail": {
+      "id": "id",
+      "password": "password",
+      "name": "name",
+      "mail": "mail",
+      "phone-number": "phone",
+      "role": "role",
+      "dept": "dept",
+      "status": "status",
+      "reg-date": "reg date",
+      "last-login-date": "last login date"
+    },
+    "hos-data": {
+      "code": "code",
+      "inner-name": "inner name"
+    },
+    "pharma-data": {
+      "code": "code",
+      "inner-name": "inner name"
+    }
+  },
+  "password-change-dialog": {
+    "warn": {
+      "after-pw": "plz input more than 4 character",
+      "confirm-pw": "password un match"
+    },
+    "current-pw": "current pw",
+    "after-pw": "after pw",
+    "confirm-pw": "confirm pw"
   },
   "error": {
     "title": "cannot found page",

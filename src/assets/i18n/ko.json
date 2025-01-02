@@ -9,7 +9,8 @@
     "title": "edi",
     "sub-menu": {
       "sub-1": "edi 요청",
-      "sub-2": "edi 목록"
+      "sub-2": "edi 목록",
+      "sub-3": "edi 마감일"
     }
   },
   "menu-3": {
@@ -62,7 +63,7 @@
     "approx-apply-date": "예정반영일",
     "medicine-name": "약품명",
     "medicine-count": "개수",
-    "medicine-charge": "수수료율",
+    "medicine-charge": "수수료율 %",
     "medicine-price": "가격",
     "medicine-total-price": "총액",
     "medicine-date": "가격반영일"
@@ -78,6 +79,41 @@
     "title": "제목"
   },
   "qna-view": {
+  },
+  "my-info": {
+    "accordion-header": {
+      "detail": "내 정보",
+      "in-charge": "담당"
+    },
+    "detail": {
+      "id": "아이디",
+      "password": "비밀번호",
+      "name": "이름",
+      "mail": "메일",
+      "phone-number": "번호",
+      "role": "권한",
+      "dept": "부서",
+      "status": "상태",
+      "reg-date": "등록일",
+      "last-login-date": "마지막 로그인일"
+    },
+    "hos-data": {
+      "code": "코드",
+      "inner-name": "내부명"
+    },
+    "pharma-data": {
+      "code": "코드",
+      "inner-name": "내부명"
+    }
+  },
+  "password-change-dialog": {
+    "warn": {
+      "after-pw": "4자 이상 입력해주세요.",
+      "confirm-pw": "바꿀 비밀번호와 확인이 일치하지 않습니다."
+    },
+    "current-pw": "현재 비밀번호",
+    "after-pw": "바꿀 비밀번호",
+    "confirm-pw": "비밀번호 확인"
   },
   "error": {
     "title": "요청하신 페이지를 찾을 수 없습니다.",

@@ -5,6 +5,9 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
 import {Observable} from "rxjs";
 import {MessageService} from "primeng/api";
 import {SignDialogComponent} from "../../components/common/dialog/sign-dialog/sign-dialog.component";
+import {
+  PasswordChangeDialogComponent
+} from "../../components/common/dialog/password-change-dialog/password-change-dialog.component";
 
 @Injectable({
   providedIn: "root"
@@ -21,6 +24,10 @@ export class FDialogService {
       closeOnEscape: false,
     });
 
+    return this.ref.onClose;
+  }
+  openPasswordChangeDialog(config: DynamicDialogConfig): Observable<any> {
+    this.ref = this.dialogService.open(PasswordChangeDialogComponent, config);
     return this.ref.onClose;
   }
 //  openImageView(config: DynamicDialogConfig): Observable<any> {

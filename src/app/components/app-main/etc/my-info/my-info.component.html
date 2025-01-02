@@ -1,1 +1,98 @@
-<p>my-info works!</p>
+<div class="flex flex-row my-info-container">
+  <app-progress-spin [isLoading]="isLoading" />
+  <p-accordion class="flex-auto" [multiple]="multipleEnable" [value]="accordionValue">
+    <p-accordion-panel class="flex flex-column" *ngIf="userDataModel.id.length > 0" value="0">
+      <p-accordion-header>{{"my-info.accordion-header.detail" | translate}}</p-accordion-header>
+      <p-accordion-content>
+        <div class="flex">
+          <p-button (click)="logout()">{{"common-desc.logout" | translate}}</p-button>
+        </div>
+        <div class="flex">
+          <label class="col-6 mr-1">{{"my-info.detail.id" | translate}}</label>
+          <label class="col-6">{{userDataModel.id}}</label>
+        </div>
+        <div class="flex">
+          <label class="col-6 mr-1">{{"my-info.detail.password" | translate}}</label>
+          <p-button class="col-6" (click)="passwordChange()">{{"common-desc.edit" | translate}}</p-button>
+        </div>
+        <div class="flex">
+          <label class="col-6 mr-1">{{"my-info.detail.name" | translate}}</label>
+          <label class="col-6">{{userDataModel.name}}</label>
+        </div>
+        <div class="flex">
+          <label class="col-6 mr-1">{{"my-info.detail.mail" | translate}}</label>
+          <label class="col-6">{{userDataModel.mail}}</label>
+        </div>
+        <div class="flex">
+          <label class="col-6 mr-1">{{"my-info.detail.phone-number" | translate}}</label>
+          <label class="col-6">{{userDataModel.phoneNumber}}</label>
+        </div>
+        <div class="flex">
+          <label class="col-6 mr-1">{{"my-info.detail.role" | translate}}</label>
+          <label class="col-6">{{flagToRoleDesc(userDataModel.role)}}</label>
+        </div>
+        <div class="flex">
+          <label class="col-6 mr-1">{{"my-info.detail.status" | translate}}</label>
+          <p-tag class="col-6" [value]="statusToUserStatusDesc(userDataModel.status)" [severity]="getSeverity(userDataModel.status)"/>
+        </div>
+        <div class="flex">
+          <label class="col-6 mr-1">{{"my-info.detail.reg-date" | translate}}</label>
+          <label class="col-6">{{dateToYearFullString(stringToDate(userDataModel.regDate))}}</label>
+        </div>
+        <div class="flex">
+          <label class="col-6 mr-1">{{"my-info.detail.last-login-date" | translate}}</label>
+          <label class="col-6">{{dateToYearFullString(stringToDate(userDataModel.lastLoginDate))}}</label>
+        </div>
+        <div class="field grid">
+          <label class="col-fixed m-1">{{userDataModel.companyNumber}}</label>
+          <div class="col m-1">
+            <p-image width="100" height="100" [src]="taxpayerImageUrl" [alt]="userDataModel.companyNumber" (click)="taxpayerImageView()" [preview]="taxpayerImageAble" />
+          </div>
+          <label class="col-fixed m-1">{{userDataModel.bankAccount}}</label>
+          <div class="col m-1">
+            <p-image width="100" height="100" [src]="bankAccountImageUrl" [alt]="userDataModel.bankAccount" (click)="bankAccountImageView()" [preview]="bankAccountImageAble" />
+          </div>
+          <input #taxpayerImageInput class="collapse" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp" (change)="taxpayerImageSelected($event)">
+          <input #bankAccountImageInput class="collapse" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp" (change)="bankAccountImageSelected($event)">
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+    <p-accordion-panel *ngIf="userDataModel.hosList.length > 0" value="1">
+      <p-accordion-header>{{"my-info.accordion-header.in-charge" | translate}}</p-accordion-header>
+      <p-accordion-content>
+        <div class="formgrid grid">
+          <p-table class="field col" [value]="userDataModel.hosList" [scrollable]="true" selectionMode="single" [(selection)]="selectedHosData"
+                   size="small" stripedRows="true" [paginator]="true" [rows]="10">
+            <ng-template #header>
+              <tr>
+                <th class="w-2">{{"my-info.hos-data.code" | translate}}</th>
+                <th>{{"my-info.hos-data.inner-name" | translate}}</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-hosData>
+              <tr [pSelectableRow]="hosData">
+                <td>{{hosData.code}}</td>
+                <td><{{hosData.innerName}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <p-table class="field col" [value]="selectedHosData.pharmaList" [scrollable]="true"
+                   size="small" stripedRows="true" [paginator]="true" [rows]="10">
+            <ng-template #header>
+              <tr>
+                <th class="w-2">{{"my-info.pharma-data.code" | translate}}</th>
+                <th>{{"my-info.pharma-data.inner-name" | translate}}</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-pharmaData>
+              <tr>
+                <td>{{pharmaData.code}}</td>
+                <td>{{pharmaData.innerName}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+</div>

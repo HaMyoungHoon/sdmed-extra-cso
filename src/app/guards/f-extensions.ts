@@ -11,6 +11,7 @@ import {BlobUploadModel} from "../models/rest/blob-upload-model";
 import {UploadFileBuffModel} from "../models/common/upload-file-buff-model";
 import {QnAState} from "../models/rest/qna/qna-state";
 import {EDIState} from "../models/rest/edi/edi-state";
+import {UserStatus} from "../models/rest/user/user-status";
 
 export function numberWithCommas(data: string): string {
   return data.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -107,6 +108,17 @@ export function getQnAStateSeverity(data?: QnAState): any {
   }
 
   return "warning";
+}
+export function getUserStatusSeverity(data?: UserStatus): any {
+  switch (data) {
+    case UserStatus.None: return "info";
+    case UserStatus.Live: return "success";
+    case UserStatus.Stop: return "warning";
+    case UserStatus.Delete: return "warning";
+    case UserStatus.Expired: return "danger";
+  }
+
+  return "danger";
 }
 
 export async function tryCatchAsync<T>(fn: () => Promise<T>, onError?: (e: any) => void): Promise<T | null> {
@@ -220,18 +232,19 @@ export function ellipsis(data?: string, length: number = 20): string {
   return data;
 }
 
-export function getUserBlobModel(file: File, ext: string, mimeType: string): BlobUploadModel {
-  const thisPK = FAmhohwa.getThisPK();
-  const userID = FAmhohwa.getUserID();
-  const blobName = `user/${userID}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
+function getBlobModel(blobName: string, thisPK: string, file: File, ext: string): BlobUploadModel {
   const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
   return applyClass(BlobUploadModel, (obj) => {
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
     obj.uploaderPK = thisPK;
     obj.originalFilename = file.name;
-    obj.mimeType = mimeType;
+    obj.mimeType = getMimeTypeExt(ext);
   });
+}
+export function getUserBlobModel(userId: string, file: File, ext: string): BlobUploadModel {
+  const blobName = `user/${userId}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
+  return getBlobModel(blobName, FAmhohwa.getThisPK(), file, ext);
 }
 
 export function getQnAPostFileModel(file: File, ext: string, mimeType: string): QnAFileModel {
