@@ -10,6 +10,7 @@ export const routes: Routes = [
       { path: FConstants.EDI_REQUEST_URL, loadChildren: () => import("./components/app-main/edi/edi-request/edi-request.module").then(m => m.EdiRequestModule) },
       { path: FConstants.EDI_LIST_URL, loadChildren: () => import("./components/app-main/edi/edi-list/edi-list.module").then(m => m.EdiListModule) },
       { path: FConstants.EDI_VIEW_URL, loadChildren: () => import("./components/app-main/edi/edi-view/edi-view.module").then(m => m.EdiViewModule) },
+      { path: FConstants.EDI_DUE_DATE_URL, loadChildren: () => import("./components/app-main/edi/edi-due-date/edi-due-date.module").then(m => m.EdiDueDateModule) },
 
       { path: FConstants.MY_INFO_URL, loadChildren: () => import("./components/app-main/etc/my-info/my-info.module").then(m => m.MyInfoModule) },
       { path: FConstants.MEDICINE_PRICE_LIST_URL, loadChildren: () => import("./components/app-main/etc/medicine-price-list/medicine-price-list.module").then(m => m.MedicinePriceListModule) },

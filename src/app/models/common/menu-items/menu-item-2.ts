@@ -18,6 +18,12 @@ export function MenuItem2(): MenuItem {
         styleClass: "top-menu",
         routerLink: `/${FConstants.EDI_LIST_URL}`,
       },
+      {
+        label: "menu-2.sub-menu.sub-3",
+        icon: "pi pi-fw pi-calendar",
+        styleClass:"top-menu",
+        routerLink: `/${FConstants.EDI_DUE_DATE_URL}`,
+      }
     ]
   };
 }
