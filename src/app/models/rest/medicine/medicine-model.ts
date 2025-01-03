@@ -4,11 +4,12 @@ import {MedicineIngredientModel} from "./medicine-ingredient-model";
 
 export class MedicineModel {
   thisPK: string = "";
-  code: number = 0;
+  code: string = "";
   mainIngredientCode: string = "";
-  kdCode: number = 0;
+  kdCode: string = "";
   standardCode: number = 0;
-  pharma: string = "";
+  makerName: string = "";
+  makerCode: string = "";
   name: string = ""
   customPrice: number = 0;
   charge: number = 0;
@@ -24,7 +25,8 @@ export class MedicineModel {
     this.mainIngredientCode = data.mainIngredientCode;
     this.kdCode = data.kdCode;
     this.standardCode = data.standardCode;
-    this.pharma = data.pharma;
+    this.makerName = data.makerName;
+    this.makerCode = data.makerCode;
     this.name = data.name;
     this.customPrice = data.customPrice;
     this.charge = data.charge;
@@ -41,7 +43,8 @@ export class MedicineModel {
     lhs.mainIngredientCode = rhs.mainIngredientCode;
     lhs.kdCode = rhs.kdCode;
     lhs.standardCode = rhs.standardCode;
-    lhs.pharma = rhs.pharma;
+    lhs.makerName = rhs.makerName;
+    lhs.makerCode = rhs.makerCode;
     lhs.name = rhs.name;
     lhs.customPrice = rhs.customPrice;
     lhs.charge = rhs.charge;

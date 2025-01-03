@@ -1,6 +1,6 @@
 export class EDIMedicineBuffModel {
   thisPK: string = "";
-  code: number = 0;
+  code: string = "";
   pharma: string = "";
   name: string = "";
   pharmaPK: string = "";

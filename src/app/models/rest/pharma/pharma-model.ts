@@ -7,7 +7,7 @@ import {MedicineModel} from "../medicine/medicine-model";
 
 export class PharmaModel {
   thisPK: string = "";
-  code: number = 0;
+  code: string = "";
   orgName: string = "";
   innerName: string = "";
   ownerName: string = "";

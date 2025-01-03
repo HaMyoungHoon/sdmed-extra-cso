@@ -9,7 +9,7 @@ import {MedicineDiv} from "./medicine-div";
 
 export class MedicineSubModel {
   thisPK: string = "";
-  code: number = 0;
+  code: string = "";
   standard: string = "";
   accountUnit: number = 0.0;
   medicineType: MedicineType = MedicineType.General;
