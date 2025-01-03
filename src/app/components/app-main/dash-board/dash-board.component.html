@@ -1,3 +1,12 @@
 <div class="dash-board-container">
-  <p>dash-board works!</p>
+  <app-progress-spin [isLoading]="isLoading" />
+  <div class="flex flex-wrap flex-row w-full justify-content-center">
+    <p-button class="flex m-1" (onClick)="refreshData()" icon="pi pi-refresh" />
+    <p-date-picker class="flex m-1 w-10rem" #datePicker [(ngModel)]="date" dateFormat="yy-mm" />
+  </div>
+  <div class="flex flex-wrap flex-row justify-content-center">
+    <p-chart class="col-6" type="pie" [data]="chartData1" [options]="chartOption1" />
+    <p-chart class="col-12" type="bar" [data]="chartData2" [options]="chartOption2" />
+    <p-chart class="col-12" type="bar" [data]="chartData3" [options]="chartOption3" />
+  </div>
 </div>
