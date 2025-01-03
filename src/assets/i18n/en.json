@@ -21,7 +21,6 @@
       "sub-3": "qna"
     }
   },
-
   "menu-config": {
     "label": {
       "expired": "login expired"
@@ -32,6 +31,16 @@
       "refresh": "login refresh"
     },
     "is-new-tab": "opens in a new tab if possible."
+  },
+  "dash-board": {
+    "table": {
+      "hos-name": "hospital",
+      "pharma-name": "pharma",
+      "medicine-name": "medicine",
+      "count": "count",
+      "price": "price",
+      "edi-state": "state"
+    }
   },
   "edi-request": {
     "list": {

@@ -2,11 +2,71 @@
   <app-progress-spin [isLoading]="isLoading" />
   <div class="flex flex-wrap flex-row w-full justify-content-center">
     <p-button class="flex m-1" (onClick)="refreshData()" icon="pi pi-refresh" />
-    <p-date-picker class="flex m-1 w-10rem" #datePicker [(ngModel)]="date" dateFormat="yy-mm" />
+    <p-date-picker class="flex m-1 w-10rem" [(ngModel)]="date" dateFormat="yy-mm" view="month" />
   </div>
   <div class="flex flex-wrap flex-row justify-content-center">
-    <p-chart class="col-6" type="pie" [data]="chartData1" [options]="chartOption1" />
-    <p-chart class="col-12" type="bar" [data]="chartData2" [options]="chartOption2" />
-    <p-chart class="col-12" type="bar" [data]="chartData3" [options]="chartOption3" />
+    <p-chart class="col-12" type="pie" [data]="chartData1" [options]="chartOption1" *ngIf="tableData1.length > 0"/>
+    <p-table class="col-12" [value]="tableData1" [scrollable]="true" [paginator]="true" [rows]="10" *ngIf="tableData1.length > 0">
+      <ng-template #header>
+        <tr>
+          <th>{{"dash-board.table.hos-name" | translate}}</th>
+          <th>{{"dash-board.table.count" | translate}}</th>
+          <th>{{"dash-board.table.price" | translate}}</th>
+          <th>{{"dash-board.table.edi-state" | translate}}</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-data>
+        <tr>
+          <td>{{ellipsis(data.name)}}</td>
+          <td>{{data.count}}</td>
+          <td>{{data.price}}</td>
+          <td>
+            <p-tag [value]="EDIStateToEDIStateDesc(data.ediState)" [severity]="getEDIStateSeverity(data.ediState)"/>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-chart class="col-12" type="bar" [data]="chartData2" [options]="chartOption2" *ngIf="tableData2.length > 0"/>
+    <p-table class="col-12" [value]="tableData2" [scrollable]="true" [paginator]="true" [rows]="10" *ngIf="tableData2.length > 0">
+      <ng-template #header>
+        <tr>
+          <th>{{"dash-board.table.pharma-name" | translate}}</th>
+          <th>{{"dash-board.table.count" | translate}}</th>
+          <th>{{"dash-board.table.price" | translate}}</th>
+          <th>{{"dash-board.table.edi-state" | translate}}</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-data>
+        <tr>
+          <td>{{ellipsis(data.name)}}</td>
+          <td>{{data.count}}</td>
+          <td>{{data.price}}</td>
+          <td>
+            <p-tag [value]="EDIStateToEDIStateDesc(data.ediState)" [severity]="getEDIStateSeverity(data.ediState)"/>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-chart class="col-12" type="bar" [data]="chartData3" [options]="chartOption3" *ngIf="tableData3.length > 0"/>
+    <p-table class="col-12" [value]="tableData3" [scrollable]="true" [paginator]="true" [rows]="10" *ngIf="tableData3.length > 0">
+      <ng-template #header>
+        <tr>
+          <th>{{"dash-board.table.medicine-name" | translate}}</th>
+          <th>{{"dash-board.table.count" | translate}}</th>
+          <th>{{"dash-board.table.price" | translate}}</th>
+          <th>{{"dash-board.table.edi-state" | translate}}</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-data>
+        <tr>
+          <td>{{ellipsis(data.name)}}</td>
+          <td>{{data.count}}</td>
+          <td>{{data.price}}</td>
+          <td>
+            <p-tag [value]="EDIStateToEDIStateDesc(data.ediState)" [severity]="getEDIStateSeverity(data.ediState)"/>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
 </div>

@@ -4,6 +4,10 @@ import {UserRole} from "../../../models/rest/user/user-role";
 import {ChartData, ChartDataset} from "chart.js";
 import {DashboardService} from "../../../services/rest/dashboard.service";
 import * as FExtension from "../../../guards/f-extensions";
+import {HowMuchHospitalModel} from "../../../models/rest/how-much-hospital-model";
+import {HowMuchPharmaModel} from "../../../models/rest/how-much-pharma-model";
+import {HowMuchMedicineModel} from "../../../models/rest/how-much-medicine-model";
+import {EDIStateToEDIStateDesc} from "../../../models/rest/edi/edi-state";
 
 @Component({
   selector: "app-dash-board",
@@ -33,6 +37,9 @@ export class DashBoardComponent extends FComponentBase {
     xLabels: string[] = [];
     yLabels: string[] = [];
   }
+  tableData1: HowMuchHospitalModel[] = [];
+  tableData2: HowMuchPharmaModel[] = [];
+  tableData3: HowMuchMedicineModel[] = [];
   date: Date = new Date();
   constructor(private thisService: DashboardService) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
@@ -147,12 +154,14 @@ export class DashBoardComponent extends FComponentBase {
         labels: buff.map(x => x.name),
         datasets: [
           {
-            data: buff.map(x => x.count),
+            data: buff.map(x => x.price),
+            label: "price",
             backgroundColor: buff.map((x, index) => this.randomBackgroundColor()[index % 10]),
             hoverBackgroundColor: buff.map((x, index) => this.randomHoverBackgroundColor()[index % 10]),
           }
         ]
       };
+      this.tableData1 = buff;
       return true;
     }
     this.fDialogService.warn("getHos", ret.msg);
@@ -176,6 +185,7 @@ export class DashBoardComponent extends FComponentBase {
           }
         ]
       };
+      this.tableData2 = buff;
       return true;
     }
     this.fDialogService.warn("getPharma", ret.msg);
@@ -199,6 +209,7 @@ export class DashBoardComponent extends FComponentBase {
           }
         ]
       };
+      this.tableData3 = buff;
       return true;
     }
     this.fDialogService.warn("getMedicine", ret.msg);
@@ -261,4 +272,8 @@ export class DashBoardComponent extends FComponentBase {
   dateToString(): string {
     return FExtension.dateToYYYYMMdd(this.date);
   }
+
+  protected readonly EDIStateToEDIStateDesc = EDIStateToEDIStateDesc;
+  protected readonly ellipsis = FExtension.ellipsis;
+  protected readonly getEDIStateSeverity = FExtension.getEDIStateSeverity;
 }
