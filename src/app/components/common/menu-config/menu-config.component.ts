@@ -84,7 +84,7 @@ export class MenuConfigComponent {
 
     let tokenDate = FAmhohwa.getTokenExpiredDate(authToken);
     let now = new Date();
-    tokenDate.setDate(tokenDate.getDate() - 2);
+    tokenDate.setDate(tokenDate.getDate() - 10);
 
     return now.getTime() > tokenDate.getTime();
   }

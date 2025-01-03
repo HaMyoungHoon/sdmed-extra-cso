@@ -126,6 +126,7 @@ export async function tryCatchAsync<T>(fn: () => Promise<T>, onError?: (e: any) 
     return await fn();
   } catch (e: any) {
     if (onError) {
+      // 500, 404, 401 parse
       onError(e.message);
     }
     return null;
@@ -140,6 +141,7 @@ export async function restTry<T>(fn: () => Promise<RestResult<T>>, onError?: (e:
       if (error) {
         return error;
       } else {
+        // 500, 404, 401 parse
         onError(e.message);
       }
     }

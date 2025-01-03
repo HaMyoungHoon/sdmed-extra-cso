@@ -63,7 +63,7 @@
   <p-galleria class="flex justify-content-center" tabindex="-1" [value]="uploadModel.fileList" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
               [containerStyle]="galleriaContainerStyle" [numVisible]="0">
     <ng-template pTemplate="item" let-item>
-      <img [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="edi-image" />
+      <p-image [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="edi-image" width="300" height="300" [preview]="true" />
     </ng-template>
     <ng-template pTemplate="caption" let-item>
       <div class="flex">

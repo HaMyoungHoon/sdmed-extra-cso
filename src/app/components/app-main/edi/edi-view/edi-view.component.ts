@@ -47,7 +47,7 @@ export class EdiViewComponent extends FComponentBase {
     return `${this.uploadModel.year}-${this.uploadModel.month}`;
   }
   getPharmaApplyDate(pharma: EDIUploadPharmaModel): string {
-    return FExtensions.dateToYYYYMMdd(FExtensions.stringToDate(`${pharma.year}-${pharma.month}-${pharma.day}`));
+    return `${pharma.year}-${pharma.month}`;
   }
   getMedicineTotalPrice(medicine: EDIUploadPharmaMedicineModel): string {
     return FExtensions.numberWithCommas(`${medicine.count * medicine.price * medicine.charge / 100}`);

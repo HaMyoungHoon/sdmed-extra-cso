@@ -12,13 +12,14 @@ import {FormsModule} from "@angular/forms";
 import {TableModule} from "primeng/table";
 import {Button} from "primeng/button";
 import {Tooltip} from "primeng/tooltip";
+import {Image} from "primeng/image";
 
 
 
 @NgModule({
   declarations: [EdiViewComponent],
   imports: [
-    CommonModule, EdiViewRoutingModule, TranslatePipe, GalleriaModule, ProgressSpinComponent, Tag, Accordion, AccordionPanel, AccordionHeader, Select, FormsModule, AccordionContent, TableModule, Button, Tooltip
+    CommonModule, EdiViewRoutingModule, TranslatePipe, GalleriaModule, ProgressSpinComponent, Tag, Accordion, AccordionPanel, AccordionHeader, Select, FormsModule, AccordionContent, TableModule, Button, Tooltip, Image
   ]
 })
 export class EdiViewModule { }
