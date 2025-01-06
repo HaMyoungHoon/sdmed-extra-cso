@@ -2,7 +2,8 @@
   <app-progress-spin [isLoading]="isLoading" />
   <div class="col-12 flex flex-column justify-content-center">
     <label class="flex justify-content-center">{{"edi-request.list.apply-date" | translate}}</label>
-    <p-list-box class="flex justify-content-center max-h-10rem" [options]="applyDateList" [(ngModel)]="selectApplyDate" [multiple]="false">
+    <p-list-box class="flex justify-content-center max-h-10rem" [options]="applyDateList" [(ngModel)]="selectApplyDate" [multiple]="false"
+                (onChange)="applyDateOnSelect()">
       <ng-template pTemplate="item" let-data>
         <div class="flex">
           <div>{{listItemApplyDateModel(data)}}</div>

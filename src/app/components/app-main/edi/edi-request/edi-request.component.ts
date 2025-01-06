@@ -5,13 +5,13 @@ import {EdiRequestService} from "../../../../services/rest/edi-request.service";
 import * as FExtensions from "../../../../guards/f-extensions";
 import * as FConstants from "../../../../guards/f-constants";
 import {EDIApplyDateModel} from "../../../../models/rest/edi/edi-apply-date-model";
-import {HospitalModel} from "../../../../models/rest/hospital/hospital-model";
 import {EDIPharmaBuffModel} from "../../../../models/rest/edi/edi-pharma-buff-model";
 import {EDIMedicineBuffModel} from "../../../../models/rest/edi/edi-medicine-buff-model";
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {EDIUploadPharmaModel} from "../../../../models/rest/edi/edi-upload-pharma-model";
 import {EDIUploadPharmaMedicineModel} from "../../../../models/rest/edi/edi-upload-pharma-medicine-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
+import {EDIHosBuffModel} from "../../../../models/rest/edi/edi-hos-buff-model";
 
 @Component({
   selector: "app-edi-request",
@@ -23,9 +23,9 @@ export class EdiRequestComponent extends FComponentBase {
   @ViewChild("inputFiles") inputFiles!: ElementRef<HTMLInputElement>;
   applyDateList: EDIApplyDateModel[] = [];
   selectApplyDate?: EDIApplyDateModel;
-  hospitalList: HospitalModel[] = [];
+  hospitalList: EDIHosBuffModel[] = [];
   pharmaList: EDIPharmaBuffModel[] = [];
-  selectHospital?: HospitalModel;
+  selectHospital?: EDIHosBuffModel;
   selectPharma: EDIPharmaBuffModel[] = [];
   activeIndex: number = 0;
   uploadFileBuffModel: UploadFileBuffModel[] = [];
@@ -54,32 +54,45 @@ export class EdiRequestComponent extends FComponentBase {
     this.fDialogService.warn("getApplyDateList", ret.msg);
   }
   async getHospitalList(): Promise<void> {
-    const ret = await FExtensions.restTry(async() => await this.thisService.getHospitalList(),
+    if (this.selectApplyDate == null) {
+      return;
+    }
+    const applyDate = `${this.selectApplyDate.year}-${this.selectApplyDate.month}-01`;
+    const ret = await FExtensions.restTry(async() => await this.thisService.getHospitalList(applyDate),
       e => this.fDialogService.error("getHospitalList", e));
     if (ret.result) {
       this.hospitalList = ret.data ?? [];
-      if (this.hospitalList.length == 1) {
+      if (this.hospitalList.length >= 1) {
         this.selectHospital = this.hospitalList[0];
+        await this.getPharmaList();
       }
       return;
     }
     this.fDialogService.warn("getHospitalList", ret.msg);
   }
   async getPharmaList(): Promise<void> {
-    const hosPK = this.selectHospital?.thisPK;
-    if (hosPK == null) {
-      return;
-    }
-    this.setLoading();
-    const ret = await FExtensions.restTry(async() => await this.thisService.getPharmaList(hosPK),
-      e => this.fDialogService.error("getPharmaList", e));
-    this.setLoading(false);
-    if (ret.result) {
-      this.pharmaList = ret.data ?? [];
+    if (this.selectHospital) {
+      this.pharmaList = [...this.selectHospital.pharmaList];
       this.selectPharma = this.pharmaList;
-      return;
     }
-    this.fDialogService.warn("getPharmaList", ret.msg);
+//    const hosPK = this.selectHospital?.thisPK;
+//    if (hosPK == null) {
+//      return;
+//    }
+//    if (this.selectApplyDate == null) {
+//      return;
+//    }
+//    const applyDate = `${this.selectApplyDate.year}-${this.selectApplyDate.month}-01`;
+//    this.setLoading();
+//    const ret = await FExtensions.restTry(async() => await this.thisService.getPharmaList(hosPK, applyDate),
+//      e => this.fDialogService.error("getPharmaList", e));
+//    this.setLoading(false);
+//    if (ret.result) {
+//      this.pharmaList = ret.data ?? [];
+//      this.selectPharma = this.pharmaList;
+//      return;
+//    }
+//    this.fDialogService.warn("getPharmaList", ret.msg);
   }
   async getMedicineList(): Promise<void> {
     const hosPK = this.selectHospital?.thisPK;
@@ -156,6 +169,10 @@ export class EdiRequestComponent extends FComponentBase {
     return ret;
   }
 
+  async applyDateOnSelect(): Promise<void> {
+    await this.getHospitalList();
+    this.checkSavable();
+  }
   async hospitalOnSelect(): Promise<void> {
     this.selectPharma = [];
     await this.getPharmaList();
