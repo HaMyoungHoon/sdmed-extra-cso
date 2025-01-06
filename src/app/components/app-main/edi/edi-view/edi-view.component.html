@@ -17,21 +17,21 @@
     </span>
   </div>
   <p-accordion [multiple]="multipleEnable">
-    <p-accordion-panel *ngFor="let pharma of uploadModel.pharmaList" value="{{accordionIndex(pharma)}}">
+    <p-accordion-panel *ngFor="let pharma of uploadModel.pharmaList" value="{{accordionPharmaIndex(pharma)}}">
       <p-accordion-header>
         <div>
           <span>{{pharma.orgName}}</span>
-        </div>
-        <div *ngIf="pharma.isCarriedOver">
-          <span>{{"edi-view.carried-over" | translate}}</span>
-          <span>{{"edi-view.approx-apply-date" | translate}}</span>
-          <span>{{getPharmaApplyDate(pharma)}}</span>
+          <div *ngIf="pharma.isCarriedOver">
+            <span>{{"edi-view.carried-over" | translate}}</span>
+            <span>{{"edi-view.approx-apply-date" | translate}}</span>
+            <br/>
+            <span>{{getPharmaApplyDate(pharma)}}</span>
+          </div>
         </div>
         <div>
           <span>{{"edi-view.edi-state" | translate}}</span>
-          <span>
-            <p-tag [value]="StringToEDIStateDesc[pharma.ediState]" [severity]="getEDIStateSeverity(uploadModel.ediState)" />
-          </span>
+          <br/>
+          <p-tag [value]="StringToEDIStateDesc[pharma.ediState]" [severity]="getEDIStateSeverity(pharma.ediState)" />
         </div>
       </p-accordion-header>
       <p-accordion-content>
@@ -57,6 +57,30 @@
             </tr>
           </ng-template>
         </p-table>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+  <p-accordion [multiple]="multipleEnable">
+    <p-accordion-panel *ngFor="let response of uploadModel.responseList" value="{{accordionResponseIndex(response)}}">
+      <p-accordion-header>
+        <div>
+          <span>{{response.pharmaName}}</span>
+          <br/>
+          <p-tag [value]="response.ediState" [severity]="getEDIStateSeverity(response.ediState)" />
+        </div>
+        <div>
+          <span>{{"edi-view.reply.reg-date" | translate}}</span>
+          <br/>
+          <span>{{dateToYYYYMMdd(response.regDate)}}</span>
+        </div>
+        <div>
+          <span>{{"edi-view.reply.user-name" | translate}}</span>
+          <br/>
+          <span>{{response.userName}}</span>
+        </div>
+      </p-accordion-header>
+      <p-accordion-content *ngIf="response.etc.length > 0">
+        <textarea rows="5" cols="30" pTextarea [autoResize]="true" [(ngModel)]="response.etc" [readonly]="true"></textarea>
       </p-accordion-content>
     </p-accordion-panel>
   </p-accordion>

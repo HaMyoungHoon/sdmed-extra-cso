@@ -12,6 +12,7 @@ import {stringToEDIState, StringToEDIStateDesc} from "../../../../models/rest/ed
 import {EDIUploadPharmaMedicineModel} from "../../../../models/rest/edi/edi-upload-pharma-medicine-model";
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {ActivatedRoute} from "@angular/router";
+import {EDIUploadResponseModel} from "../../../../models/rest/edi/edi-upload-response-model";
 
 @Component({
   selector: "app-edi-view",
@@ -57,8 +58,11 @@ export class EdiViewComponent extends FComponentBase {
   }
 
   multipleEnable = input(true, { transform: (v: any) => transformToBoolean(v) });
-  accordionIndex(item: EDIUploadPharmaModel): string {
+  accordionPharmaIndex(item: EDIUploadPharmaModel): string {
     return `${this.uploadModel.pharmaList.findIndex(x => x.thisPK == item.thisPK)}`;
+  }
+  accordionResponseIndex(item: EDIUploadResponseModel): string {
+    return `${this.uploadModel.responseList.findIndex(x => x.thisPK == item.thisPK)}`;
   }
 
   getBlobUrl(item: EDIUploadFileModel): string {

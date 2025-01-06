@@ -44,7 +44,7 @@
   },
   "edi-request": {
     "list": {
-      "apply-date": "apply date"
+      "apply-date": "edi date"
     },
     "hospital": "apply hospital",
     "pharma": "apply pharma"
@@ -58,11 +58,11 @@
       "org-name": "hospital name",
       "edi-state": "state",
       "reg-date": "reg date",
-      "apply-date": "apply date"
+      "apply-date": "edi date"
     }
   },
   "edi-view": {
-    "apply-date": "apply date",
+    "apply-date": "edi date",
     "reg-date": "reg date",
     "hospital-name": "hospital name",
     "user-name": "user name",
@@ -75,7 +75,12 @@
     "medicine-charge": "charge %",
     "medicine-price": "price",
     "medicine-total-price": "total price",
-    "medicine-date": "medicine price date"
+    "medicine-date": "medicine price date",
+    "reply": {
+      "edi-state": "reply state",
+      "reg-date": "reply date",
+      "user-name": "reply user"
+    }
   },
   "qna-list": {
     "table": {

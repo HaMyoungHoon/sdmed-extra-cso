@@ -13,13 +13,14 @@ import {TableModule} from "primeng/table";
 import {Button} from "primeng/button";
 import {Tooltip} from "primeng/tooltip";
 import {Image} from "primeng/image";
+import {Textarea} from "primeng/textarea";
 
 
 
 @NgModule({
   declarations: [EdiViewComponent],
   imports: [
-    CommonModule, EdiViewRoutingModule, TranslatePipe, GalleriaModule, ProgressSpinComponent, Tag, Accordion, AccordionPanel, AccordionHeader, Select, FormsModule, AccordionContent, TableModule, Button, Tooltip, Image
+    CommonModule, EdiViewRoutingModule, TranslatePipe, GalleriaModule, ProgressSpinComponent, Tag, Accordion, AccordionPanel, AccordionHeader, Select, FormsModule, AccordionContent, TableModule, Button, Tooltip, Image, Textarea
   ]
 })
 export class EdiViewModule { }

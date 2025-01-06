@@ -44,7 +44,7 @@
   },
   "edi-request": {
     "list": {
-      "apply-date": "적용일"
+      "apply-date": "EDI 날짜"
     },
     "hospital": "적용병원",
     "pharma": "적용제약사"
@@ -58,11 +58,11 @@
       "org-name": "병원명",
       "edi-state": "상태",
       "reg-date": "등록일",
-      "apply-date": "적용일"
+      "apply-date": "EDI 날짜"
     }
   },
   "edi-view": {
-    "apply-date": "반영요청일",
+    "apply-date": "EDI 날짜",
     "reg-date": "등록일",
     "hospital-name": "병원명",
     "user-name": "이름",
@@ -75,7 +75,12 @@
     "medicine-charge": "수수료율 %",
     "medicine-price": "가격",
     "medicine-total-price": "총액",
-    "medicine-date": "가격반영일"
+    "medicine-date": "가격반영일",
+    "reply": {
+      "edi-state": "응답 상태",
+      "reg-date": "응답일",
+      "user-name": "응답 유저"
+    }
   },
   "qna-list": {
     "table": {
