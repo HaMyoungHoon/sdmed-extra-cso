@@ -35,15 +35,15 @@ export class EdiRequestComponent extends FComponentBase {
   }
 
   override async ngInit(): Promise<void> {
-    this.setLoading();
     await this.getApplyDateList();
     await this.getHospitalList();
-    this.setLoading(false);
   }
 
   async getApplyDateList(): Promise<void> {
+    this.setLoading();
     const ret = await FExtensions.restTry(async() => await this.thisService.getApplyDateList(),
       e => this.fDialogService.error("getApplyDateList", e));
+    this.setLoading(false);
     if (ret.result) {
       this.applyDateList = ret.data ?? [];
       if (this.applyDateList.length >= 1) {
@@ -57,9 +57,11 @@ export class EdiRequestComponent extends FComponentBase {
     if (this.selectApplyDate == null) {
       return;
     }
+    this.setLoading();
     const applyDate = `${this.selectApplyDate.year}-${this.selectApplyDate.month}-01`;
     const ret = await FExtensions.restTry(async() => await this.thisService.getHospitalList(applyDate),
       e => this.fDialogService.error("getHospitalList", e));
+    this.setLoading(false);
     if (ret.result) {
       this.hospitalList = ret.data ?? [];
       if (this.hospitalList.length >= 1) {
