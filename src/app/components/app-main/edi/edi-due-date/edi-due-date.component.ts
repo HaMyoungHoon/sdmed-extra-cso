@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, signal, ViewChild} from "@angular/core";
 import {FComponentBase} from "../../../../guards/f-component-base";
 import {FullCalendarComponent} from "@fullcalendar/angular";
 import {EDIPharmaDueDateModel} from "../../../../models/rest/edi/edi-pharma-due-date-model";
-import {CalendarOptions, DatesSetArg, EventApi} from "@fullcalendar/core";
+import {CalendarOptions, DatesSetArg, EventApi, EventClickArg} from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import {UserRole} from "../../../../models/rest/user/user-role";
@@ -30,16 +30,17 @@ export class EdiDueDateComponent extends FComponentBase {
     initialView: "dayGridMonth",
     weekends: true,
     editable: false,
-    selectable: false,
+    selectable: true,
     dayMaxEvents: true,
     locale: "ko",
     timeZone: "UTC",
     datesSet: this.datesSet.bind(this),
     eventsSet: this.eventSet.bind(this),
+    eventClick: this.eventClick.bind(this),
     contentHeight: "800px",
   });
   constructor(private thisService: EdiDueDateService, private cd: ChangeDetectorRef) {
-    super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.UserChanger, UserRole.Employee, UserRole.EdiChanger));
+    super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.UserChanger, UserRole.BusinessMan));
     const sub = new Subject<any>();
     this.sub.push(sub);
     this.translateService.onLangChange.pipe(takeUntil(sub)).subscribe((event: LangChangeEvent) => {
@@ -92,6 +93,9 @@ export class EdiDueDateComponent extends FComponentBase {
   }
   async eventSet(events: EventApi[]): Promise<void> {
     this.cd.detectChanges();
+  }
+  async eventClick(data: EventClickArg): Promise<void> {
+    this.fDialogService.info(data.event.title, FExtensions.dateToYYYYMMdd(data.event.start));
   }
 
   addEvent(dueDateModel: EDIPharmaDueDateModel): void {
