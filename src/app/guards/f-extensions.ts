@@ -13,6 +13,9 @@ import {QnAState} from "../models/rest/qna/qna-state";
 import {EDIState} from "../models/rest/edi/edi-state";
 import {UserStatus} from "../models/rest/user/user-status";
 
+export type voidFunc = () => void;
+export type anyFunc = (x: any) => void;
+
 export function numberWithCommas(data: string): string {
   return data.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -121,6 +124,17 @@ export function getUserStatusSeverity(data?: UserStatus): any {
   return "danger";
 }
 
+export function tryCatch<T>(fn: () => T, onError?: (e: any) => void): T | null {
+  try {
+    return fn();
+  } catch (e: any) {
+    if (onError) {
+      onError(e);
+    }
+
+    return null;
+  }
+}
 export async function tryCatchAsync<T>(fn: () => Promise<T>, onError?: (e: any) => void): Promise<T | null> {
   try {
     return await fn();

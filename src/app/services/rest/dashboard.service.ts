@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {HttpResponseInterceptorService} from "../common/http-response-interceptor.service";
 import {RestResult} from "../../models/common/rest-result";
 import {HowMuchModel} from "../../models/rest/how-much-model";
@@ -7,7 +7,7 @@ import {HowMuchPharmaModel} from "../../models/rest/how-much-pharma-model";
 import {HowMuchMedicineModel} from "../../models/rest/how-much-medicine-model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class DashboardService {
   private baseUrl = "/apiCSO/extra/dashboard";

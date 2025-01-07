@@ -17,4 +17,10 @@ export class RestResult<T> {
     this.result = false;
     return this;
   }
+  getResult(data?: T): RestResult<T> {
+    this.result = true;
+    this.code = 200;
+    this.data = data;
+    return this;
+  }
 }

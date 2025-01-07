@@ -2,6 +2,7 @@ export const AUTH_TOKEN: string = "token";
 
 export const STORAGE_KEY_LANG: string = "lang";
 export const THEME_LINK: string = "app-theme";
+export const MQTT_CONNECT_DATA: string = "mqtt-connect";
 
 export const NOTFOUND_URL: string = "/notfound";
 export const API_CSO: string = "/apiCSO";
