@@ -14,7 +14,7 @@ import {Editor, EditorTextChangeEvent} from "primeng/editor";
 import {QnAReplyModel} from "../../../../../models/rest/qna/qna-reply-model";
 import {UploadFileBuffModel} from "../../../../../models/common/upload-file-buff-model";
 import {DOCUMENT} from "@angular/common";
-import {restTry} from "../../../../../guards/f-extensions";
+import {ableFilename, restTry} from "../../../../../guards/f-extensions";
 import * as FConstants from "../../../../../guards/f-constants";
 import {QnAReplyFileModel} from "../../../../../models/rest/qna/qna-reply-file-model";
 
@@ -85,14 +85,14 @@ export class QnaViewComponent extends FComponentBase {
     const ret = await FExtensions.tryCatchAsync(async() => await this.commonService.downloadFile(item.blobUrl),
       e => this.fDialogService.error("downloadFile", e));
     if (ret && ret.body) {
-      saveAs(ret.body, item.originalFilename);
+      saveAs(ret.body, FExtensions.ableFilename(item.originalFilename));
     }
   }
   async downloadReplyFile(item: QnAReplyFileModel): Promise<void> {
     const ret = await FExtensions.tryCatchAsync(async() => await this.commonService.downloadFile(item.blobUrl),
       e => this.fDialogService.error("downloadFile", e));
     if (ret && ret.body) {
-      saveAs(ret.body, item.originalFilename);
+      saveAs(ret.body, FExtensions.ableFilename(item.originalFilename));
     }
   }
 

@@ -240,7 +240,7 @@ function getBlobModel(blobName: string, thisPK: string, file: File, ext: string)
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
     obj.uploaderPK = thisPK;
-    obj.originalFilename = file.name;
+    obj.originalFilename = ableFilename(file.name);
     obj.mimeType = getMimeTypeExt(ext);
   });
 }
@@ -256,7 +256,7 @@ export function getQnAPostFileModel(file: File, ext: string, mimeType: string): 
   return applyClass(QnAFileModel, (obj) => {
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
-    obj.originalFilename = file.name;
+    obj.originalFilename = ableFilename(file.name);
     obj.mimeType = mimeType;
   });
 }
@@ -269,7 +269,7 @@ export function getQnAReplyPostFileModel(file: File, thisPK: string, ext: string
     obj.replyPK = thisPK;
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
-    obj.originalFilename = file.name;
+    obj.originalFilename = ableFilename(file.name);
     obj.mimeType = mimeType;
   });
 }
@@ -281,7 +281,7 @@ export function getEDIUploadFileModel(file: File, ext: string, mimeType: string)
   return applyClass(EDIUploadFileModel, (obj) => {
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
-    obj.originalFilename = file.name;
+    obj.originalFilename = ableFilename(file.name);
     obj.mimeType = mimeType;
   });
 }
@@ -296,7 +296,7 @@ export async function gatheringAbleFile(fileList: FileList, notAble: (file: File
     }
     ret.push(applyClass(UploadFileBuffModel, (obj) => {
       obj.file = buff;
-      obj.filename = buff.name;
+      obj.filename = ableFilename(buff.name);
       obj.mimeType = getMimeTypeExt(ext);
       obj.blobUrl = parseFileBlobUrl(buff, ext);
       obj.ext = ext;
@@ -386,6 +386,10 @@ export function isImage(ext: string): boolean {
   if (ext == "gif") return true;
 
   return false;
+}
+export function ableFilename(filename: string): string {
+  const invalidChars = /[\\\/:*?"<>|]/g;
+  return filename.replace(invalidChars, "");
 }
 export function getExtMimeType(mimeType: string): string {
   switch (mimeType) {
