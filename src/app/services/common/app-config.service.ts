@@ -1,5 +1,6 @@
 import {computed, effect, inject, Injectable, PLATFORM_ID, signal} from "@angular/core";
-import * as FConstants from "../../guards/f-constants"
+import * as FConstants from "../../guards/f-constants";
+import * as FAmhohwa from "../../guards/f-amhohwa";
 import {AppState} from "../../models/common/app-state";
 import {DOCUMENT, isPlatformBrowser} from "@angular/common";
 
@@ -103,8 +104,8 @@ export class AppConfigService {
   }
   private loadAppState(): AppState {
     if (isPlatformBrowser(this.platformId)) {
-      const storedState = localStorage.getItem(FConstants.THEME_LINK);
-      if (storedState) {
+      const storedState = FAmhohwa.getLocalStorage(FConstants.THEME_LINK);
+      if (storedState.length > 0) {
         return JSON.parse(storedState);
       }
     }
@@ -121,7 +122,7 @@ export class AppConfigService {
 
   private saveAppState(state: any): void {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem(FConstants.THEME_LINK, JSON.stringify(state));
+      FAmhohwa.setLocalStorage(FConstants.THEME_LINK, JSON.stringify(state));
     }
   }
 }
