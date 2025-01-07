@@ -1,4 +1,4 @@
-import {Component, input} from "@angular/core";
+import {Component, ElementRef, input, ViewChild} from "@angular/core";
 import {FComponentBase} from "../../../../guards/f-component-base";
 import {EdiListService} from "../../../../services/rest/edi-list.service";
 import {UserRole} from "../../../../models/rest/user/user-role";
@@ -8,11 +8,12 @@ import {EDIUploadFileModel} from "../../../../models/rest/edi/edi-upload-file-mo
 import {saveAs} from "file-saver";
 import {EDIUploadPharmaModel} from "../../../../models/rest/edi/edi-upload-pharma-model";
 import {transformToBoolean} from "primeng/utils";
-import {stringToEDIState, StringToEDIStateDesc} from "../../../../models/rest/edi/edi-state";
+import {EDIState, StringToEDIStateDesc} from "../../../../models/rest/edi/edi-state";
 import {EDIUploadPharmaMedicineModel} from "../../../../models/rest/edi/edi-upload-pharma-medicine-model";
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {ActivatedRoute} from "@angular/router";
 import {EDIUploadResponseModel} from "../../../../models/rest/edi/edi-upload-response-model";
+import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
 
 @Component({
   selector: "app-edi-view",
@@ -21,8 +22,11 @@ import {EDIUploadResponseModel} from "../../../../models/rest/edi/edi-upload-res
   standalone: false,
 })
 export class EdiViewComponent extends FComponentBase {
+  @ViewChild("inputFiles") inputFiles!: ElementRef<HTMLInputElement>;
   thisPK: string = "";
   uploadModel: EDIUploadModel = new EDIUploadModel();
+  uploadFileBuffModel: UploadFileBuffModel[] = [];
+  activeIndex: number = 0;
   constructor(private thisService: EdiListService, private route: ActivatedRoute) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
     this.thisPK = this.route.snapshot.params["thisPK"];
@@ -79,9 +83,103 @@ export class EdiViewComponent extends FComponentBase {
       saveAs(ret.body, item.originalFilename);
     }
   }
+  async fileUpload(): Promise<void> {
+    this.inputFiles.nativeElement.click();
+  }
+  async fileSelected(data: Event): Promise<void> {
+    const input = data.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.setLoading();
+      const gatheringFile = (await FExtensions.gatheringAbleFile(input.files, (file: File): void => {
+        this.translateService.get("common-desc.not-supported-file").subscribe(x => {
+          this.fDialogService.warn("fileUpload", `${file.name} ${x}`);
+        });
+      })).filter(x => !!x.file);
+      if (gatheringFile.length > 0) {
+        this.uploadFileBuffModel = this.uploadFileBuffModel.concat(gatheringFile);
+        this.uploadFileBuffModel = FExtensions.distinctByFields(this.uploadFileBuffModel, ["file.name", "file.size"]);
+      }
+      this.inputFiles.nativeElement.value = "";
+
+      this.setLoading(false);
+    }
+  }
+  get acceptFiles(): string {
+    return ".jpg,.jpeg,.png,.webp,.bmp,.xlsx,.pdf,.heif,.heic,.gif";
+  }
+  async uploadAdditionalFile(): Promise<void> {
+    if (this.uploadFileBuffModel.length <= 0) {
+      return;
+    }
+    this.setLoading();
+    const fileList: EDIUploadFileModel[] = [];
+    const azureUploadRet = await this.uploadAzure(fileList);
+    if (!azureUploadRet) {
+      this.setLoading(false);
+      return;
+    }
+    const ret = await FExtensions.restTry(async() => await this.thisService.postFile(this.thisPK, fileList),
+      e => this.fDialogService.error("saveData", e));
+    this.setLoading(false);
+    if (ret.result) {
+      this.uploadFileBuffModel.forEach(x => x.revokeBlob());
+      window.location.reload();
+      return;
+    }
+    this.fDialogService.warn("saveData", ret.msg);
+  }
+  async uploadAzure(fileList: EDIUploadFileModel[]): Promise<boolean> {
+    let ret = true;
+    for (const buff of this.uploadFileBuffModel) {
+      const uploadFile = FExtensions.getEDIUploadFileModel(buff.file!!, buff.ext, buff.mimeType);
+      const sasKey = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(uploadFile.blobName),
+        e => this.fDialogService.error("saveData", e));
+      if (!sasKey.result) {
+        this.fDialogService.warn("saveData", sasKey.msg);
+        ret = false;
+        break;
+      }
+      await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, uploadFile.blobName, sasKey.data ?? "", uploadFile.mimeType),
+        e => {
+          this.fDialogService.error("saveData", e);
+          ret = false;
+        });
+      if (!ret) {
+        break;
+      }
+      fileList.push(uploadFile);
+    }
+
+    return ret;
+  }
+  deleteUploadFile(data: UploadFileBuffModel): void {
+    const index = this.uploadFileBuffModel.indexOf(data);
+    if (index == this.uploadFileBuffModel.length - 1) {
+      if (this.uploadFileBuffModel.length - 1 > 0) {
+        this.activeIndex = this.uploadFileBuffModel.length - 2;
+      } else {
+        this.activeIndex = 0;
+      }
+    }
+
+    if (index >= 0) {
+      data.revokeBlob();
+      this.uploadFileBuffModel.splice(index, 1);
+    }
+  }
 
   get downloadFileTooltip(): string {
     return "common-desc.save";
+  }
+  get removeFileTooltip(): string {
+    return "common-desc.remove";
+  }
+  get uploadAble(): boolean {
+    if (this.thisPK.length <= 0) return false;
+    return this.uploadModel.ediState != EDIState.OK && this.uploadModel.ediState != EDIState.Reject
+  }
+  get saveAble(): boolean {
+    return this.uploadFileBuffModel.length > 0;
   }
 
   protected readonly dateToYYYYMMdd = FExtensions.dateToYYYYMMdd;
@@ -89,6 +187,5 @@ export class EdiViewComponent extends FComponentBase {
   protected readonly getEDIStateSeverity = FExtensions.getEDIStateSeverity;
   protected readonly tableStyle = FConstants.tableStyle;
   protected readonly galleriaContainerStyle = FConstants.galleriaContainerStyle;
-  protected readonly stringToEDIState = stringToEDIState;
   protected readonly StringToEDIStateDesc = StringToEDIStateDesc;
 }
