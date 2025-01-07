@@ -3,7 +3,7 @@ import {HttpResponseInterceptorService} from "../common/http-response-intercepto
 import {RestResult} from "../../models/common/rest-result";
 import {MqttConnectModel} from "../../models/rest/mqtt/mqtt-connect-model";
 import {MqttContentModel} from "../../models/rest/mqtt/mqtt-content-model";
-import mqtt from "mqtt";
+import mqtt, {IDisconnectPacket} from "mqtt";
 import * as FConstants from "../../guards/f-constants";
 import * as FAmhohwa from "../../guards/f-amhohwa";
 import * as FExtensions from "../../guards/f-extensions";
@@ -16,6 +16,7 @@ export class MqttService {
   private baseUrl = "/apiCSO/mqtt";
   mqttClient?: mqtt.MqttClient
   mqttMessageSubject: Subject<MqttContentModel> = new Subject();
+  mqttDisconnectSubject: Subject<IDisconnectPacket> = new Subject<IDisconnectPacket>();
 
   constructor(private httpResponse: HttpResponseInterceptorService) { }
 
@@ -40,7 +41,7 @@ export class MqttService {
     const options: mqtt.IClientOptions = {
       defaultProtocol: "wss",
       protocol: "wss",
-      clientId: `intra-cso-${clientId}`
+      clientId: `extra-cso-${clientId}`
     }
     const search: string[] = mqttConnectModel.brokerUrl.filter(x => x.includes("ws://") || x.includes("wss://"));
     if (search.length <= 0) {
@@ -57,8 +58,11 @@ export class MqttService {
         });
       });
     });
-    this.mqttClient.on("message", (topic: string, message: Buffer): void => {
-      this.mqttMessageSubject.next(new MqttContentModel().parseThis(topic, message));
+    this.mqttClient.on("message", (topic: string, payload: Buffer): void => {
+      this.mqttMessageSubject.next(new MqttContentModel().parseThis(topic, payload));
+    });
+    this.mqttClient.on("disconnect", (packet: IDisconnectPacket): void => {
+      this.mqttDisconnectSubject.next(packet);
     });
   }
   mqttDisconnect(): void {
@@ -69,6 +73,13 @@ export class MqttService {
   }
   setMqttMessageObserver(func: FExtensions.anyFunc | undefined): void {
     this.mqttMessageSubject.pipe().subscribe((x: MqttContentModel): void => {
+      if (func) {
+        func(x);
+      }
+    });
+  }
+  setMqttDisconnectObserver(func: FExtensions.anyFunc | undefined): void {
+    this.mqttDisconnectSubject.pipe().subscribe((x: IDisconnectPacket): void => {
       if (func) {
         func(x);
       }

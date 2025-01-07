@@ -1,11 +1,13 @@
 export class MqttContentModel {
   topic: string = "";
+  senderPK: string = "";
+  senderName: string = "";
   content: string = "";
   targetItemPK: string = "";
 
-  parseThis(topic: string, message: Buffer): MqttContentModel {
+  parseThis(topic: string, payload: Buffer): MqttContentModel {
     this.topic = topic;
-    console.log(message);
+    console.log(payload);
     return this;
   }
 }
