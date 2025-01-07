@@ -35,6 +35,7 @@ export class SignDialogComponent extends FDialogComponentBase {
       e => this.fDialogService.error("signIn catch", e));
     if (ret.result) {
       FAmhohwa.setLocalStorage(FConstants.AUTH_TOKEN, ret.data ?? "");
+      window.location.reload();
       this.ref.close();
       return;
     }
