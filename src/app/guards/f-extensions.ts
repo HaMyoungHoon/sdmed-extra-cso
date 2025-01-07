@@ -12,6 +12,8 @@ import {UploadFileBuffModel} from "../models/common/upload-file-buff-model";
 import {QnAState} from "../models/rest/qna/qna-state";
 import {EDIState} from "../models/rest/edi/edi-state";
 import {UserStatus} from "../models/rest/user/user-status";
+import {UserFileModel} from "../models/rest/user/user-file-model";
+import {FileViewModel} from "../models/common/file-view-model";
 
 export type voidFunc = () => void;
 export type anyFunc = (x: any) => void;
@@ -300,6 +302,40 @@ export function getEDIUploadFileModel(file: File, ext: string, mimeType: string)
   });
 }
 
+export function userFileListToViewModel(userFileList: UserFileModel[]): FileViewModel[] {
+  return userFileList.map(x => applyClass(FileViewModel, (obj) => {
+    obj.mimeType = x.mimeType;
+    obj.blobUrl = x.blobUrl;
+    obj.filename = ableFilename(x.originalFilename);
+    obj.ext = getExtMimeType(x.mimeType);
+  }));
+}
+
+export function ediFileListToViewModel(ediFileList: EDIUploadFileModel[]): FileViewModel[] {
+  return ediFileList.map(x => applyClass(FileViewModel, (obj) => {
+    obj.mimeType = x.mimeType;
+    obj.blobUrl = x.blobUrl;
+    obj.filename = ableFilename(x.originalFilename);
+    obj.ext = getExtMimeType(x.mimeType);
+  }));
+}
+export function qnaFileListToViewModel(qnaFileList: QnAFileModel[]): FileViewModel[] {
+  return qnaFileList.map(x => applyClass(FileViewModel, (obj) => {
+    obj.mimeType = x.mimeType;
+    obj.blobUrl = x.blobUrl;
+    obj.filename = ableFilename(x.originalFilename);
+    obj.ext = getExtMimeType(x.mimeType);
+  }));
+}
+export function qnaReplyFileListToViewModel(qnaReplyFileList: QnAReplyFileModel[]): FileViewModel[] {
+  return qnaReplyFileList.map(x => applyClass(FileViewModel, (obj) => {
+    obj.mimeType = x.mimeType;
+    obj.blobUrl = x.blobUrl;
+    obj.filename = ableFilename(x.originalFilename);
+    obj.ext = getExtMimeType(x.mimeType);
+  }));
+}
+
 export async function gatheringAbleFile(fileList: FileList, notAble: (file: File) => void): Promise<UploadFileBuffModel[]> {
   const ret: UploadFileBuffModel[] = [];
   for (let buff of fileList) {
@@ -325,6 +361,23 @@ export function getFilenameExt(filename: string): string {
     return "";
   }
   return filename.substring(dotIndex).toLowerCase();
+}
+export function blobUrlThumbnail(blobUrl: string, mimeType: string): string {
+  const ext = getExtMimeType(mimeType);
+
+  if (isImage(ext)) {
+    return blobUrl;
+  } else if (ext == "zip") {
+    return FConstants.ASSETS_ZIP_IMAGE;
+  } else if (ext == "pdf") {
+    return FConstants.ASSETS_PDF_IMAGE;
+  } else if (ext == "xlsx" || ext == "xls") {
+    return FConstants.ASSETS_XLSX_IMAGE;
+  } else if (ext == "docx" || ext == "doc" ) {
+    return FConstants.ASSETS_DOCX_IMAGE;
+  }
+
+  return FConstants.ASSETS_NO_IMAGE;
 }
 export function parseFileBlobUrl(file: File, ext?: string): string {
   if (ext == null) {

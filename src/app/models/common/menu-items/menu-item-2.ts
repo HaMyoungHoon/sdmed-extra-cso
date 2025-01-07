@@ -1,5 +1,6 @@
 import {MenuItem} from "primeng/api";
 import * as FConstants from "../../../guards/f-constants";
+import {EDI_NEW_REQUEST_URL} from "../../../guards/f-constants";
 
 export function MenuItem2(): MenuItem {
   return {
@@ -16,10 +17,16 @@ export function MenuItem2(): MenuItem {
         label: "menu-2.sub-menu.sub-2",
         icon: "pi pi-fw pi-list-check",
         styleClass: "top-menu",
-        routerLink: `/${FConstants.EDI_LIST_URL}`,
+        routerLink: `/${FConstants.EDI_NEW_REQUEST_URL}`,
       },
       {
         label: "menu-2.sub-menu.sub-3",
+        icon: "pi pi-fw pi-list-check",
+        styleClass: "top-menu",
+        routerLink: `/${FConstants.EDI_LIST_URL}`,
+      },
+      {
+        label: "menu-2.sub-menu.sub-4",
         icon: "pi pi-fw pi-calendar",
         styleClass:"top-menu",
         routerLink: `/${FConstants.EDI_DUE_DATE_URL}`,

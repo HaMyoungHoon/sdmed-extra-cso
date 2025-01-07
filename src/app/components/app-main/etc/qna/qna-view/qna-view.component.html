@@ -21,7 +21,7 @@
       <p-galleria class="flex m-1 justify-content-center" [value]="qnaContentModel.fileList" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
                   [containerStyle]="galleriaContainerStyle" [numVisible]="0">
         <ng-template pTemplate="item" let-item>
-          <img [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="qna-image"/>
+          <img [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="qna-image" (click)="viewItem(qnaContentModel.fileList, item)"/>
         </ng-template>
         <ng-template pTemplate="caption" let-item>
           <div class="flex">
@@ -49,7 +49,7 @@
           <p-galleria [value]="replyModel.fileList" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
                       [containerStyle]="galleriaContainerStyle" [numVisible]="0">
             <ng-template pTemplate="item" let-item>
-              <img [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="qna-image"/>
+              <img [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="qna-image" (click)="viewReplyItem(replyModel.fileList, item)"/>
             </ng-template>
             <ng-template pTemplate="caption" let-item>
               <div class="flex">

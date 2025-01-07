@@ -8,9 +8,10 @@
   "menu-2": {
     "title": "edi",
     "sub-menu": {
-      "sub-1": "edi 요청",
-      "sub-2": "edi 목록",
-      "sub-3": "edi 마감일"
+      "sub-1": "edi 등록",
+      "sub-2": "edi 신규처 등록",
+      "sub-3": "edi 목록",
+      "sub-4": "edi 마감일"
     }
   },
   "menu-3": {
@@ -109,7 +110,9 @@
       "dept": "부서",
       "status": "상태",
       "reg-date": "등록일",
-      "last-login-date": "마지막 로그인일"
+      "last-login-date": "마지막 로그인일",
+      "cso-report-image": "CSO 신고증",
+      "marketing-contract-image": "마케팅 계약서"
     },
     "hos-data": {
       "code": "코드",

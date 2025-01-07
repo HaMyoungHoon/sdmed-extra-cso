@@ -8,58 +8,46 @@ import {ElementRef} from "@angular/core";
 import {FDialogService} from "../services/common/f-dialog.service";
 import {stringArrayToUserRole, userRoleToFlag} from "../models/rest/user/user-role";
 import {StatusDescToUserStatus} from "../models/rest/user/user-status";
+import {UserFileModel} from "../models/rest/user/user-file-model";
+import {UserFileType} from "../models/rest/user/user-file-type";
 
-export async function bankAccountImageSelected(event: any, data: UserDataModel, service: MyInfoService, commonService: CommonService, azureBlobService: AzureBlobService): Promise<RestResult<UserDataModel>> {
+export async function imageSelected(event: any, data: UserDataModel, userFileType: UserFileType, service: MyInfoService, commonService: CommonService, azureBlobService: AzureBlobService): Promise<RestResult<UserFileModel>> {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {
     const file = input.files[0];
     const ext = await FExtensions.getFileExt(file);
     if (!FExtensions.isImage(ext)) {
-      return new RestResult<UserDataModel>().setFail("only image file");
+      return new RestResult<UserFileModel>().setFail("only image file");
     }
     const blobModel = FExtensions.getUserBlobModel(data.id, file, ext);
     const sasKey = await commonService.getGenerateSas(blobModel.blobName);
     if (sasKey.result != true) {
-      return new RestResult<UserDataModel>().setFail(sasKey.msg);
+      return new RestResult<UserFileModel>().setFail(sasKey.msg);
     }
     await azureBlobService.putUpload(file, blobModel.blobName, sasKey.data ?? "", blobModel.mimeType);
-    const ret = await service.putUserBankImageUrl(blobModel);
+    const ret = await service.putUserFileImageUrl(blobModel, userFileType);
     if (ret.result) {
       return ret;
     }
-    return new RestResult<UserDataModel>().setFail(ret.msg);
+    return new RestResult<UserFileModel>().setFail(ret.msg);
   }
 
-  return new RestResult<UserDataModel>().setFail("only image file");
+  return new RestResult<UserFileModel>().setFail("only image file");
 }
-
-export async function taxpayerImageSelected(event: any, data: UserDataModel, service: MyInfoService, commonService: CommonService, azureBlobService: AzureBlobService): Promise<RestResult<UserDataModel>> {
-  const input = event.target as HTMLInputElement;
-  if (input.files && input.files.length > 0) {
-    const file = input.files[0];
-    const ext = await FExtensions.getFileExt(file);
-    if (!FExtensions.isImage(ext)) {
-      return new RestResult<UserDataModel>().setFail("only image file");
-    }
-    const blobModel = FExtensions.getUserBlobModel(data.id, file, ext);
-    const sasKey = await commonService.getGenerateSas(blobModel.blobName);
-    if (sasKey.result != true) {
-      return new RestResult<UserDataModel>().setFail(sasKey.msg);
-    }
-
-    await azureBlobService.putUpload(file, blobModel.blobName, sasKey.data ?? "", blobModel.mimeType);
-    const ret = await service.putUserTaxImageUrl(blobModel);
-    if (ret.result) {
-      return ret;
-    }
-    return new RestResult<UserDataModel>().setFail(ret.msg);
-  }
-  return new RestResult<UserDataModel>().setFail("only image file");
-}
-
-export function userImageView(dataUrl: string, input: ElementRef<HTMLInputElement>, fDialogService: FDialogService): void {
-  if (dataUrl.length <= 0) {
+export function userImageView(fileModel: UserFileModel | undefined, input: ElementRef<HTMLInputElement>, fDialogService: FDialogService): void {
+  if (fileModel) {
     input.nativeElement.click();
     return;
   }
+  fDialogService.openFullscreenFileView({
+    closable: false,
+    closeOnEscape: true,
+    draggable: true,
+    resizable: true,
+    maximizable: true,
+    data: {
+      file: FExtensions.userFileListToViewModel(Array<UserFileModel>(fileModel!!)),
+      index: 0
+    }
+  });
 }

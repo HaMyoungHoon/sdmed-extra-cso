@@ -4,6 +4,8 @@ import {RestResult} from "../../models/common/rest-result";
 import {UserDataModel} from "../../models/rest/user/user-data-model";
 import {BlobUploadModel} from "../../models/rest/blob-upload-model";
 import * as FAmhohwa from "../../guards/f-amhohwa";
+import {UserFileType} from "../../models/rest/user/user-file-type";
+import {UserFileModel} from "../../models/rest/user/user-file-model";
 
 @Injectable({
   providedIn: "root"
@@ -23,10 +25,8 @@ export class MyInfoService {
     this.httpResponse.addParam("confirmPW", confirmPW);
     return this.httpResponse.put(`${this.baseUrl}/passwordChange`);
   }
-  putUserTaxImageUrl(blobModel: BlobUploadModel): Promise<RestResult<UserDataModel>> {
-    return this.httpResponse.put(`${this.baseUrl}/file/${FAmhohwa.getThisPK()}/taxImage`, blobModel);
-  }
-  putUserBankImageUrl(blobModel: BlobUploadModel): Promise<RestResult<UserDataModel>> {
-    return this.httpResponse.put(`${this.baseUrl}/file/${FAmhohwa.getThisPK()}/bankImage`, blobModel);
+  putUserFileImageUrl(blobModel: BlobUploadModel, userFileType: UserFileType): Promise<RestResult<UserFileModel>> {
+    this.httpResponse.addParam("userFileType", userFileType);
+    return this.httpResponse.put(`${this.baseUrl}/file${FAmhohwa.getThisPK()}`, blobModel);
   }
 }

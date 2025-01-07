@@ -8,9 +8,10 @@
   "menu-2": {
     "title": "edi",
     "sub-menu": {
-      "sub-1": "edi request",
-      "sub-2": "edi list",
-      "sub-3": "edi due date"
+      "sub-1": "edi upload",
+      "sub-2": "edi upload (new location)",
+      "sub-3": "edi list",
+      "sub-4": "edi due date"
     }
   },
   "menu-3": {
@@ -109,7 +110,9 @@
       "dept": "dept",
       "status": "status",
       "reg-date": "reg date",
-      "last-login-date": "last login date"
+      "last-login-date": "last login date",
+      "cso-report-image": "cso report",
+      "marketing-contract-image": "marketing contract"
     },
     "hos-data": {
       "code": "code",

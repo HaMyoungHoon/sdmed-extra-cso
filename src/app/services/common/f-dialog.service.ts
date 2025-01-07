@@ -8,6 +8,9 @@ import {SignDialogComponent} from "../../components/common/dialog/sign-dialog/si
 import {
   PasswordChangeDialogComponent
 } from "../../components/common/dialog/password-change-dialog/password-change-dialog.component";
+import {
+  FullScreenFileViewDialogComponent
+} from "../../components/common/dialog/full-screen-file-view-dialog/full-screen-file-view-dialog.component";
 
 @Injectable({
   providedIn: "root"
@@ -24,6 +27,10 @@ export class FDialogService {
       closeOnEscape: false,
     });
 
+    return this.ref.onClose;
+  }
+  openFullscreenFileView(config: DynamicDialogConfig): Observable<any> {
+    this.ref = this.dialogService.open(FullScreenFileViewDialogComponent, config);
     return this.ref.onClose;
   }
   openPasswordChangeDialog(config: DynamicDialogConfig): Observable<any> {

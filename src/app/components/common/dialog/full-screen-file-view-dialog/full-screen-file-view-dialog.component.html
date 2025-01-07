@@ -1,0 +1,23 @@
+<div>
+  <app-progress-spin [isLoading]="isLoading" />
+  <div class="m-1" *ngIf="!isLoading">
+    <p-button class="m-1" size="small" icon="pi pi-angle-left" (click)="prev()" [rounded]="true" [disabled]="!prevAble" />
+    <p-button class="m-1" size="small" icon="pi pi-angle-right" (click)="next()" [rounded]="true" [disabled]="!nextAble" />
+    <p-button class="m-1" size="small" icon="pi pi-times" (click)="close()" [rounded]="true" />
+  </div>
+  <div *ngIf="isImage">
+    <p-image [src]="getImageSrc" [alt]="getFilename" width="100%" height="100%" [preview]="true" />
+  </div>
+  <div *ngIf="isDoc">
+    <p-image [src]="getDocSrc" [alt]="getFilename" width="100%" height="100%" [preview]="true" />
+  </div>
+  <div *ngIf="isZip">
+    <p-image [src]="getZipSrc" [alt]="getFilename" width="100%" height="100%" [preview]="true" />
+  </div>
+  <div *ngIf="isPdf">
+    <ngx-extended-pdf-viewer class="pdf-viewer-container" [src]="getPdfSrc" />
+  </div>
+  <div class="flex w-full h-full" *ngIf="isExcel">
+    <div id="excelTable" class="flex"></div>
+  </div>
+</div>

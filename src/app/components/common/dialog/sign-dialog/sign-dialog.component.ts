@@ -11,13 +11,7 @@ import {InputText} from "primeng/inputtext";
 
 @Component({
   selector: "app-sign-dialog",
-  imports: [
-    Password,
-    FloatLabel,
-    FormsModule,
-    Button,
-    InputText
-  ],
+  imports: [Password, FloatLabel, FormsModule, Button, InputText],
   templateUrl: "./sign-dialog.component.html",
   styleUrl: "./sign-dialog.component.scss",
   standalone: true,

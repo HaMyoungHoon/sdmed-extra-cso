@@ -24,6 +24,9 @@ export class PasswordChangeDialogComponent extends FDialogComponentBase {
     super();
   }
 
+  close(): void {
+    this.ref.close();
+  }
   async passwordChange(): Promise<void> {
     if (this.afterPW.length < 4) {
       this.translateService.get("password-change-dialog.warn.after-pw").subscribe(x => {

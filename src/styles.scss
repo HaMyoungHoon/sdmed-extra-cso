@@ -2,6 +2,8 @@
 
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
+@import "handsontable/styles/handsontable.min.css";
+@import "handsontable/styles/ht-theme-main.min.css";
 
 .collapse {
   display: none;
@@ -21,4 +23,7 @@
 
 app-qna-write .p-editor-content, .ql-editor {
   min-height: 360px;
+}
+.p-dialog-header {
+  display: none !important;
 }

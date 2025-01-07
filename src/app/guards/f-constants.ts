@@ -10,6 +10,7 @@ export const API_CSO: string = "/apiCSO";
 export const DASH_BOARD_URL: string = "dashBoard";
 
 export const EDI_REQUEST_URL: string = "ediRequest";
+export const EDI_NEW_REQUEST_URL: string = "ediNewRequest";
 export const EDI_LIST_URL: string = "ediList";
 export const EDI_VIEW_URL: string = "ediList/:thisPK";
 export const EDI_DUE_DATE_URL: string = "ediDueDate";

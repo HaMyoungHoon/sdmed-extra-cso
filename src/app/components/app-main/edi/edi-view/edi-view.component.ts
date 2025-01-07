@@ -14,6 +14,7 @@ import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {ActivatedRoute} from "@angular/router";
 import {EDIUploadResponseModel} from "../../../../models/rest/edi/edi-upload-response-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
+import {UserFileModel} from "../../../../models/rest/user/user-file-model";
 
 @Component({
   selector: "app-edi-view",
@@ -75,6 +76,19 @@ export class EdiViewComponent extends FComponentBase {
       return item.blobUrl;
     }
     return FExtensions.extToBlobUrl(ext);
+  }
+  async viewItem(data: EDIUploadFileModel[], item: EDIUploadFileModel): Promise<void> {
+    this.fDialogService.openFullscreenFileView({
+      closable: false,
+      closeOnEscape: true,
+      maximizable: true,
+      width: "100%",
+      height: "100%",
+      data: {
+        file: FExtensions.ediFileListToViewModel(data),
+        index: data.findIndex(x => x.thisPK == item.thisPK)
+      }
+    });
   }
   async downloadEDIFile(item: EDIUploadFileModel): Promise<void> {
     const ret = await FExtensions.tryCatchAsync(async() => await this.commonService.downloadFile(item.blobUrl),

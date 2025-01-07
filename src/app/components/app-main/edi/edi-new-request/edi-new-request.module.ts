@@ -1,0 +1,21 @@
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import {EdiNewRequestComponent} from "./edi-new-request.component";
+import {EdiNewRequestRoutingModule} from "./edi-new-request-routing.module";
+import {ProgressSpinComponent} from "../../../common/progress-spin/progress-spin.component";
+import {Listbox} from "primeng/listbox";
+import {TranslatePipe} from "@ngx-translate/core";
+import {FormsModule} from "@angular/forms";
+import {GalleriaModule} from "primeng/galleria";
+import {Button} from "primeng/button";
+import {Tooltip} from "primeng/tooltip";
+
+
+
+@NgModule({
+  declarations: [EdiNewRequestComponent],
+  imports: [
+    CommonModule, EdiNewRequestRoutingModule, ProgressSpinComponent, Listbox, TranslatePipe, FormsModule, GalleriaModule, Button, Tooltip
+  ]
+})
+export class EdiNewRequestModule { }

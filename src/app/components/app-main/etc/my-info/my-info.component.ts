@@ -11,6 +11,7 @@ import {transformToBoolean} from "primeng/utils";
 import {Subject, takeUntil} from "rxjs";
 import {statusToUserStatusDesc} from "../../../../models/rest/user/user-status";
 import {HospitalModel} from "../../../../models/rest/hospital/hospital-model";
+import {UserFileType} from "../../../../models/rest/user/user-file-type";
 
 @Component({
   selector: "app-my-info",
@@ -21,6 +22,8 @@ import {HospitalModel} from "../../../../models/rest/hospital/hospital-model";
 export class MyInfoComponent extends FComponentBase {
   @ViewChild("taxpayerImageInput") taxpayerImageInput!: ElementRef<HTMLInputElement>
   @ViewChild("bankAccountImageInput") bankAccountImageInput!: ElementRef<HTMLInputElement>
+  @ViewChild("csoReportImageInput") csoReportImageInput!: ElementRef<HTMLInputElement>
+  @ViewChild("marketingContractImageInput") marketingContractImageInput!: ElementRef<HTMLInputElement>
   userDataModel: UserDataModel = new UserDataModel();
   selectedHosData: HospitalModel = new HospitalModel();
   constructor(private thisService: MyInfoService) {
@@ -60,55 +63,36 @@ export class MyInfoComponent extends FComponentBase {
     this.router.navigate([`/`]).then();
   }
 
-  get taxpayerImageAble(): boolean {
-    return this.userDataModel.taxpayerImageUrl.length > 0;
-  }
-  get taxpayerImageUrl(): string {
-    if (this.userDataModel.taxpayerImageUrl.length > 0) {
-      return this.userDataModel.taxpayerImageUrl
+  userImageUrl(userFileType: UserFileType): string {
+    const file = this.userDataModel.fileList.find(x => x.userFileType == userFileType);
+    if (file) {
+      return FExtensions.blobUrlThumbnail(file.blobUrl, file.mimeType);
     }
 
     return FConstants.ASSETS_NO_IMAGE;
   }
-  taxpayerImageView(): void {
-    FUserInfoMethod.userImageView(this.userDataModel.taxpayerImageUrl, this.taxpayerImageInput, this.fDialogService);
+  userImageView(userFileType: UserFileType): void {
+    const file = this.userDataModel.fileList.find(x => x.userFileType == userFileType);
+    FUserInfoMethod.userImageView(file, this.taxpayerImageInput, this.fDialogService);
   }
-  async taxpayerImageSelected(event: any): Promise<void> {
+  async userImageSelected(event: any, userFileType: UserFileType): Promise<void> {
     this.setLoading();
-    const ret = await FExtensions.restTry(async() => await FUserInfoMethod.taxpayerImageSelected(event, this.userDataModel, this.thisService, this.commonService, this.azureBlobService),
-      e => this.fDialogService.error("taxpayerImageSelected", e));
+    const ret = await FExtensions.restTry(async() => await FUserInfoMethod.imageSelected(event, this.userDataModel, userFileType, this.thisService, this.commonService, this.azureBlobService),
+      e => this.fDialogService.error(`${userFileType}`, e));
     this.setLoading(false);
-    this.taxpayerImageInput.nativeElement.value = "";
+    switch (userFileType) {
+      case UserFileType.Taxpayer: this.taxpayerImageInput.nativeElement.value = ""; break;
+      case UserFileType.BankAccount: this.bankAccountImageInput.nativeElement.value = ""; break;
+      case UserFileType.CsoReport: this.csoReportImageInput.nativeElement.value = ""; break;
+      case UserFileType.MarketingContract: this.marketingContractImageInput.nativeElement.value = ""; break;
+    }
     if (ret.result) {
-      this.userDataModel.taxpayerImageUrl = ret.data?.taxpayerImageUrl ?? ""
+      if (ret.data) {
+        this.userDataModel.fileList.push(ret.data)
+      }
       return;
     }
-    this.fDialogService.warn("taxpayerImageSelected", ret.msg);
-  }
-  get bankAccountImageAble(): boolean {
-    return this.userDataModel.bankAccountImageUrl.length > 0;
-  }
-  get bankAccountImageUrl(): string {
-    if (this.userDataModel.bankAccountImageUrl.length > 0) {
-      return this.userDataModel.bankAccountImageUrl
-    }
-
-    return FConstants.ASSETS_NO_IMAGE;
-  }
-  bankAccountImageView(): void {
-    FUserInfoMethod.userImageView(this.userDataModel.bankAccountImageUrl, this.bankAccountImageInput, this.fDialogService);
-  }
-  async bankAccountImageSelected(event: any): Promise<void> {
-    this.setLoading();
-    const ret = await FExtensions.restTry(async() => await FUserInfoMethod.bankAccountImageSelected(event, this.userDataModel, this.thisService, this.commonService, this.azureBlobService),
-      e => this.fDialogService.error("bankAccountImageSelected", e));
-    this.setLoading(false);
-    this.bankAccountImageInput.nativeElement.value = "";
-    if (ret.result) {
-      this.userDataModel.bankAccountImageUrl = ret.data?.bankAccountImageUrl ?? ""
-      return;
-    }
-    this.fDialogService.warn("bankAccountImageView", ret.msg);
+    this.fDialogService.warn(`${userFileType}`, ret.msg);
   }
 
   multipleEnable = input(true, { transform: (v: any) => transformToBoolean(v) });
@@ -119,4 +103,5 @@ export class MyInfoComponent extends FComponentBase {
   protected readonly dateToYearFullString = FExtensions.dateToYearFullString;
   protected readonly stringToDate = FExtensions.stringToDate;
   protected readonly statusToUserStatusDesc = statusToUserStatusDesc;
+  protected readonly UserFileType = UserFileType;
 }

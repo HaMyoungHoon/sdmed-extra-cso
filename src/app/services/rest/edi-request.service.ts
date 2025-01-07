@@ -35,4 +35,7 @@ export class EdiRequestService {
   postData(ediUploadModel: EDIUploadModel): Promise<RestResult<EDIUploadModel>> {
     return this.httpResponse.post(`${this.baseUrl}/data`, ediUploadModel);
   }
+  postNewData(ediUploadModel: EDIUploadModel): Promise<RestResult<EDIUploadModel>> {
+    return this.httpResponse.post(`${this.baseUrl}/data/new`, ediUploadModel);
+  }
 }

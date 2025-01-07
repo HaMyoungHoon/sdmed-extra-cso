@@ -81,6 +81,32 @@ export class QnaViewComponent extends FComponentBase {
     }
     return FExtensions.extToBlobUrl(ext);
   }
+  viewItem(data: QnAFileModel[], item: QnAFileModel): void {
+    this.fDialogService.openFullscreenFileView({
+      closable: false,
+      closeOnEscape: true,
+      maximizable: true,
+      width: "100%",
+      height: "100%",
+      data: {
+        file: FExtensions.qnaFileListToViewModel(data),
+        index: data.findIndex(x => x.thisPK == item.thisPK)
+      }
+    });
+  }
+  viewReplyItem(data: QnAReplyFileModel[], item: QnAReplyFileModel): void {
+    this.fDialogService.openFullscreenFileView({
+      closable: false,
+      closeOnEscape: true,
+      maximizable: true,
+      width: "100%",
+      height: "100%",
+      data: {
+        file: FExtensions.qnaReplyFileListToViewModel(data),
+        index: data.findIndex(x => x.thisPK == item.thisPK)
+      }
+    });
+  }
   async downloadFile(item: QnAFileModel): Promise<void> {
     const ret = await FExtensions.tryCatchAsync(async() => await this.commonService.downloadFile(item.blobUrl),
       e => this.fDialogService.error("downloadFile", e));

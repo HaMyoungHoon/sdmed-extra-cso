@@ -44,16 +44,26 @@
           <label class="col-6">{{dateToYearFullString(stringToDate(userDataModel.lastLoginDate))}}</label>
         </div>
         <div class="field grid">
-          <label class="col-fixed m-1">{{userDataModel.companyNumber}}</label>
-          <div class="col m-1">
-            <p-image width="100" height="100" [src]="taxpayerImageUrl" [alt]="userDataModel.companyNumber" (click)="taxpayerImageView()" [preview]="taxpayerImageAble" />
+          <div class="col">
+            <label>{{userDataModel.companyNumber}}</label>
+            <p-image width="100" height="100" [src]="userImageUrl(UserFileType.Taxpayer)" [alt]="userDataModel.companyNumber" (click)="userImageView(UserFileType.Taxpayer)" />
           </div>
-          <label class="col-fixed m-1">{{userDataModel.bankAccount}}</label>
-          <div class="col m-1">
-            <p-image width="100" height="100" [src]="bankAccountImageUrl" [alt]="userDataModel.bankAccount" (click)="bankAccountImageView()" [preview]="bankAccountImageAble" />
+          <div class="col">
+            <label>{{userDataModel.bankAccount}}</label>
+            <p-image width="100" height="100" [src]="userImageUrl(UserFileType.BankAccount)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.BankAccount)" />
           </div>
-          <input #taxpayerImageInput class="collapse" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp" (change)="taxpayerImageSelected($event)">
-          <input #bankAccountImageInput class="collapse" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp" (change)="bankAccountImageSelected($event)">
+          <div class="col">
+            <label>{{"my-info.detail.cso-report-image" | translate}}</label>
+            <p-image width="100" height="100" [src]="userImageUrl(UserFileType.CsoReport)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.CsoReport)" />
+          </div>
+          <div class="col">
+            <label>{{"my-info.detail.marketing-contract-image" | translate}}</label>
+            <p-image width="100" height="100" [src]="userImageUrl(UserFileType.MarketingContract)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.MarketingContract)" />
+          </div>
+          <input #taxpayerImageInput class="collapse" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp" (change)="userImageSelected($event, UserFileType.Taxpayer)">
+          <input #bankAccountImageInput class="collapse" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp" (change)="userImageSelected($event, UserFileType.BankAccount)">
+          <input #csoReportImageInput class="collapse" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp" (change)="userImageSelected($event, UserFileType.CsoReport)">
+          <input #marketingContractImageInput class="collapse" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp" (change)="userImageSelected($event, UserFileType.MarketingContract)">
         </div>
       </p-accordion-content>
     </p-accordion-panel>

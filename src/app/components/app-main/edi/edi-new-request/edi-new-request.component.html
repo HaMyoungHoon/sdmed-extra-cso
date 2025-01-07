@@ -1,0 +1,33 @@
+<div class="edi-request-container grid w-full">
+  <app-progress-spin [isLoading]="isLoading" />
+  <div class="col-12 flex flex-column justify-content-center">
+    <label class="flex justify-content-center">{{"edi-request.list.apply-date" | translate}}</label>
+    <p-list-box class="flex justify-content-center max-h-10rem" [options]="applyDateList" [(ngModel)]="selectApplyDate" [multiple]="false"
+                (onChange)="applyDateOnSelect()">
+      <ng-template pTemplate="item" let-data>
+        <div class="flex">
+          <div>{{listItemApplyDateModel(data)}}</div>
+        </div>
+      </ng-template>
+    </p-list-box>
+  </div>
+  <div class="col-12 flex flex-column justify-content-center">
+    <p-galleria class="flex justify-content-center" [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
+                [containerStyle]="galleriaContainerStyle" [numVisible]="0" [(activeIndex)]="activeIndex">
+      <ng-template pTemplate="item" let-item>
+        <img [src]="item.blobUrl" [alt]="item.originalFilename" class="edi-image"/>
+      </ng-template>
+      <ng-template pTemplate="caption" let-item>
+        <div class="flex">
+          <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="deleteUploadFile(item)" />
+          <label class="m-1">{{ellipsis(item.file.name)}}</label>
+        </div>
+      </ng-template>
+    </p-galleria>
+    <div class="flex grid justify-content-center m-1">
+      <p-button class="m-1 flex field align-content-center" size="small" (click)="fileUpload()">{{"common-desc.add" | translate}}</p-button>
+      <p-button class="m-1 flex field align-content-center" size="small" (click)="saveData()" [disabled]="!saveAble">{{"common-desc.save" | translate}}</p-button>
+      <input #inputFiles class="collapse" type="file" [accept]="acceptFiles" (change)="fileSelected($event)" [multiple]="true" />
+    </div>
+  </div>
+</div>
