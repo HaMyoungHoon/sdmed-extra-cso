@@ -38,7 +38,7 @@ export class FDialogService {
     this.add(data.level, data.title, data.detail)
   }
   alert(level: ToastLevel, title: string, detail: string): void {
-    this.add(level, title, detail);
+    this.add(level, title, detail, true);
   }
   warn(title: string, detail?: string): void {
     if ((detail?.length ?? 0) <= 0) {
@@ -56,7 +56,7 @@ export class FDialogService {
     if ((detail?.length ?? 0) <= 0) {
       return;
     }
-    this.add(ToastLevel.info, title, detail);
+    this.add(ToastLevel.info, title, detail, true);
   }
   success(title: string, detail?: string): void {
     if ((detail?.length ?? 0) <= 0) {
@@ -65,11 +65,12 @@ export class FDialogService {
     this.add(ToastLevel.success, title, detail);
   }
 
-  add(severity: string, title: string, detail?: string): void {
+  add(severity: string, title: string, detail?: string, sticky: boolean = false): void {
     this.messageService.add({
       severity: severity,
       summary: title,
-      detail: detail
+      detail: detail,
+      sticky: sticky
     });
   }
 }
