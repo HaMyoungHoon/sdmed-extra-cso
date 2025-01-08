@@ -16,8 +16,8 @@ export class UserDataModel {
   companyNumber: string = "";
   companyAddress: string = "";
   bankAccount: string = "";
-  regDate: string = "";
-  lastLoginDate?: string = "";
+  regDate: Date = new Date();
+  lastLoginDate?: Date;
   motherPK: string = "";
   children: UserDataModel[] = [];
   hosList: HospitalModel[] = [];

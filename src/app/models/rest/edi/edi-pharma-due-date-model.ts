@@ -5,5 +5,5 @@ export class EDIPharmaDueDateModel {
   year: string = "";
   month: string = "";
   day: string = "";
-  regDate: string = "";
+  regDate: Date = new Date();
 }
