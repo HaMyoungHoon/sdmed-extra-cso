@@ -6,5 +6,6 @@ export class UserFileModel {
   blobUrl: string = "";
   originalFilename: string = "";
   mimeType: string = "";
+  regDate: Date = new Date();
   userFileType: UserFileType = UserFileType.Taxpayer
 }

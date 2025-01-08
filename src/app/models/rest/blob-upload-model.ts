@@ -4,4 +4,5 @@ export class BlobUploadModel {
   uploaderPK: string = "";
   originalFilename: string = "";
   mimeType: string = "";
+  regDate: Date = new Date();
 }

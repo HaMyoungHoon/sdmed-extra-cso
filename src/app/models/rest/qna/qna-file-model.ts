@@ -5,4 +5,5 @@ export class QnAFileModel {
   blobName: string = "";
   originalFilename: string = "";
   mimeType: string = "";
+  regDate: Date = new Date();
 }
