@@ -125,7 +125,7 @@
   },
   "password-change-dialog": {
     "warn": {
-      "after-pw": "4자 이상 입력해주세요.",
+      "after-pw": "문자, 숫자 조합의 8-20자를 입력해주세요.",
       "confirm-pw": "바꿀 비밀번호와 확인이 일치하지 않습니다."
     },
     "current-pw": "현재 비밀번호",

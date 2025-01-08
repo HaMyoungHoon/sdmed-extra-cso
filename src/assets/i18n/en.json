@@ -125,7 +125,7 @@
   },
   "password-change-dialog": {
     "warn": {
-      "after-pw": "plz input more than 4 character",
+      "after-pw": "plz input 8-20 characters of letters and numbers.",
       "confirm-pw": "password un match"
     },
     "current-pw": "current pw",

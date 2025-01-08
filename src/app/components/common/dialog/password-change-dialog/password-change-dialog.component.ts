@@ -28,7 +28,7 @@ export class PasswordChangeDialogComponent extends FDialogComponentBase {
     this.ref.close();
   }
   async passwordChange(): Promise<void> {
-    if (this.afterPW.length < 4) {
+    if (FExtensions.regexPasswordCheck(this.afterPW)) {
       this.translateService.get("password-change-dialog.warn.after-pw").subscribe(x => {
         this.fDialogService.warn("passwordChange", x);
       });
@@ -62,9 +62,9 @@ export class PasswordChangeDialogComponent extends FDialogComponentBase {
   setPasswordChange(): void {
     if (this.currentPW.length <= 0) {
       this.passwordChangeDisable = true;
-    } else if (this.afterPW.length <= 0) {
+    } else if (this.afterPW.length <= 7) {
       this.passwordChangeDisable = true;
-    } else if (this.confirmPW.length <= 0) {
+    } else if (this.confirmPW.length <= 7) {
       this.passwordChangeDisable = true;
     } else {
       this.passwordChangeDisable = false;
