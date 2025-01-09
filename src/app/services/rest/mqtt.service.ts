@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 import {HttpResponseInterceptorService} from "../common/http-response-interceptor.service";
 import {RestResult} from "../../models/common/rest-result";
 import {MqttConnectModel} from "../../models/rest/mqtt/mqtt-connect-model";
@@ -8,6 +8,7 @@ import * as FConstants from "../../guards/f-constants";
 import * as FAmhohwa from "../../guards/f-amhohwa";
 import * as FExtensions from "../../guards/f-extensions";
 import {Subject} from "rxjs";
+import {MqttContentType} from "../../models/rest/mqtt/mqtt-content-type";
 
 @Injectable({
   providedIn: "root"
@@ -30,8 +31,33 @@ export class MqttService {
     return this.httpResponse.get(`${this.baseUrl}/subscribe`);
   }
   postPublish(topic: string, mqttContentModel: MqttContentModel): Promise<RestResult<any>> {
+    if (this.mqttClient?.connected != true) {
+      return new Promise((resolve): void => {
+        resolve(new RestResult<any>().setFail("통신에러"));
+      });
+    }
     this.httpResponse.addParam("topic", topic);
     return this.httpResponse.post(`${this.baseUrl}/publish`, mqttContentModel);
+  }
+  async postQnA(thisPK: string, content: string): Promise<RestResult<any>> {
+    await this.postPublish("extra-cso", FExtensions.applyClass(MqttContentModel, (obj) => {
+      obj.contentType = MqttContentType.QNA_REQUEST;
+      obj.content = content;
+      obj.targetItemPK = thisPK;
+    }));
+    return new Promise((resolve): void => {
+      resolve(new RestResult<any>().setFail("통신에러"));
+    });
+  }
+  async postEDIRequest(thisPK: string, content: string): Promise<RestResult<any>> {
+    await this.postPublish("extra-cso", FExtensions.applyClass(MqttContentModel, (obj) => {
+      obj.contentType = MqttContentType.EDI_REQUEST;
+      obj.content = content;
+      obj.targetItemPK = thisPK;
+    }));
+    return new Promise((resolve): void => {
+      resolve(new RestResult<any>().setFail("통신에러"));
+    });
   }
   mqttConnect(mqttConnectModel: MqttConnectModel): void {
     if (this.mqttClient?.connected) {
@@ -41,7 +67,9 @@ export class MqttService {
     const options: mqtt.IClientOptions = {
       defaultProtocol: "wss",
       protocol: "wss",
-      clientId: `extra-cso-${clientId}`
+      clientId: `extra-cso-${clientId}`,
+      username: mqttConnectModel.userName,
+      password: mqttConnectModel.password
     }
     const search: string[] = mqttConnectModel.brokerUrl.filter(x => x.includes("ws://") || x.includes("wss://"));
     if (search.length <= 0) {
@@ -57,6 +85,12 @@ export class MqttService {
           }
         });
       });
+    });
+    this.mqttClient.on("error", (error: Error | mqtt.ErrorWithReasonCode): void => {
+      const reasonCode = (error as mqtt.ErrorWithReasonCode);
+      if (reasonCode.code == 3) {
+        FAmhohwa.removeLocalStorage(FConstants.MQTT_CONNECT_DATA);
+      }
     });
     this.mqttClient.on("message", (topic: string, payload: Buffer): void => {
       this.mqttMessageSubject.next(new MqttContentModel().parseThis(topic, payload));

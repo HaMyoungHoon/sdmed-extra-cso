@@ -32,6 +32,17 @@ export class QnaWriteComponent extends FComponentBase {
   override async ngInit(): Promise<void> {
   }
 
+  async mqttSend(thisPK: string | undefined, content: string | undefined): Promise<void> {
+    if (thisPK == undefined || content == undefined) {
+      return;
+    }
+    const ret = await FExtensions.restTry(async() => await this.mqttService.postQnA(thisPK, content));
+//    e => this.fDialogService.warn("notice", e));
+//    if (ret.result) {
+//      return;
+//    }
+//    this.fDialogService.warn("notice", ret.msg);
+  }
   async saveData(): Promise<void> {
     this.qnaContentModel = new QnAContentModel();
     this.qnaContentModel.content = this.htmlValue;
@@ -55,14 +66,15 @@ export class QnaWriteComponent extends FComponentBase {
   async uploadAzure(): Promise<boolean> {
     let ret = true;
     for (const buff of this.uploadFileBuffModel) {
-      const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(),
+      const blobName = FExtensions.getQnABlobName(buff.ext);
+      const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(blobName),
         e => this.fDialogService.error("saveData", e));
       if (!blobStorageInfo.result) {
         this.fDialogService.warn("saveData", blobStorageInfo.msg);
         ret = false;
         break;
       }
-      const qnaFileModel = FExtensions.getQnAPostFileModel(buff.file!!, blobStorageInfo.data!!, buff.ext, buff.mimeType);
+      const qnaFileModel = FExtensions.getQnAPostFileModel(buff.file!!, blobStorageInfo.data!!, blobName, buff.ext, buff.mimeType);
       await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, blobStorageInfo.data, qnaFileModel.blobName, qnaFileModel.mimeType),
         e => {
         this.fDialogService.error("saveData", e);
@@ -80,6 +92,7 @@ export class QnaWriteComponent extends FComponentBase {
     const ret = await FExtensions.restTry(async() => await this.thisService.postData(this.title, this.qnaContentModel),
       e => this.fDialogService.error("saveData", e));
     if (ret.result) {
+      await this.mqttSend(ret.data?.thisPK, ret.data?.title);
       return true;
     }
 

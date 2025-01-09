@@ -39,7 +39,8 @@ export class CommonService {
   getBlobStorageInfo(): Promise<RestResult<BlobStorageInfoModel>> {
     return this.httpResponse.get(`${this.baseUrl}/blobStorageInfo`)
   }
-  getGenerateSas(): Promise<RestResult<BlobStorageInfoModel>> {
+  getGenerateSas(blobName: string): Promise<RestResult<BlobStorageInfoModel>> {
+    this.httpResponse.addParam("blobName", blobName);
     return this.httpResponse.get(`${this.baseUrl}/generate/sas`);
   }
 

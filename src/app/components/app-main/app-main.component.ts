@@ -9,6 +9,7 @@ import {Subject, takeUntil} from "rxjs";
 import {MqttConnectModel} from "../../models/rest/mqtt/mqtt-connect-model";
 import {MqttService} from "../../services/rest/mqtt.service";
 import {MqttContentModel} from "../../models/rest/mqtt/mqtt-content-model";
+import {MqttContentType} from "../../models/rest/mqtt/mqtt-content-type";
 
 @Component({
   selector: "app-app-main",
@@ -100,7 +101,7 @@ export class AppMainComponent implements AfterViewInit, OnDestroy {
         this.menuConfig.menuClose();
       }
     });
-//    await this.mqttInit();
+    await this.mqttInit();
   }
 
   async mqttInit(): Promise<void> {
@@ -118,6 +119,19 @@ export class AppMainComponent implements AfterViewInit, OnDestroy {
   }
 
   async mqttMessageParse(mqttContentModel: MqttContentModel): Promise<void> {
-    this.fDialogService.info("info", mqttContentModel.content);
+    if (mqttContentModel.senderPK == FAmhohwa.getThisPK()) {
+      return;
+    }
+    let title = "";
+    switch (mqttContentModel.contentType) {
+      case MqttContentType.None: title = "info"; break;
+      case MqttContentType.QNA_REQUEST: title = "QNA"; break;
+      case MqttContentType.QNA_REPLY: title = "QNA"; break;
+      case MqttContentType.EDI_REQUEST: title = "EDI Request"; break;
+      case MqttContentType.EDI_REJECT: title = "EDI Reject"; break;
+      case MqttContentType.EDI_OK: title = "EDI OK"; break;
+      case MqttContentType.EDI_RECEP: title = "EDI Recep"; break;
+    }
+    this.fDialogService.info(title, `${mqttContentModel.senderName}\n${mqttContentModel.content}`);
   }
 }

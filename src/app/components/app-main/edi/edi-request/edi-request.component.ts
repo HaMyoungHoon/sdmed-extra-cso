@@ -12,6 +12,7 @@ import {EDIUploadPharmaModel} from "../../../../models/rest/edi/edi-upload-pharm
 import {EDIUploadPharmaMedicineModel} from "../../../../models/rest/edi/edi-upload-pharma-medicine-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
 import {EDIHosBuffModel} from "../../../../models/rest/edi/edi-hos-buff-model";
+import {getEDIUploadBlobName} from "../../../../guards/f-extensions";
 
 @Component({
   selector: "app-edi-request",
@@ -66,8 +67,10 @@ export class EdiRequestComponent extends FComponentBase {
       this.hospitalList = ret.data ?? [];
       if (this.hospitalList.length >= 1) {
         this.selectHospital = this.hospitalList[0];
-        await this.getPharmaList();
+      } else {
+        this.selectHospital = undefined;
       }
+      await this.getPharmaList();
       return;
     }
     this.fDialogService.warn("getHospitalList", ret.msg);
@@ -76,6 +79,9 @@ export class EdiRequestComponent extends FComponentBase {
     if (this.selectHospital) {
       this.pharmaList = [...this.selectHospital.pharmaList];
       this.selectPharma = this.pharmaList;
+    } else {
+      this.pharmaList = [];
+      this.selectPharma = [];
     }
 //    const hosPK = this.selectHospital?.thisPK;
 //    if (hosPK == null) {
@@ -116,6 +122,17 @@ export class EdiRequestComponent extends FComponentBase {
     this.fDialogService.warn("getMedicineList", ret.msg);
   }
 
+  async mqttSend(thisPK: string | undefined, content: string | undefined): Promise<void> {
+    if (thisPK == undefined || content == undefined) {
+      return;
+    }
+    const ret = await FExtensions.restTry(async() => await this.mqttService.postEDIRequest(thisPK, content));
+//      e => this.fDialogService.warn("notice", e));
+//    if (ret.result) {
+//      return;
+//    }
+//    this.fDialogService.warn("notice", ret.msg);
+  }
   async saveData(): Promise<void> {
     if (this.selectApplyDate == null) {
       return;
@@ -141,6 +158,7 @@ export class EdiRequestComponent extends FComponentBase {
     this.setLoading(false);
     if (ret.result) {
       this.uploadFileBuffModel.forEach(x => x.revokeBlob());
+      await this.mqttSend(ret.data?.thisPK, ret.data?.orgName);
       await this.router.navigate([`${FConstants.EDI_LIST_URL}`]);
       return;
     }
@@ -149,14 +167,15 @@ export class EdiRequestComponent extends FComponentBase {
   async uploadAzure(uploadModel: EDIUploadModel): Promise<boolean> {
     let ret = true;
     for (const buff of this.uploadFileBuffModel) {
-      const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(),
+      const blobName = FExtensions.getEDIUploadBlobName(buff.ext);
+      const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(blobName),
         e => this.fDialogService.error("saveData", e));
       if (!blobStorageInfo.result) {
         this.fDialogService.warn("saveData", blobStorageInfo.msg);
         ret = false;
         break;
       }
-      const uploadFile = FExtensions.getEDIUploadFileModel(buff.file!!, blobStorageInfo.data!!, buff.ext, buff.mimeType);
+      const uploadFile = FExtensions.getEDIUploadFileModel(buff.file!!, blobStorageInfo.data!!, blobName, buff.ext, buff.mimeType);
       await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, blobStorageInfo.data, uploadFile.blobName, uploadFile.mimeType),
         e => {
           this.fDialogService.error("saveData", e);

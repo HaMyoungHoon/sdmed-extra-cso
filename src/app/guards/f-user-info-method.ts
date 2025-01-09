@@ -10,6 +10,7 @@ import {stringArrayToUserRole, userRoleToFlag} from "../models/rest/user/user-ro
 import {StatusDescToUserStatus} from "../models/rest/user/user-status";
 import {UserFileModel} from "../models/rest/user/user-file-model";
 import {UserFileType} from "../models/rest/user/user-file-type";
+import {getUserBlobName} from "./f-extensions";
 
 export async function imageSelected(event: any, data: UserDataModel, userFileType: UserFileType, service: MyInfoService, commonService: CommonService, azureBlobService: AzureBlobService): Promise<RestResult<UserFileModel>> {
   const input = event.target as HTMLInputElement;
@@ -19,11 +20,12 @@ export async function imageSelected(event: any, data: UserDataModel, userFileTyp
     if (!FExtensions.isImage(ext)) {
       return new RestResult<UserFileModel>().setFail("only image file");
     }
-    const blobStorageInfo = await commonService.getGenerateSas();
+    const blobName = FExtensions.getUserBlobName(data.id, ext);
+    const blobStorageInfo = await commonService.getGenerateSas(blobName);
     if (blobStorageInfo.result != true || blobStorageInfo.data == undefined) {
       return new RestResult<UserFileModel>().setFail(blobStorageInfo.msg);
     }
-    const blobModel = FExtensions.getUserBlobModel(data.id, file, blobStorageInfo.data, ext);
+    const blobModel = FExtensions.getUserBlobModel(file, blobStorageInfo.data, blobName, ext);
     await azureBlobService.putUpload(file, blobStorageInfo.data, blobModel.blobName, blobModel.mimeType);
     const ret = await service.putUserFileImageUrl(blobModel, userFileType);
     if (ret.result) {

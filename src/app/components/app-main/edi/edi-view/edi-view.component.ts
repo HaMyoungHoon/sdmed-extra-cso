@@ -15,6 +15,7 @@ import {ActivatedRoute} from "@angular/router";
 import {EDIUploadResponseModel} from "../../../../models/rest/edi/edi-upload-response-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
 import {UserFileModel} from "../../../../models/rest/user/user-file-model";
+import {getEDIUploadBlobName} from "../../../../guards/f-extensions";
 
 @Component({
   selector: "app-edi-view",
@@ -145,14 +146,15 @@ export class EdiViewComponent extends FComponentBase {
   async uploadAzure(fileList: EDIUploadFileModel[]): Promise<boolean> {
     let ret = true;
     for (const buff of this.uploadFileBuffModel) {
-      const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(),
+      const blobName = FExtensions.getEDIUploadBlobName(buff.ext);
+      const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(blobName),
         e => this.fDialogService.error("saveData", e));
       if (!blobStorageInfo.result) {
         this.fDialogService.warn("saveData", blobStorageInfo.msg);
         ret = false;
         break;
       }
-      const uploadFile = FExtensions.getEDIUploadFileModel(buff.file!!, blobStorageInfo.data!!, buff.ext, buff.mimeType);
+      const uploadFile = FExtensions.getEDIUploadFileModel(buff.file!!, blobStorageInfo.data!!, blobName, buff.ext, buff.mimeType);
       await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, blobStorageInfo.data, uploadFile.blobName, uploadFile.mimeType),
         e => {
           this.fDialogService.error("saveData", e);

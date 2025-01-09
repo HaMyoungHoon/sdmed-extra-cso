@@ -14,7 +14,7 @@ import {Editor, EditorTextChangeEvent} from "primeng/editor";
 import {QnAReplyModel} from "../../../../../models/rest/qna/qna-reply-model";
 import {UploadFileBuffModel} from "../../../../../models/common/upload-file-buff-model";
 import {DOCUMENT} from "@angular/common";
-import {ableFilename, restTry} from "../../../../../guards/f-extensions";
+import {ableFilename, getQnAReplyBlobName, restTry} from "../../../../../guards/f-extensions";
 import * as FConstants from "../../../../../guards/f-constants";
 import {QnAReplyFileModel} from "../../../../../models/rest/qna/qna-reply-file-model";
 
@@ -152,14 +152,15 @@ export class QnaViewComponent extends FComponentBase {
 
     let ret = true;
     for (const buff of this.uploadFileBuffModel) {
-      const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(),
+      const blobName = FExtensions.getQnAReplyBlobName(buff.ext);
+      const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(blobName),
         e => this.fDialogService.error("saveData", e));
       if (!blobStorageInfo.result) {
         this.fDialogService.warn("saveData", blobStorageInfo.msg);
         ret = false;
         break;
       }
-      const qnaFileModel = FExtensions.getQnAReplyPostFileModel(buff.file!!, this.thisPK, blobStorageInfo.data!!, buff.ext, buff.mimeType);
+      const qnaFileModel = FExtensions.getQnAReplyPostFileModel(buff.file!!, this.thisPK, blobStorageInfo.data!!, blobName, buff.ext, buff.mimeType);
       await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, blobStorageInfo.data, qnaFileModel.blobName, qnaFileModel.mimeType),
         e => {
           this.fDialogService.error("saveData", e);
