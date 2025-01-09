@@ -19,12 +19,12 @@ export async function imageSelected(event: any, data: UserDataModel, userFileTyp
     if (!FExtensions.isImage(ext)) {
       return new RestResult<UserFileModel>().setFail("only image file");
     }
-    const blobModel = FExtensions.getUserBlobModel(data.id, file, ext);
-    const sasKey = await commonService.getGenerateSas(blobModel.blobName);
-    if (sasKey.result != true) {
-      return new RestResult<UserFileModel>().setFail(sasKey.msg);
+    const blobStorageInfo = await commonService.getGenerateSas();
+    if (blobStorageInfo.result != true || blobStorageInfo.data == undefined) {
+      return new RestResult<UserFileModel>().setFail(blobStorageInfo.msg);
     }
-    await azureBlobService.putUpload(file, blobModel.blobName, sasKey.data ?? "", blobModel.mimeType);
+    const blobModel = FExtensions.getUserBlobModel(data.id, file, blobStorageInfo.data, ext);
+    await azureBlobService.putUpload(file, blobStorageInfo.data, blobModel.blobName, blobModel.mimeType);
     const ret = await service.putUserFileImageUrl(blobModel, userFileType);
     if (ret.result) {
       return ret;

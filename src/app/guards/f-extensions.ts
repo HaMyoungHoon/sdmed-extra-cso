@@ -14,6 +14,7 @@ import {EDIState} from "../models/rest/edi/edi-state";
 import {UserStatus} from "../models/rest/user/user-status";
 import {UserFileModel} from "../models/rest/user/user-file-model";
 import {FileViewModel} from "../models/common/file-view-model";
+import {BlobStorageInfoModel} from "../models/rest/blob-storage-info-model";
 
 export type voidFunc = () => void;
 export type anyFunc = (x: any) => void;
@@ -263,8 +264,8 @@ export function ellipsis(data?: string, length: number = 20): string {
   return data;
 }
 
-function getBlobModel(blobName: string, thisPK: string, file: File, ext: string): BlobUploadModel {
-  const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
+function getBlobModel(blobName: string, thisPK: string, file: File, blobStorageInfo: BlobStorageInfoModel, ext: string): BlobUploadModel {
+  const blobUrl = `${blobStorageInfo.blobUrl}/${blobStorageInfo.blobContainerName}/${blobName}`;
   return applyClass(BlobUploadModel, (obj) => {
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
@@ -273,15 +274,15 @@ function getBlobModel(blobName: string, thisPK: string, file: File, ext: string)
     obj.mimeType = getMimeTypeExt(ext);
   });
 }
-export function getUserBlobModel(userId: string, file: File, ext: string): BlobUploadModel {
+export function getUserBlobModel(userId: string, file: File, blobStorageInfo: BlobStorageInfoModel, ext: string): BlobUploadModel {
   const blobName = `user/${userId}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
-  return getBlobModel(blobName, FAmhohwa.getThisPK(), file, ext);
+  return getBlobModel(blobName, FAmhohwa.getThisPK(), file, blobStorageInfo, ext);
 }
 
-export function getQnAPostFileModel(file: File, ext: string, mimeType: string): QnAFileModel {
+export function getQnAPostFileModel(file: File, blobStorageInfo: BlobStorageInfoModel, ext: string, mimeType: string): QnAFileModel {
   const userID = FAmhohwa.getUserID();
   const blobName = `qna/${userID}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
-  const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
+  const blobUrl = `${blobStorageInfo.blobUrl}/${blobStorageInfo.blobContainerName}/${blobName}`;
   return applyClass(QnAFileModel, (obj) => {
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;
@@ -290,10 +291,10 @@ export function getQnAPostFileModel(file: File, ext: string, mimeType: string): 
   });
 }
 
-export function getQnAReplyPostFileModel(file: File, thisPK: string, ext: string, mimeType: string): QnAReplyFileModel {
+export function getQnAReplyPostFileModel(file: File, thisPK: string, blobStorageInfo: BlobStorageInfoModel, ext: string, mimeType: string): QnAReplyFileModel {
   const userName = FAmhohwa.getUserID();
   const blobName = `qna/${userName}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
-  const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
+  const blobUrl = `${blobStorageInfo.blobUrl}/${blobStorageInfo.blobContainerName}/${blobName}`;
   return applyClass(QnAReplyFileModel, (obj) => {
     obj.replyPK = thisPK;
     obj.blobUrl = blobUrl;
@@ -303,10 +304,10 @@ export function getQnAReplyPostFileModel(file: File, thisPK: string, ext: string
   });
 }
 
-export function getEDIUploadFileModel(file: File, ext: string, mimeType: string): EDIUploadFileModel {
+export function getEDIUploadFileModel(file: File, blobStorageInfo: BlobStorageInfoModel, ext: string, mimeType: string): EDIUploadFileModel {
   const userName = FAmhohwa.getUserID();
   const blobName = `edi/${userName}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
-  const blobUrl = `${FConstants.BLOB_URL}/${FConstants.BLOB_CONTAINER_NAME}/${blobName}`;
+  const blobUrl = `${blobStorageInfo.blobUrl}/${blobStorageInfo.blobContainerName}/${blobName}`;
   return applyClass(EDIUploadFileModel, (obj) => {
     obj.blobUrl = blobUrl;
     obj.blobName = blobName;

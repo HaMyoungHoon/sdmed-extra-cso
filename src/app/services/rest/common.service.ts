@@ -4,6 +4,7 @@ import {UserStatus} from "../../models/rest/user/user-status";
 import {UserDataModel} from "../../models/rest/user/user-data-model";
 import {HttpResponseInterceptorService} from "../common/http-response-interceptor.service";
 import {HttpResponse} from "@angular/common/http";
+import {BlobStorageInfoModel} from "../../models/rest/blob-storage-info-model";
 
 @Injectable({
   providedIn: "root"
@@ -35,11 +36,10 @@ export class CommonService {
   getMyState(): Promise<RestResult<UserStatus>> {
     return this.httpResponse.get(`${this.baseUrl}/myState`);
   }
-  getGenerateSas(blobUrl: string, containerName: string = ""): Promise<RestResult<string>> {
-    if (containerName.length > 0) {
-      this.httpResponse.addParam("containerName", containerName);
-    }
-    this.httpResponse.addParam("blobUrl", blobUrl);
+  getBlobStorageInfo(): Promise<RestResult<BlobStorageInfoModel>> {
+    return this.httpResponse.get(`${this.baseUrl}/blobStorageInfo`)
+  }
+  getGenerateSas(): Promise<RestResult<BlobStorageInfoModel>> {
     return this.httpResponse.get(`${this.baseUrl}/generate/sas`);
   }
 

@@ -55,15 +55,15 @@ export class QnaWriteComponent extends FComponentBase {
   async uploadAzure(): Promise<boolean> {
     let ret = true;
     for (const buff of this.uploadFileBuffModel) {
-      const qnaFileModel = FExtensions.getQnAPostFileModel(buff.file!!, buff.ext, buff.mimeType);
-      const sasKey = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(qnaFileModel.blobName),
+      const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(),
         e => this.fDialogService.error("saveData", e));
-      if (!sasKey.result) {
-        this.fDialogService.warn("saveData", sasKey.msg);
+      if (!blobStorageInfo.result) {
+        this.fDialogService.warn("saveData", blobStorageInfo.msg);
         ret = false;
         break;
       }
-      await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, qnaFileModel.blobName, sasKey.data ?? "", qnaFileModel.mimeType),
+      const qnaFileModel = FExtensions.getQnAPostFileModel(buff.file!!, blobStorageInfo.data!!, buff.ext, buff.mimeType);
+      await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, blobStorageInfo.data, qnaFileModel.blobName, qnaFileModel.mimeType),
         e => {
         this.fDialogService.error("saveData", e);
         ret = false;

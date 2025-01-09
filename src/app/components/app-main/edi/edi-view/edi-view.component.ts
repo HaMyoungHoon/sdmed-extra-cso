@@ -145,15 +145,15 @@ export class EdiViewComponent extends FComponentBase {
   async uploadAzure(fileList: EDIUploadFileModel[]): Promise<boolean> {
     let ret = true;
     for (const buff of this.uploadFileBuffModel) {
-      const uploadFile = FExtensions.getEDIUploadFileModel(buff.file!!, buff.ext, buff.mimeType);
-      const sasKey = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(uploadFile.blobName),
+      const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(),
         e => this.fDialogService.error("saveData", e));
-      if (!sasKey.result) {
-        this.fDialogService.warn("saveData", sasKey.msg);
+      if (!blobStorageInfo.result) {
+        this.fDialogService.warn("saveData", blobStorageInfo.msg);
         ret = false;
         break;
       }
-      await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, uploadFile.blobName, sasKey.data ?? "", uploadFile.mimeType),
+      const uploadFile = FExtensions.getEDIUploadFileModel(buff.file!!, blobStorageInfo.data!!, buff.ext, buff.mimeType);
+      await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, blobStorageInfo.data, uploadFile.blobName, uploadFile.mimeType),
         e => {
           this.fDialogService.error("saveData", e);
           ret = false;
