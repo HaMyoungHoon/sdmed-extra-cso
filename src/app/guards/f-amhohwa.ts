@@ -125,10 +125,17 @@ export function getThisPK(): string {
   return getTokenThisPK(token);
 }
 export function getUserID(): string {
-  return getTokenID(getLocalStorage(AUTH_TOKEN));
+  return decodeUtf8(getTokenID(getLocalStorage(AUTH_TOKEN)));
 }
 export function getUserName(): string {
-  return getTokenName(getLocalStorage(AUTH_TOKEN));
+  return decodeUtf8(getTokenName(getLocalStorage(AUTH_TOKEN)));
+}
+function decodeUtf8(base64String: string): string {
+  return decodeURIComponent(
+    base64String.split('').map(char => {
+      return '%' + ('00' + char.charCodeAt(0).toString(16)).slice(-2);
+    }).join('')
+  );
 }
 export function getTokenThisPK(token: string): string {
   if (token.length <= 0) {
