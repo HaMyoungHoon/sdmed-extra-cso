@@ -23,7 +23,7 @@
       </tr>
     </ng-template>
     <ng-template #body let-data>
-      <tr class="qna-tr" (click)="open(data)">
+      <tr class="click-tr" (click)="open(data)">
         <td>{{data.title}}</td>
         <td>
           <p-tag [value]="QnAStateToQnAStateDesc(data.qnaState)" [severity]="getQnAStateSeverity(data.qnaState)"/>

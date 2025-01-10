@@ -27,3 +27,10 @@ app-qna-write .p-editor-content, .ql-editor {
 .p-dialog-header {
   display: none !important;
 }
+
+
+.click-tr:hover {
+  cursor: pointer;
+  background-color: var(--p-primary-700) !important;
+  color: var(--p-primary-100) !important;
+}
