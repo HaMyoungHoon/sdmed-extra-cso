@@ -14,13 +14,14 @@ import {Button} from "primeng/button";
 import {Tooltip} from "primeng/tooltip";
 import {Image} from "primeng/image";
 import {Textarea} from "primeng/textarea";
+import {ConfirmPopup} from "primeng/confirmpopup";
 
 
 
 @NgModule({
   declarations: [EdiViewComponent],
-  imports: [
-    CommonModule, EdiViewRoutingModule, TranslatePipe, GalleriaModule, ProgressSpinComponent, Tag, Accordion, AccordionPanel, AccordionHeader, Select, FormsModule, AccordionContent, TableModule, Button, Tooltip, Image, Textarea
-  ]
+	imports: [
+		CommonModule, EdiViewRoutingModule, TranslatePipe, GalleriaModule, ProgressSpinComponent, Tag, Accordion, AccordionPanel, AccordionHeader, Select, FormsModule, AccordionContent, TableModule, Button, Tooltip, Image, Textarea, ConfirmPopup
+	]
 })
 export class EdiViewModule { }

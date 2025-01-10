@@ -12,6 +12,7 @@ import {UserStatus} from "../models/rest/user/user-status";
 import {Router} from "@angular/router";
 import {Subject} from "rxjs";
 import {MqttService} from "../services/rest/mqtt.service";
+import {ConfirmationService} from "primeng/api";
 
 @Component({
   selector: "f-component-base",
@@ -29,6 +30,7 @@ export abstract class FComponentBase implements AfterContentInit, OnDestroy {
   protected commonService: CommonService;
   protected mqttService: MqttService;
   protected fDialogService: FDialogService;
+  protected confirmService: ConfirmationService;
   protected translateService: TranslateService;
   protected configService: AppConfigService;
   protected azureBlobService: AzureBlobService;
@@ -37,6 +39,7 @@ export abstract class FComponentBase implements AfterContentInit, OnDestroy {
     this.commonService = inject(CommonService);
     this.mqttService = inject(MqttService);
     this.fDialogService = inject(FDialogService);
+    this.confirmService = inject(ConfirmationService);
     this.translateService = inject(TranslateService);
     this.configService = inject(AppConfigService);
     this.azureBlobService = inject(AzureBlobService);
@@ -108,5 +111,29 @@ export abstract class FComponentBase implements AfterContentInit, OnDestroy {
 
   setLoading(data: boolean = true): void {
     this.isLoading = data;
+  }
+
+  confirmCall(event: Event, header: string = "", message: string = "", rejectLabel: string = "", acceptLabel: string = "", accept?: () => void, reject?: () => void): void {
+    this.confirmService.confirm({
+      target: event.target as EventTarget,
+      message: message,
+      header: "",
+      closable: false,
+      closeOnEscape: false,
+      icon: "pi pi-exclamation-triangle",
+      rejectButtonProps: {
+        label: rejectLabel,
+        severity: "secondary"
+      },
+      acceptButtonProps: {
+        label: acceptLabel
+      },
+      accept: (): void => {
+        if (accept) accept();
+      },
+      reject: (): void => {
+        if (reject) reject();
+      }
+    });
   }
 }

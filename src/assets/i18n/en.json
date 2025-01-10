@@ -174,7 +174,10 @@
     "close": "close",
     "change": "change",
     "complete": "complete",
+    "confirm": "confirm",
+    "cancel": "cancel",
     "sample-download": "sample download",
+    "delete-sure": "r u sure delete?",
     "in-visible": "invisible",
     "logout": "logout",
     "not-supported-file": "not supported file format"

@@ -174,7 +174,10 @@
     "close": "닫기",
     "change": "변경",
     "complete": "완료",
+    "confirm": "확인",
+    "cancel": "취소",
     "sample-download": "샘플 다운로드",
+    "delete-sure": "정말 삭제 하시겠습니까?",
     "in-visible": "숨김",
     "logout": "로그아웃",
     "not-supported-file": "지원하지 않는 파일 형식입니다."

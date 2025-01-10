@@ -94,7 +94,8 @@
         <p-button class="align-content-center" size="small" icon="pi pi-download" [rounded]="true" pTooltip="{{downloadFileTooltip | translate}}" (click)="downloadEDIFile(item)" />
         <label class="m-1">{{ellipsis(item.originalFilename)}}</label>
       </div>
-      <p-button class="flex m-1 justify-content-end ml-auto" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="removeEDIFile(item)" *ngIf="uploadAble"/>
+      <p-confirm-popup />
+      <p-button class="flex m-1 justify-content-end ml-auto" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="removeEDIFile($event, item)" *ngIf="uploadAble"/>
     </ng-template>
   </p-galleria>
   <div class="col-12 flex flex-column justify-content-center" *ngIf="uploadAble">

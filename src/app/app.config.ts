@@ -5,7 +5,7 @@ import { routes } from "./app.routes";
 import {provideHttpClient, withFetch, withInterceptors} from "@angular/common/http";
 import {HttpRequestInterceptorService} from "./services/common/http-request-interceptor.service";
 import {provideAnimationsAsync} from "@angular/platform-browser/animations/async";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {FDialogService} from "./services/common/f-dialog.service";
 import {DialogService} from "primeng/dynamicdialog";
 import {provideTranslateLoader} from "./guards/f-translate-loader";
@@ -31,6 +31,7 @@ export const appConfig: ApplicationConfig = {
     providePrimeNG({
       theme: Noir
     }),
+    ConfirmationService,
     MessageService,
     FDialogService,
     DialogService
