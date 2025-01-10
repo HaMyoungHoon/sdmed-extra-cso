@@ -34,7 +34,7 @@
       <tr class="edi-tr" (click)="open(data)">
         <td>{{ellipsis(data.orgName)}}</td>
         <td>
-          <p-tag [value]="EDIStateToEDIStateDesc(data.ediState)" [severity]="getEDIStateSeverity(data.ediState)"/>
+          <p-tag [value]="data.ediState" [severity]="getEDIStateSeverity(data.ediState)"/>
         </td>
         <td>{{dateToYYYYMMdd(data.regDate)}}</td>
         <td>{{getApplyDate(data)}}</td>

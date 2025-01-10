@@ -30,4 +30,13 @@ export class DashboardService {
     this.httpResponse.addParam("date", date);
     return this.httpResponse.get(`${this.baseUrl}/list/medicine`);
   }
+
+  getListHosDetail(hosPK: string, date: string): Promise<RestResult<HowMuchModel[]>> {
+    this.httpResponse.addParam("date", date);
+    return this.httpResponse.get(`${this.baseUrl}/list/hos/${hosPK}`);
+  }
+  getListPharmaDetail(pharmaPK: string, date: string): Promise<RestResult<HowMuchModel[]>> {
+    this.httpResponse.addParam("date", date);
+    return this.httpResponse.get(`${this.baseUrl}/list/pharma/${pharmaPK}`);
+  }
 }

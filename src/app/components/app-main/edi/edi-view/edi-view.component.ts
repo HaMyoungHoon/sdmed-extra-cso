@@ -8,14 +8,12 @@ import {EDIUploadFileModel} from "../../../../models/rest/edi/edi-upload-file-mo
 import {saveAs} from "file-saver";
 import {EDIUploadPharmaModel} from "../../../../models/rest/edi/edi-upload-pharma-model";
 import {transformToBoolean} from "primeng/utils";
-import {EDIState, StringToEDIStateDesc} from "../../../../models/rest/edi/edi-state";
+import {EDIState} from "../../../../models/rest/edi/edi-state";
 import {EDIUploadPharmaMedicineModel} from "../../../../models/rest/edi/edi-upload-pharma-medicine-model";
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {ActivatedRoute} from "@angular/router";
 import {EDIUploadResponseModel} from "../../../../models/rest/edi/edi-upload-response-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
-import {UserFileModel} from "../../../../models/rest/user/user-file-model";
-import {getEDIUploadBlobName} from "../../../../guards/f-extensions";
 
 @Component({
   selector: "app-edi-view",
@@ -203,5 +201,4 @@ export class EdiViewComponent extends FComponentBase {
   protected readonly getEDIStateSeverity = FExtensions.getEDIStateSeverity;
   protected readonly tableStyle = FConstants.tableStyle;
   protected readonly galleriaContainerStyle = FConstants.galleriaContainerStyle;
-  protected readonly StringToEDIStateDesc = StringToEDIStateDesc;
 }

@@ -7,7 +7,6 @@ import * as FExtension from "../../../guards/f-extensions";
 import {HowMuchHospitalModel} from "../../../models/rest/how-much-hospital-model";
 import {HowMuchPharmaModel} from "../../../models/rest/how-much-pharma-model";
 import {HowMuchMedicineModel} from "../../../models/rest/how-much-medicine-model";
-import {EDIStateToEDIStateDesc} from "../../../models/rest/edi/edi-state";
 
 @Component({
   selector: "app-dash-board",
@@ -273,7 +272,6 @@ export class DashBoardComponent extends FComponentBase {
     return FExtension.dateToYYYYMMdd(this.date);
   }
 
-  protected readonly EDIStateToEDIStateDesc = EDIStateToEDIStateDesc;
   protected readonly ellipsis = FExtension.ellipsis;
   protected readonly getEDIStateSeverity = FExtension.getEDIStateSeverity;
 }

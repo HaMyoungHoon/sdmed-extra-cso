@@ -4,7 +4,6 @@ import {UserRole} from "../../../../models/rest/user/user-role";
 import * as FExtensions from "../../../../guards/f-extensions";
 import * as FConstants from "../../../../guards/f-constants";
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
-import {EDIStateToEDIStateDesc} from "../../../../models/rest/edi/edi-state";
 import {EdiListService} from "../../../../services/rest/edi-list.service";
 import {Calendar} from "primeng/calendar";
 
@@ -95,7 +94,6 @@ export class EdiListComponent extends FComponentBase{
   protected readonly dateToYYYYMMdd = FExtensions.dateToYYYYMMdd;
   protected readonly getEDIStateSeverity = FExtensions.getEDIStateSeverity;
   protected readonly ellipsis = FExtensions.ellipsis;
-  protected readonly EDIStateToEDIStateDesc = EDIStateToEDIStateDesc;
   protected readonly tableStyle = FConstants.tableStyle;
   protected readonly filterTableOption = FConstants.filterTableOption;
 }

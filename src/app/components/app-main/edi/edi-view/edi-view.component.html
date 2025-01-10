@@ -13,7 +13,7 @@
   <div>
     <span>{{"edi-view.edi-state" | translate}}</span>
     <span>
-      <p-tag [value]="StringToEDIStateDesc[uploadModel.ediState]" [severity]="getEDIStateSeverity(uploadModel.ediState)" />
+      <p-tag [value]="uploadModel.ediState" [severity]="getEDIStateSeverity(uploadModel.ediState)" />
     </span>
   </div>
   <p-accordion [multiple]="multipleEnable">
@@ -31,7 +31,7 @@
         <div>
           <span>{{"edi-view.edi-state" | translate}}</span>
           <br/>
-          <p-tag [value]="StringToEDIStateDesc[pharma.ediState]" [severity]="getEDIStateSeverity(pharma.ediState)" />
+          <p-tag [value]="pharma.ediState" [severity]="getEDIStateSeverity(pharma.ediState)" />
         </div>
       </p-accordion-header>
       <p-accordion-content>
