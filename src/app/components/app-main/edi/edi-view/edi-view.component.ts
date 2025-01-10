@@ -117,6 +117,28 @@ export class EdiViewComponent extends FComponentBase {
       this.setLoading(false);
     }
   }
+  async removeEDIFile(item: EDIUploadFileModel): Promise<void> {
+    this.setLoading();
+    const ret = await FExtensions.restTry(async() => await this.thisService.deleteEDIFile(item.thisPK),
+      e => this.fDialogService.error("delete", e));
+    this.setLoading(false);
+    if (ret.result) {
+      const index = this.uploadModel.fileList.indexOf(item);
+      if (index == this.uploadModel.fileList.length - 1) {
+        if (this.uploadModel.fileList.length - 1 > 0) {
+          this.activeIndex = this.uploadModel.fileList.length - 2;
+        } else {
+          this.activeIndex = 0;
+        }
+      }
+      if (index >= 0) {
+        this.uploadModel.fileList = [...this.uploadModel.fileList.filter(x => x.thisPK != item.thisPK)];
+      }
+      return;
+    }
+    this.fDialogService.warn("delete", ret.msg);
+  }
+
   get acceptFiles(): string {
     return ".jpg,.jpeg,.png,.webp,.bmp,.xlsx,.pdf,.heif,.heic,.gif";
   }

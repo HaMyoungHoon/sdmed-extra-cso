@@ -23,4 +23,8 @@ export class EdiListService {
   postFile(thisPK: string, ediUploadFileModel: EDIUploadFileModel[]): Promise<RestResult<EDIUploadFileModel>> {
     return this.httpResponse.post(`${this.baseUrl}/file/${thisPK}`, ediUploadFileModel);
   }
+
+  deleteEDIFile(thisPK: string): Promise<RestResult<EDIUploadFileModel>> {
+    return this.httpResponse.delete(`${this.baseUrl}/data/file/${thisPK}`);
+  }
 }
