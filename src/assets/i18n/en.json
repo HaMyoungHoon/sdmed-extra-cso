@@ -139,6 +139,15 @@
       "inner-name": "inner name"
     }
   },
+  "how-much": {
+    "hospital-name": "hospital",
+    "pharma-name": "pharma",
+    "medicine-name": "medicine",
+    "count": "count",
+    "charge": "charge",
+    "price": "price",
+    "edi-state": "state"
+  },
   "password-change-dialog": {
     "warn": {
       "after-pw": "plz input 8-20 characters of letters and numbers.",

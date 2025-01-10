@@ -7,6 +7,7 @@ import * as FExtension from "../../../guards/f-extensions";
 import {HowMuchHospitalModel} from "../../../models/rest/how-much-hospital-model";
 import {HowMuchPharmaModel} from "../../../models/rest/how-much-pharma-model";
 import {HowMuchMedicineModel} from "../../../models/rest/how-much-medicine-model";
+import * as FExtensions from "../../../guards/f-extensions";
 
 @Component({
   selector: "app-dash-board",
@@ -220,6 +221,35 @@ export class DashBoardComponent extends FComponentBase {
       await this.getChartData();
       this.setLoading(false);
     }
+  }
+
+  async openHowMuchHos(data: HowMuchHospitalModel): Promise<void> {
+    this.fDialogService.openHowMuchView({
+      closable: false,
+      closeOnEscape: true,
+      maximizable: true,
+      width: "100%",
+      height: "100%",
+      data: {
+        date: FExtensions.dateToYYYYMMdd(this.date),
+        hosPK: data.thisPK,
+        pharmaPK: "",
+      }
+    });
+  }
+  async openHowMuchPharma(data: HowMuchPharmaModel): Promise<void> {
+    this.fDialogService.openHowMuchView({
+      closable: false,
+      closeOnEscape: true,
+      maximizable: true,
+      width: "100%",
+      height: "100%",
+      data: {
+        date: FExtensions.dateToYYYYMMdd(this.date),
+        hosPK: "",
+        pharmaPK: data.thisPK,
+      }
+    });
   }
 
 

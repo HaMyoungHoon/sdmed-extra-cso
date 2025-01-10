@@ -16,7 +16,7 @@
         </tr>
       </ng-template>
       <ng-template #body let-data>
-        <tr>
+        <tr class="click-tr" (click)="openHowMuchHos(data)">
           <td>{{ellipsis(data.name)}}</td>
           <td>{{data.count}}</td>
           <td>{{data.price}}</td>
@@ -37,7 +37,7 @@
         </tr>
       </ng-template>
       <ng-template #body let-data>
-        <tr>
+        <tr class="click-tr" (click)="openHowMuchPharma(data)">
           <td>{{ellipsis(data.name)}}</td>
           <td>{{data.count}}</td>
           <td>{{data.price}}</td>

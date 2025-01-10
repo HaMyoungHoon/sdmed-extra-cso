@@ -8,6 +8,7 @@ import {SignDialogComponent} from "../../components/common/dialog/sign-dialog/si
 import {PasswordChangeDialogComponent} from "../../components/common/dialog/password-change-dialog/password-change-dialog.component";
 import {FullScreenFileViewDialogComponent} from "../../components/common/dialog/full-screen-file-view-dialog/full-screen-file-view-dialog.component";
 import {Router} from "@angular/router";
+import {HowMuchDialogComponent} from "../../components/common/dialog/how-much-dialog/how-much-dialog.component";
 
 @Injectable({
   providedIn: "root"
@@ -24,6 +25,10 @@ export class FDialogService {
       closeOnEscape: false,
     });
 
+    return this.ref.onClose;
+  }
+  openHowMuchView(config: DynamicDialogConfig): Observable<any> {
+    this.ref = this.dialogService.open(HowMuchDialogComponent, config);
     return this.ref.onClose;
   }
   openFullscreenFileView(config: DynamicDialogConfig): Observable<any> {

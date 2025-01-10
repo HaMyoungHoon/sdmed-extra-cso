@@ -139,6 +139,15 @@
       "inner-name": "내부명"
     }
   },
+  "how-much": {
+    "hospital-name": "병원",
+    "pharma-name": "제약사",
+    "medicine-name": "약품",
+    "count": "개수",
+    "charge": "수수료",
+    "price": "가격",
+    "edi-state": "상태"
+  },
   "password-change-dialog": {
     "warn": {
       "after-pw": "문자, 숫자 조합의 8-20자를 입력해주세요.",

@@ -1,0 +1,40 @@
+<div class="how-much-dialog-container">
+  <p-table #listTable [value]="viewList" [scrollable]="true" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 50]" [loading]="isLoading"
+           [globalFilterFields]="filterFields" (sortFunction)="customSort($event, isSorted, listTable, initList, viewList)" [customSort]="true"
+           [tableStyle]="tableStyle" size="small" stripedRows="true">
+    <ng-template #caption>
+      <div class="flex">
+        <div class="flex ml-auto justify-content-end">
+          <p-iconfield iconPosition="left" class="m-1">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input pInputText type="text" (input)="filterTable(listTable, $event, filterTableOption)" placeholder="Search keyword" />
+          </p-iconfield>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="hospitalName">{{"how-much.hospital-name" | translate}} <p-sortIcon field="hospitalName" /></th>
+        <th pSortableColumn="pharmaName">{{"how-much.pharma-name" | translate}} <p-sortIcon field="pharmaName" /></th>
+        <th pSortableColumn="medicineName">{{"how-much.medicine-name" | translate}} <p-sortIcon field="medicineName" /></th>
+        <th>{{"how-much.count" | translate}}</th>
+        <th>{{"how-much.charge" | translate}}</th>
+        <th>{{"how-much.price" | translate}}</th>
+        <th pSortableColumn="ediState">{{"how-much.edi-state" | translate}} <p-sortIcon field="ediState" /></th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-item>
+      <tr>
+        <td>{{ellipsis(item.hospitalName)}}</td>
+        <td>{{ellipsis(item.pharmaName)}}</td>
+        <td>{{ellipsis(item.medicineName)}}</td>
+        <td>{{item.count}}</td>
+        <td>{{item.charge}}</td>
+        <td>{{item.price}}</td>
+        <td>{{item.ediState}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
