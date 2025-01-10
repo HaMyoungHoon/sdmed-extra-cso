@@ -95,6 +95,22 @@
   },
   "qna-view": {
   },
+  "medicine-price-list": {
+    "price-excel": "medicine price upload",
+    "main-ingredient-excel": "main ingredient code upload",
+    "name": "product name",
+    "pharma-name": "pharma name",
+    "main-ingredient-code": "main ingredient code",
+    "max-price": "price",
+    "custom-price": "custom price",
+    "charge": "charge %",
+    "general": "general",
+    "special": "special",
+    "price-history": "history",
+    "etc": "etc",
+    "apply-date": "apply date",
+    "ancestor-code": "ancestor code"
+  },
   "my-info": {
     "accordion-header": {
       "detail": "my info",
@@ -153,6 +169,17 @@
     "in-visible": "invisible",
     "logout": "logout",
     "not-supported-file": "not supported file format"
+  },
+  "mqtt-desc": {
+    "title": {
+      "none": "info",
+      "qna-request": "qna request",
+      "qna-reply": "qna reply",
+      "edi-request": "edi request",
+      "edi-reject": "edi reject",
+      "edi-ok": "edi ok",
+      "edi-recep": "edi recep"
+    }
   },
   "primeng": {
     "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],

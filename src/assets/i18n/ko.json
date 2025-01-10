@@ -95,6 +95,22 @@
   },
   "qna-view": {
   },
+  "medicine-price-list": {
+    "price-excel": "약가 업로드",
+    "main-ingredient-excel": "주성분코드 업로드",
+    "name": "제품명",
+    "pharma-name": "판매사",
+    "main-ingredient-code": "주성분코드",
+    "max-price": "약가",
+    "custom-price": "지정가",
+    "charge": "수수료율 %",
+    "general": "일반",
+    "special": "전문",
+    "price-history": "가격 이력",
+    "etc": "비고",
+    "apply-date": "적용일자",
+    "ancestor-code": "목록정비전코드"
+  },
   "my-info": {
     "accordion-header": {
       "detail": "내 정보",
@@ -153,6 +169,17 @@
     "in-visible": "숨김",
     "logout": "로그아웃",
     "not-supported-file": "지원하지 않는 파일 형식입니다."
+  },
+  "mqtt-desc": {
+    "title": {
+      "none": "info",
+      "qna-request": "QNA 요청",
+      "qna-reply": "QNA 답변",
+      "edi-request": "EDI 요청",
+      "edi-reject": "EDI 반려",
+      "edi-ok": "EDI 승인",
+      "edi-recep": "EDI 수신"
+    }
   },
   "primeng": {
     "dayNames": ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
