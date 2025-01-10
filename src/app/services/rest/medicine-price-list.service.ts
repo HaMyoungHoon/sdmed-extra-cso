@@ -12,10 +12,7 @@ export class MedicinePriceListService {
 
   constructor(private httpResponse: HttpResponseInterceptorService) { }
 
-  getList(): Promise<RestResult<MedicineModel>> {
+  getList(): Promise<RestResult<MedicineModel[]>> {
     return this.httpResponse.get(`${this.baseUrl}/list`);
-  }
-  getHistoryList(kdCode: string): Promise<RestResult<MedicinePriceModel[]>> {
-    return this.httpResponse.get(`${this.baseUrl}/list/${kdCode}`);
   }
 }
