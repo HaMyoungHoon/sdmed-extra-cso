@@ -1,2 +1,17 @@
-<p-toast position="top-left" />
+<p-toast [baseZIndex]="5000" position="top-left">
+  <ng-template let-message #message>
+    <div class="flex flex-col flex-wrap flex-auto flex-column">
+      <div class="flex col-12">
+        <span [pStyleClass]="message.styleClass">{{message.summary | translate}}</span>
+      </div>
+      <div class="flex flex-wrap flex-column col-12">
+        <label [pStyleClass]="message.styleClass">{{message.detail | translate}}</label>
+        <label [pStyleClass]="message.styleClass" *ngIf="message.text">{{message.text | translate}}</label>
+      </div>
+      <div class="flex flex-wrap flex-row">
+        <p-button class="m-1" (click)="message.data.confirmFn($event, message, router)" size="small" *ngIf="message.data['confirm-able']">{{message.data["confirm-label"] | translate}}</p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
 <router-outlet />
