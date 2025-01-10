@@ -8,7 +8,7 @@ import {BlobStorageInfoModel} from "../../models/rest/blob-storage-info-model";
 export class AzureBlobService {
   putUpload(file: File, blobStorageInfo: BlobStorageInfoModel | undefined, blobName: string, mimeType: string, onProgress?: (log: any) => void): Promise<BlockBlobUploadResponse> {
     if (blobStorageInfo == undefined) {
-      throw new Error("can't upload file");
+      throw new Error("cant upload file");
     }
     const blobServiceClient = new BlobServiceClient(`${blobStorageInfo.blobUrl}?${blobStorageInfo.sasKey}`);
     const containerClient = blobServiceClient.getContainerClient(blobStorageInfo.blobContainerName);

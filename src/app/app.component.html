@@ -9,7 +9,7 @@
         <label [pStyleClass]="message.styleClass" *ngIf="message.text">{{message.text | translate}}</label>
       </div>
       <div class="flex flex-wrap flex-row">
-        <p-button class="m-1" (click)="message.data.confirmFn($event, message, router)" size="small" *ngIf="message.data['confirm-able']">{{message.data["confirm-label"] | translate}}</p-button>
+        <p-button class="m-1" (click)="message.data.confirmFn($event, message, router)" size="small" *ngIf="message.data[confirmAble]">{{message.data["confirm-label"] | translate}}</p-button>
       </div>
     </div>
   </ng-template>

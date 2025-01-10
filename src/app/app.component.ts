@@ -18,4 +18,8 @@ export class AppComponent {
   constructor(public languageService: LanguageService, public router: Router) {
     languageService.onInit().then();
   }
+
+  get confirmAble(): string {
+    return "confirm-able";
+  }
 }

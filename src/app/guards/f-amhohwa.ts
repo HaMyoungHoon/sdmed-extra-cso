@@ -132,9 +132,9 @@ export function getUserName(): string {
 }
 function decodeUtf8(base64String: string): string {
   return decodeURIComponent(
-    base64String.split('').map(char => {
-      return '%' + ('00' + char.charCodeAt(0).toString(16)).slice(-2);
-    }).join('')
+    base64String.split("").map(char => {
+      return "%" + ("00" + char.charCodeAt(0).toString(16)).slice(-2);
+    }).join("")
   );
 }
 export function getTokenThisPK(token: string): string {
