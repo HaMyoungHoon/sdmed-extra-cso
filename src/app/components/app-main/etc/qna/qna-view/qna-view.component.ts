@@ -17,6 +17,7 @@ import {DOCUMENT} from "@angular/common";
 import {ableFilename, getQnAReplyBlobName, restTry} from "../../../../../guards/f-extensions";
 import * as FConstants from "../../../../../guards/f-constants";
 import {QnAReplyFileModel} from "../../../../../models/rest/qna/qna-reply-file-model";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: "app-qna-view",
@@ -43,7 +44,16 @@ export class QnaViewComponent extends FComponentBase {
   }
 
   override async ngInit(): Promise<void> {
-    await this.getHeader();
+    this.subscribeRouter();
+  }
+
+  subscribeRouter(): void {
+    const sub = new Subject<any>();
+    this.sub.push(sub);
+    this.route.params.pipe(takeUntil(sub)).subscribe(async(x) => {
+      this.thisPK = x["thisPK"];
+      await this.getHeader();
+    });
   }
 
   async getHeader(): Promise<void> {

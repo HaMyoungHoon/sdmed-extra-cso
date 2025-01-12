@@ -14,6 +14,7 @@ import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {ActivatedRoute} from "@angular/router";
 import {EDIUploadResponseModel} from "../../../../models/rest/edi/edi-upload-response-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: "app-edi-view",
@@ -33,7 +34,15 @@ export class EdiViewComponent extends FComponentBase {
   }
 
   override async ngInit(): Promise<void> {
-    await this.getData();
+    this.subscribeRouter();
+  }
+  subscribeRouter(): void {
+    const sub = new Subject<any>();
+    this.sub.push(sub);
+    this.route.params.pipe(takeUntil(sub)).subscribe(async(x) => {
+      this.thisPK = x["thisPK"];
+      await this.getData();
+    });
   }
 
   async getData(): Promise<void> {
