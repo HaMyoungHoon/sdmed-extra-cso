@@ -37,7 +37,7 @@
           <p-tag [value]="pharma.ediState" [severity]="getEDIStateSeverity(pharma.ediState)" />
         </div>
       </p-accordion-header>
-      <p-accordion-content>
+      <p-accordion-content *ngIf="false">
         <p-table #listTable [value]="pharma.medicineList" [scrollable]="true" [paginator]="true" [rows]="10" [tableStyle]="tableStyle" size="small" stripedRows="true">
           <ng-template #header>
             <tr>
@@ -76,7 +76,7 @@
           <br/>
           <span>{{dateToYYYYMMdd(response.regDate)}}</span>
         </div>
-        <div>
+        <div *ngIf="false">
           <span>{{"edi-view.reply.user-name" | translate}}</span>
           <br/>
           <span>{{response.userName}}</span>
