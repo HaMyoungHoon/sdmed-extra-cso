@@ -1,13 +1,13 @@
 <div class="sign-container mt-7">
   <div class="mb-4">
     <p-float-label>
-      <input type="text" id="id_input" class="w-full" pInputText [(ngModel)]="id" (keydown)="idChange($event)">
+      <input type="text" id="id_input" class="w-full" pInputText [(ngModel)]="id" (keydown)="idChange($event)" (keydown.space)="$event.preventDefault()">
       <label for="id_input">id</label>
     </p-float-label>
   </div>
   <div class="mb-4">
     <p-float-label>
-      <p-password [(ngModel)]="pw" [feedback]="false" [toggleMask]="true" id="pw_input" (keydown)="pwChange($event)" />
+      <p-password [(ngModel)]="pw" [feedback]="false" [toggleMask]="true" id="pw_input" (keydown)="pwChange($event)" (keydown.space)="$event.preventDefault()"/>
       <label for="pw_input">pw</label>
     </p-float-label>
   </div>

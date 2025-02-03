@@ -49,6 +49,13 @@ export class PasswordChangeDialogComponent extends FDialogComponentBase {
     this.fDialogService.warn("passwordChange", ret.msg);
   }
 
+  async onPWChange(data: any): Promise<void> {
+    this.currentPW = this.currentPW.replace(" ", "");
+  }
+  async onPWConfirmChange(data: any): Promise<void> {
+    this.confirmPW = this.confirmPW.replace(" ", "");
+  }
+
   currentPWChange(event: any): void {
     this.setPasswordChange();
   }
