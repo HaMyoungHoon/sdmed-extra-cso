@@ -14,6 +14,7 @@ export class EDIUploadModel {
   name: string = "";
   ediState: EDIState = EDIState.None;
   regDate: Date = new Date();
+  etc: string = "";
   pharmaList: EDIUploadPharmaModel[] = [];
   fileList: EDIUploadFileModel[] = [];
   responseList: EDIUploadResponseModel[] = [];

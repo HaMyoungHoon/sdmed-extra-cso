@@ -21,6 +21,7 @@ import {EDIUploadPharmaMedicineModel} from "../../../../models/rest/edi/edi-uplo
 })
 export class EdiNewRequestComponent extends FComponentBase {
   @ViewChild("inputFiles") inputFiles!: ElementRef<HTMLInputElement>;
+  ediETC: string = "";
   applyDateList: EDIApplyDateModel[] = [];
   selectApplyDate?: EDIApplyDateModel;
   activeIndex: number = 0;
@@ -110,6 +111,7 @@ export class EdiNewRequestComponent extends FComponentBase {
       ret.month = this.selectApplyDate.month;
     }
     ret.regDate = new Date();
+    ret.etc = this.ediETC;
 
     return ret;
   }
@@ -118,6 +120,10 @@ export class EdiNewRequestComponent extends FComponentBase {
     return `${data.year}-${data.month}`;
   }
   checkSavable(): void {
+    if (this.ediETC.length <= 0) {
+      this.saveAble = false;
+      return;
+    }
     if (this.selectApplyDate == null) {
       this.saveAble = false;
       return;

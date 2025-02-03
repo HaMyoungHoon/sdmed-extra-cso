@@ -9,13 +9,15 @@ import {FormsModule} from "@angular/forms";
 import {GalleriaModule} from "primeng/galleria";
 import {Button} from "primeng/button";
 import {Tooltip} from "primeng/tooltip";
+import {InputText} from "primeng/inputtext";
+import {IftaLabel} from "primeng/iftalabel";
 
 
 
 @NgModule({
   declarations: [EdiNewRequestComponent],
   imports: [
-    CommonModule, EdiNewRequestRoutingModule, ProgressSpinComponent, Listbox, TranslatePipe, FormsModule, GalleriaModule, Button, Tooltip
+    CommonModule, EdiNewRequestRoutingModule, ProgressSpinComponent, Listbox, TranslatePipe, FormsModule, GalleriaModule, Button, Tooltip, InputText, IftaLabel
   ]
 })
 export class EdiNewRequestModule { }

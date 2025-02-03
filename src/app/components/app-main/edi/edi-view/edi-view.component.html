@@ -9,6 +9,9 @@
   <div>
     <span>{{"edi-view.hospital-name" | translate}} : </span>
     <span>{{uploadModel.orgName}}</span>
+    <div *ngIf="uploadModel.etc.length > 0">
+      <span>{{uploadModel.etc}}</span>
+    </div>
   </div>
   <div>
     <span>{{"edi-view.edi-state" | translate}}</span>

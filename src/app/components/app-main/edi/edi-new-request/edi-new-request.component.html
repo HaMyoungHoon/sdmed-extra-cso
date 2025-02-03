@@ -12,6 +12,12 @@
     </p-list-box>
   </div>
   <div class="col-12 flex flex-column justify-content-center">
+    <p-ifta-label class="flex justify-content-center align-content-center align-self-center">
+      <input id="edi-new-hospital-name" [(ngModel)]="ediETC" pInputText (ngModelChange)="checkSavable()">
+      <label for="edi-new-hospital-name">{{"edi-request.hospital" | translate}}</label>
+    </p-ifta-label>
+  </div>
+  <div class="col-12 flex flex-column justify-content-center">
     <p-galleria class="flex justify-content-center" [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
                 [containerStyle]="galleriaContainerStyle" [numVisible]="0" [(activeIndex)]="activeIndex">
       <ng-template pTemplate="item" let-item>
