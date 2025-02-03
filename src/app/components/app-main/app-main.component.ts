@@ -132,18 +132,21 @@ export class AppMainComponent implements AfterViewInit, OnDestroy {
       case MqttContentType.EDI_OK: title = "mqtt-desc.title.edi-ok"; break;
       case MqttContentType.EDI_RECEP: title = "mqtt-desc.title.edi-recep"; break;
     }
-    this.fDialogService.mqttInfo(title, mqttContentModel.senderName,`${mqttContentModel.content}`, this.mqttConfirmFn, mqttContentModel);
+//    this.fDialogService.mqttInfo(title, mqttContentModel.senderName,`${mqttContentModel.content}`, this.mqttConfirmFn, mqttContentModel);
+    this.fDialogService.mqttInfo(title, " ",`${mqttContentModel.content}`, this.mqttConfirmFn, mqttContentModel);
   }
   async mqttConfirmFn(event: MouseEvent, message: any, router: Router): Promise<void> {
     const mqttContentModel = message.data["this-data"] as MqttContentModel;
-    switch (mqttContentModel.contentType) {
-      case MqttContentType.None: await router.navigate([`/${FConstants.DASH_BOARD_URL}`]); break;
-      case MqttContentType.QNA_REQUEST:
-      case MqttContentType.QNA_REPLY: await router.navigate([`/${FConstants.QNA_LIST_URL}/${mqttContentModel.targetItemPK}`]); break;
-      case MqttContentType.EDI_REQUEST:
-      case MqttContentType.EDI_REJECT:
-      case MqttContentType.EDI_OK:
-      case MqttContentType.EDI_RECEP: await router.navigate([`/${FConstants.EDI_LIST_URL}/${mqttContentModel.targetItemPK}`]); break;
-    }
+    router.navigateByUrl("/", { skipLocationChange: true }).then(async() => {
+      switch (mqttContentModel.contentType) {
+        case MqttContentType.None: await router.navigate([`/${FConstants.DASH_BOARD_URL}`]); break;
+        case MqttContentType.QNA_REQUEST:
+        case MqttContentType.QNA_REPLY: await router.navigate([`/${FConstants.QNA_LIST_URL}/${mqttContentModel.targetItemPK}`]); break;
+        case MqttContentType.EDI_REQUEST:
+        case MqttContentType.EDI_REJECT:
+        case MqttContentType.EDI_OK:
+        case MqttContentType.EDI_RECEP: await router.navigate([`/${FConstants.EDI_LIST_URL}/${mqttContentModel.targetItemPK}`]); break;
+      }
+    });
   }
 }
