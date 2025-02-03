@@ -44,6 +44,7 @@ export class DashBoardComponent extends FComponentBase {
   constructor(private thisService: DashboardService) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
     this.layoutInit();
+    this.router.navigate(["/ediList"]).then();
   }
 
   override async ngInit(): Promise<void> {
