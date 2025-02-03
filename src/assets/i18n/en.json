@@ -190,7 +190,9 @@
       "edi-request": "edi request",
       "edi-reject": "edi reject",
       "edi-ok": "edi ok",
-      "edi-recep": "edi recep"
+      "edi-recep": "edi recep",
+      "edi-file-add": "edi file add",
+      "edi-file-delete": "edi file delete"
     }
   },
   "primeng": {

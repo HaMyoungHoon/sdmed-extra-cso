@@ -98,6 +98,17 @@ export class EdiViewComponent extends FComponentBase {
       }
     });
   }
+  async mqttSend(thisPK: string | undefined, content: string | undefined): Promise<void> {
+    if (thisPK == undefined || content == undefined) {
+      return;
+    }
+    const ret = await FExtensions.restTry(async() => await this.mqttService.postEDIFileAdd(thisPK, content));
+//      e => this.fDialogService.warn("notice", e));
+//    if (ret.result) {
+//      return;
+//    }
+//    this.fDialogService.warn("notice", ret.msg);
+  }
   async downloadEDIFile(item: EDIUploadFileModel): Promise<void> {
     const ret = await FExtensions.tryCatchAsync(async() => await this.commonService.downloadFile(item.blobUrl),
       e => this.fDialogService.error("downloadFile", e));
@@ -170,6 +181,7 @@ export class EdiViewComponent extends FComponentBase {
       e => this.fDialogService.error("saveData", e));
     this.setLoading(false);
     if (ret.result) {
+      await this.mqttSend(this.thisPK, this.uploadModel.orgName);
       this.uploadFileBuffModel.forEach(x => x.revokeBlob());
       window.location.reload();
       return;

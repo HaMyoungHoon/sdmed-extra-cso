@@ -190,7 +190,9 @@
       "edi-request": "EDI 요청",
       "edi-reject": "EDI 반려",
       "edi-ok": "EDI 승인",
-      "edi-recep": "EDI 수신"
+      "edi-recep": "EDI 수신",
+      "edi-file-add": "EDI 파일 추가",
+      "edi-file-delete": "EDI 파일 제거"
     }
   },
   "primeng": {
