@@ -4,6 +4,7 @@ import {EdiListService} from "../../../../services/rest/edi-list.service";
 import {UserRole} from "../../../../models/rest/user/user-role";
 import * as FExtensions from "../../../../guards/f-extensions";
 import * as FConstants from "../../../../guards/f-constants";
+import * as FImageCache from "../../../../guards/f-image-cache";
 import {EDIUploadFileModel} from "../../../../models/rest/edi/edi-upload-file-model";
 import {saveAs} from "file-saver";
 import {EDIUploadPharmaModel} from "../../../../models/rest/edi/edi-upload-pharma-model";
@@ -15,6 +16,7 @@ import {ActivatedRoute} from "@angular/router";
 import {EDIUploadResponseModel} from "../../../../models/rest/edi/edi-upload-response-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
 import {Subject, takeUntil} from "rxjs";
+import {HttpResponse} from "@angular/common/http";
 
 @Component({
   selector: "app-edi-view",
@@ -28,6 +30,7 @@ export class EdiViewComponent extends FComponentBase {
   uploadModel: EDIUploadModel = new EDIUploadModel();
   uploadFileBuffModel: UploadFileBuffModel[] = [];
   activeIndex: number = 0;
+  imageCacheUrl: {blobUrl: string, objectUrl: string}[] = [];
   constructor(private thisService: EdiListService, private route: ActivatedRoute) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
     this.thisPK = this.route.snapshot.params["thisPK"];
@@ -35,6 +38,9 @@ export class EdiViewComponent extends FComponentBase {
 
   override async ngInit(): Promise<void> {
     this.subscribeRouter();
+  }
+  override async ngDestroy(): Promise<void> {
+    this.imageCacheClear();
   }
   subscribeRouter(): void {
     const sub = new Subject<any>();
@@ -49,12 +55,52 @@ export class EdiViewComponent extends FComponentBase {
     this.setLoading();
     const ret = await FExtensions.restTry(async() => await this.thisService.getData(this.thisPK),
       e => this.fDialogService.error("getData", e));
-    this.setLoading(false);
     if (ret.result) {
       this.uploadModel = ret.data ?? new EDIUploadModel();
+      await this.readyImage();
+      this.setLoading(false);
       return;
     }
+    this.setLoading(false);
     this.fDialogService.warn("getData", ret.msg);
+  }
+  imageCacheClear(): void {
+    this.imageCacheUrl.forEach(x => {
+      URL.revokeObjectURL(x.objectUrl);
+    });
+    this.imageCacheUrl = [];
+  }
+  async readyImage(): Promise<void> {
+    this.imageCacheClear();
+    for (let ediFile of this.uploadModel.fileList) {
+      const ext = FExtensions.getExtMimeType(ediFile.mimeType);
+      if (!FExtensions.isImage(ext)) {
+        this.imageCacheUrl.push({
+          blobUrl: ediFile.blobUrl,
+          objectUrl: FExtensions.extToBlobUrl(ext)
+        });
+      } else {
+        let blobBuff = await FImageCache.getImage(ediFile.blobUrl);
+        if (blobBuff == undefined) {
+          const ret: HttpResponse<Blob> | null = await FExtensions.tryCatchAsync(async (): Promise<HttpResponse<Blob>> => await this.commonService.downloadFile(ediFile.blobUrl),
+            e => this.fDialogService.error("downloadFile", e));
+          if (ret && ret.body) {
+            blobBuff = ret.body;
+            await FImageCache.putImage(ediFile.blobUrl, blobBuff);
+          } else {
+            this.imageCacheUrl.push({
+              blobUrl: ediFile.blobUrl,
+              objectUrl: FConstants.ASSETS_NO_IMAGE
+            });
+            continue;
+          }
+        }
+        this.imageCacheUrl.push({
+          blobUrl: ediFile.blobUrl,
+          objectUrl: URL.createObjectURL(blobBuff)
+        });
+      }
+    }
   }
 
   getApplyDate(): string {
@@ -79,11 +125,7 @@ export class EdiViewComponent extends FComponentBase {
   }
 
   getBlobUrl(item: EDIUploadFileModel): string {
-    const ext = FExtensions.getExtMimeType(item.mimeType);
-    if (FExtensions.isImage(ext)) {
-      return item.blobUrl;
-    }
-    return FExtensions.extToBlobUrl(ext);
+    return this.imageCacheUrl.find(x => x.blobUrl == item.blobUrl)?.objectUrl ?? FConstants.ASSETS_NO_IMAGE;
   }
   async viewItem(data: EDIUploadFileModel[], item: EDIUploadFileModel): Promise<void> {
     this.fDialogService.openFullscreenFileView({
@@ -110,10 +152,17 @@ export class EdiViewComponent extends FComponentBase {
 //    this.fDialogService.warn("notice", ret.msg);
   }
   async downloadEDIFile(item: EDIUploadFileModel): Promise<void> {
-    const ret = await FExtensions.tryCatchAsync(async() => await this.commonService.downloadFile(item.blobUrl),
-      e => this.fDialogService.error("downloadFile", e));
-    if (ret && ret.body) {
-      saveAs(ret.body, item.originalFilename);
+    let blobBuff = await FImageCache.getImage(item.blobUrl);
+    if (blobBuff == undefined) {
+      const ret = await FExtensions.tryCatchAsync(async() => await this.commonService.downloadFile(item.blobUrl),
+        e => this.fDialogService.error("downloadFile", e));
+      if (ret && ret.body) {
+        blobBuff = ret.body;
+        await FImageCache.putImage(item.blobUrl, blobBuff);
+      }
+    }
+    if (blobBuff) {
+      saveAs(blobBuff, item.originalFilename);
     }
   }
   async fileUpload(): Promise<void> {

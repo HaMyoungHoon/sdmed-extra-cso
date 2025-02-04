@@ -1,6 +1,11 @@
 export const AUTH_TOKEN: string = "token";
 
 export const STORAGE_KEY_LANG: string = "lang";
+export const STORAGE_IMAGE_CACHE_CLEAR_TIME: string = "imageCacheClearTime";
+
+export const HEADERS_CACHE_TIMESTAMP: string = "X-Cache-Timestamp";
+export const CACHES_IMAGE_CACHE: string = "image-cache";
+
 export const THEME_LINK: string = "app-theme";
 export const MQTT_CONNECT_DATA: string = "mqtt-connect";
 

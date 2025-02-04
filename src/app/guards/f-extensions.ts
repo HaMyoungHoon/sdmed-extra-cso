@@ -97,6 +97,11 @@ export function stringToDate(dateString?: string): Date {
 
   return new Date(dateString);
 }
+export function plusHours(targetDate: Date, hours: number): Date {
+  const ret = new Date(targetDate);
+  ret.setHours(ret.getHours() + hours);
+  return ret;
+}
 export function plusDays(targetDate: Date, days: number): Date {
   const ret = new Date(targetDate);
   ret.setDate(ret.getDate() + days);
