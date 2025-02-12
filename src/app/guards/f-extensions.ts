@@ -318,11 +318,11 @@ export function getEDIUploadBlobName(ext: string): string {
   const userName = FAmhohwa.getUserID();
   return `edi/${userName}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
 }
-export function getEDIUploadFileModel(file: File, blobStorageInfo: BlobStorageInfoModel, blobName: string, ext: string, mimeType: string): EDIUploadFileModel {
-  const blobUrl = `${blobStorageInfo.blobUrl}/${blobStorageInfo.blobContainerName}/${blobName}`;
+export function getEDIUploadFileModel(file: File, blobStorageInfo: BlobStorageInfoModel, ext: string, mimeType: string): EDIUploadFileModel {
+  const blobUrl = `${blobStorageInfo.blobUrl}/${blobStorageInfo.blobContainerName}/${blobStorageInfo.blobName}`;
   return applyClass(EDIUploadFileModel, (obj) => {
     obj.blobUrl = blobUrl;
-    obj.blobName = blobName;
+    obj.blobName = blobStorageInfo.blobName;
     obj.originalFilename = ableFilename(file.name);
     obj.mimeType = mimeType;
   });

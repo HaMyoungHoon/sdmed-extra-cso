@@ -248,7 +248,7 @@ export class EdiViewComponent extends FComponentBase {
         ret = false;
         break;
       }
-      const uploadFile = FExtensions.getEDIUploadFileModel(buff.file!!, blobStorageInfo.data!!, blobName, buff.ext, buff.mimeType);
+      const uploadFile = FExtensions.getEDIUploadFileModel(buff.file!!, blobStorageInfo.data!!, buff.ext, buff.mimeType);
       await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, blobStorageInfo.data, uploadFile.blobName, uploadFile.mimeType),
         e => {
           this.fDialogService.error("saveData", e);
