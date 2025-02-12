@@ -27,6 +27,6 @@ export class MyInfoService {
   }
   putUserFileImageUrl(blobModel: BlobUploadModel, userFileType: UserFileType): Promise<RestResult<UserFileModel>> {
     this.httpResponse.addParam("userFileType", userFileType);
-    return this.httpResponse.put(`${this.baseUrl}/file${FAmhohwa.getThisPK()}`, blobModel);
+    return this.httpResponse.put(`${this.baseUrl}/file/${FAmhohwa.getThisPK()}`, blobModel);
   }
 }
