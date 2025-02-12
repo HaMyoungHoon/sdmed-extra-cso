@@ -20,7 +20,7 @@ export class EdiListService {
   getData(thisPK: string): Promise<RestResult<EDIUploadModel>> {
     return this.httpResponse.get(`${this.baseUrl}/data/${thisPK}`);
   }
-  postFile(thisPK: string, ediUploadFileModel: EDIUploadFileModel[]): Promise<RestResult<EDIUploadFileModel>> {
+  postFile(thisPK: string, ediUploadFileModel: EDIUploadFileModel[]): Promise<RestResult<EDIUploadFileModel[]>> {
     return this.httpResponse.post(`${this.baseUrl}/file/${thisPK}`, ediUploadFileModel);
   }
 
