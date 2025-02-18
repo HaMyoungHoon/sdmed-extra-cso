@@ -5,6 +5,7 @@ import * as FConstants from "../../../../guards/f-constants";
 import {Table} from "primeng/table";
 import {MedicineModel} from "../../../../models/rest/medicine/medicine-model";
 import {MedicinePriceListService} from "../../../../services/rest/medicine-price-list.service";
+import {ellipsis} from "../../../../guards/f-extensions";
 
 @Component({
   selector: "app-medicine-price-list",
@@ -75,4 +76,5 @@ export class MedicinePriceListComponent extends FComponentBase {
   protected readonly dateToYYYYMMdd = FExtensions.dateToYYYYMMdd;
   protected readonly tableStyle = FConstants.tableStyle;
   protected readonly filterTableOption = FConstants.filterTableOption;
+  protected readonly ellipsis = ellipsis;
 }

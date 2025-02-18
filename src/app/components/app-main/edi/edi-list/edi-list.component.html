@@ -14,12 +14,14 @@
         <div class="flex">
           <p-button class="align-content-center" size="small" icon="pi pi-refresh" (click)="refreshData()"></p-button>
         </div>
+        <!--
         <p-iconfield class="flex ml-auto justify-content-end" iconPosition="left">
           <p-inputicon>
             <i class="pi pi-search"></i>
           </p-inputicon>
           <input pInputText type="text" (input)="filterTable(listTable, $event, filterTableOption)" placeholder="Search keyword" />
         </p-iconfield>
+        -->
       </div>
     </ng-template>
     <ng-template #header>
@@ -32,9 +34,9 @@
     </ng-template>
     <ng-template #body let-data>
       <tr class="click-tr" (click)="open(data)">
-        <td>{{ellipsis(data.orgName)}}</td>
+        <td>{{ellipsis(data.orgName, 10)}}</td>
         <td>
-          <p-tag [value]="data.ediState" [severity]="getEDIStateSeverity(data.ediState)"/>
+          <p-tag [value]="StringToEDIStateDesc[data.ediState]" [severity]="getEDIStateSeverity(data.ediState)"/>
         </td>
         <td>{{dateToYYYYMMdd(data.regDate)}}</td>
         <td>{{getApplyDate(data)}}</td>

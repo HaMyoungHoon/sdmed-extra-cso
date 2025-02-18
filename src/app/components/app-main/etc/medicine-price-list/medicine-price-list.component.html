@@ -18,22 +18,30 @@
     <ng-template #header>
       <tr>
         <th pSortableColumn="name">{{"medicine-price-list.name" | translate}} <p-sortIcon field="name" /></th>
+        <!--
         <th pSortableColumn="makerName">{{"medicine-price-list.pharma-name" | translate}} <p-sortIcon field="makerName" /></th>
+        -->
         <th>{{"medicine-price-list.main-ingredient-code" | translate}}</th>
         <th pSortableColumn="maxPrice">{{"medicine-price-list.max-price" | translate}} <p-sortIcon field="maxPrice" /></th>
+        <!--
         <th>{{"medicine-price-list.custom-price" | translate}}</th>
         <th>{{"medicine-price-list.charge" | translate}}</th>
+        -->
         <th>{{"medicine-price-list.apply-date" | translate}}</th>
       </tr>
     </ng-template>
     <ng-template #body let-item>
       <tr [ngClass]="tableNgClass(item)">
-        <td>{{item.name}}</td>
-        <td>{{item.makerName}}</td>
-        <td>{{item.medicineIngredientModel.mainIngredientName}}</td>
+        <td>{{ellipsis(item.name)}}</td>
+        <!--
+        <td>{{ellipsis(item.makerName)}}</td>
+        -->
+        <td>{{ellipsis(item.medicineIngredientModel.mainIngredientName)}}</td>
         <td>{{item.maxPrice}}</td>
+        <!--
         <td>{{item.customPrice}}</td>
         <td>{{item.charge}}</td>
+        -->
         <td>{{getApplyDate(item)}}</td>
       </tr>
     </ng-template>

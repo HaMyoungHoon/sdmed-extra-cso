@@ -6,6 +6,7 @@ import * as FConstants from "../../../../guards/f-constants";
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {EdiListService} from "../../../../services/rest/edi-list.service";
 import {Calendar} from "primeng/calendar";
+import {StringToEDIStateDesc} from "../../../../models/rest/edi/edi-state";
 
 @Component({
   selector: "app-edi-list",
@@ -96,4 +97,5 @@ export class EdiListComponent extends FComponentBase{
   protected readonly ellipsis = FExtensions.ellipsis;
   protected readonly tableStyle = FConstants.tableStyle;
   protected readonly filterTableOption = FConstants.filterTableOption;
+  protected readonly StringToEDIStateDesc = StringToEDIStateDesc;
 }
