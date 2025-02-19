@@ -3,6 +3,7 @@ import {FComponentBase} from "../../../../guards/f-component-base";
 import {UserRole} from "../../../../models/rest/user/user-role";
 import * as FExtensions from "../../../../guards/f-extensions";
 import * as FConstants from "../../../../guards/f-constants";
+import * as FImageCache from "../../../../guards/f-image-cache";
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {EdiListService} from "../../../../services/rest/edi-list.service";
 import {Calendar} from "primeng/calendar";
@@ -31,8 +32,11 @@ export class EdiListComponent extends FComponentBase{
   }
 
   async getList(): Promise<void> {
+    this.setLoading();
+    await FExtensions.tryCatchAsync(async() => await FImageCache.clearExpiredImage());
     const ret = await FExtensions.restTry(async() => await this.thisService.getList(FExtensions.dateToYYYYMMdd(this.startDate), FExtensions.dateToYYYYMMdd(this.endDate)),
       e => this.fDialogService.error("getList", e));
+    this.setLoading(false);
     if (ret.result) {
       this.initValue = ret.data ?? [];
       this.viewList = [...this.initValue];
