@@ -58,7 +58,7 @@ export class MedicinePriceListComponent extends FComponentBase {
   }
 
   get filterFields(): string[] {
-    return ["name", "kdCode", "pharma", "maxPrice"];
+    return ["orgName", "kdCode", "pharma", "maxPrice"];
   }
   get uploadPriceTooltip(): string {
     return "medicine-price-list.price-excel";
