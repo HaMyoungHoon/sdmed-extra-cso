@@ -10,6 +10,7 @@ export class EDIUploadModel {
   month: string = "";
   day: string = "";
   hospitalPK: string = "";
+  id: string = "";
   orgName: string = "";
   name: string = "";
   ediState: EDIState = EDIState.None;

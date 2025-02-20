@@ -66,6 +66,7 @@
     "apply-date": "EDI 날짜",
     "reg-date": "등록일",
     "hospital-name": "병원명",
+    "id": "아이디",
     "user-name": "이름",
     "edi-state": "상태",
     "pharma-name": "제약사명",
@@ -108,7 +109,7 @@
     "special": "전문",
     "price-history": "가격 이력",
     "etc": "비고",
-    "apply-date": "적용일자",
+    "apply-date": "처방일",
     "ancestor-code": "목록정비전코드"
   },
   "my-info": {
