@@ -102,6 +102,7 @@
     "name": "product name",
     "pharma-name": "pharma name",
     "main-ingredient-code": "main ingredient code",
+    "standard": "standard",
     "max-price": "price",
     "custom-price": "custom price",
     "charge": "charge %",

@@ -6,12 +6,12 @@
     }
   },
   "menu-2": {
-    "title": "edi",
+    "title": "EDI",
     "sub-menu": {
-      "sub-1": "edi 등록",
-      "sub-2": "edi 신규처 등록",
-      "sub-3": "edi 목록",
-      "sub-4": "edi 마감일"
+      "sub-1": "EDI 등록",
+      "sub-2": "EDI 신규처 등록",
+      "sub-3": "EDI 목록",
+      "sub-4": "EDI 마감일"
     }
   },
   "menu-3": {
@@ -19,7 +19,7 @@
     "sub-menu": {
       "sub-1": "내정보",
       "sub-2": "기준약가",
-      "sub-3": "qna"
+      "sub-3": "QnA"
     }
   },
   "menu-config": {
@@ -102,6 +102,7 @@
     "name": "제품명",
     "pharma-name": "제조사",
     "main-ingredient-code": "주성분코드",
+    "standard": "요율",
     "max-price": "약가",
     "custom-price": "지정가",
     "charge": "수수료율 %",

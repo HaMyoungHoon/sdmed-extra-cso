@@ -28,6 +28,9 @@ export class PharmaModel {
   mobilePhone: string = "";
   openDate?: Date;
   closeDate?: Date;
+  retroactiveRule: string = "";
+  innerSettlementRule: string = "";
+  outerSettlementRule: string = "";
   etc1: string = "";
   etc2: string = "";
   imageUrl: string = "";
@@ -58,6 +61,9 @@ export class PharmaModel {
     this.mobilePhone = data.mobilePhone;
     this.openDate = data.openDate;
     this.closeDate = data.closeDate;
+    this.retroactiveRule = data.retroactiveRule;
+    this.innerSettlementRule = data.innerSettlementRule;
+    this.outerSettlementRule = data.outerSettlementRule;
     this.etc1 = data.etc1;
     this.etc2 = data.etc2;
     this.imageUrl = data.imageUrl;
@@ -89,6 +95,9 @@ export class PharmaModel {
     lhs.mobilePhone = rhs.mobilePhone;
     lhs.openDate = rhs.openDate;
     lhs.closeDate = rhs.closeDate;
+    lhs.retroactiveRule = rhs.retroactiveRule;
+    lhs.innerSettlementRule = rhs.innerSettlementRule;
+    lhs.outerSettlementRule = rhs.outerSettlementRule;
     lhs.etc1 = rhs.etc1;
     lhs.etc2 = rhs.etc2;
     lhs.imageUrl = rhs.imageUrl;

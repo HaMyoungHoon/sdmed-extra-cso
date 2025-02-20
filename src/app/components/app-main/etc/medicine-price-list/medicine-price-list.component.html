@@ -20,6 +20,7 @@
         <th pSortableColumn="name">{{"medicine-price-list.name" | translate}} <p-sortIcon field="name" /></th>
         <th pSortableColumn="makerName">{{"medicine-price-list.pharma-name" | translate}} <p-sortIcon field="makerName" /></th>
         <th>{{"medicine-price-list.main-ingredient-code" | translate}}</th>
+        <th>{{"medicine-price-list.standard" | translate}}</th>
         <th pSortableColumn="maxPrice">{{"medicine-price-list.max-price" | translate}} <p-sortIcon field="maxPrice" /></th>
         <!--
         <th>{{"medicine-price-list.custom-price" | translate}}</th>
@@ -33,6 +34,7 @@
         <td>{{ellipsis(item.orgName)}}</td>
         <td>{{ellipsis(item.makerName)}}</td>
         <td>{{ellipsis(item.medicineIngredientModel.mainIngredientName)}}</td>
+        <td>{{item.medicineSubModel.standard}}</td>
         <td>{{item.maxPrice}}</td>
         <!--
         <td>{{item.customPrice}}</td>
