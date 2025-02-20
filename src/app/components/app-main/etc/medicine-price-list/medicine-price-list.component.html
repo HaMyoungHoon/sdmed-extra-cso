@@ -18,9 +18,7 @@
     <ng-template #header>
       <tr>
         <th pSortableColumn="name">{{"medicine-price-list.name" | translate}} <p-sortIcon field="name" /></th>
-        <!--
         <th pSortableColumn="makerName">{{"medicine-price-list.pharma-name" | translate}} <p-sortIcon field="makerName" /></th>
-        -->
         <th>{{"medicine-price-list.main-ingredient-code" | translate}}</th>
         <th pSortableColumn="maxPrice">{{"medicine-price-list.max-price" | translate}} <p-sortIcon field="maxPrice" /></th>
         <!--
@@ -32,10 +30,8 @@
     </ng-template>
     <ng-template #body let-item>
       <tr [ngClass]="tableNgClass(item)">
-        <td>{{ellipsis(item.name)}}</td>
-        <!--
+        <td>{{ellipsis(item.orgName)}}</td>
         <td>{{ellipsis(item.makerName)}}</td>
-        -->
         <td>{{ellipsis(item.medicineIngredientModel.mainIngredientName)}}</td>
         <td>{{item.maxPrice}}</td>
         <!--

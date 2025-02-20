@@ -100,7 +100,7 @@
     "price-excel": "약가 업로드",
     "main-ingredient-excel": "주성분코드 업로드",
     "name": "제품명",
-    "pharma-name": "판매사",
+    "pharma-name": "제조사",
     "main-ingredient-code": "주성분코드",
     "max-price": "약가",
     "custom-price": "지정가",
@@ -109,7 +109,7 @@
     "special": "전문",
     "price-history": "가격 이력",
     "etc": "비고",
-    "apply-date": "처방일",
+    "apply-date": "기준일",
     "ancestor-code": "목록정비전코드"
   },
   "my-info": {
