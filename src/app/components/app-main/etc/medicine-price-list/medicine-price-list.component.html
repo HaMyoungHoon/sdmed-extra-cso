@@ -17,30 +17,26 @@
     </ng-template>
     <ng-template #header>
       <tr>
-        <th pSortableColumn="name">{{"medicine-price-list.name" | translate}} <p-sortIcon field="name" /></th>
-        <th pSortableColumn="makerName">{{"medicine-price-list.pharma-name" | translate}} <p-sortIcon field="makerName" /></th>
-        <th>{{"medicine-price-list.main-ingredient-code" | translate}}</th>
-        <th>{{"medicine-price-list.standard" | translate}}</th>
+        <th>{{"medicine-price-list.main-ingredient-name" | translate}}</th>
+        <th pSortableColumn="clientName">{{"medicine-price-list.client-name" | translate}} <p-sortIcon field="makerName" /></th>
+        <th pSortableColumn="makerName">{{"medicine-price-list.maker-name" | translate}} <p-sortIcon field="makerName" /></th>
+        <th pSortableColumn="name">{{"medicine-price-list.org-name" | translate}} <p-sortIcon field="orgName" /></th>
+        <th pSortableColumn="kdCode">{{"medicine-price-list.kd-code" | translate}} <p-sortIcon field="kdCode" /></th>
         <th pSortableColumn="maxPrice">{{"medicine-price-list.max-price" | translate}} <p-sortIcon field="maxPrice" /></th>
-        <!--
-        <th>{{"medicine-price-list.custom-price" | translate}}</th>
-        <th>{{"medicine-price-list.charge" | translate}}</th>
-        -->
-        <th>{{"medicine-price-list.apply-date" | translate}}</th>
+        <th>{{"medicine-price-list.standard" | translate}}</th>
+        <th>{{"medicine-price-list.etc1" | translate}}</th>
       </tr>
     </ng-template>
     <ng-template #body let-item>
       <tr [ngClass]="tableNgClass(item)">
-        <td>{{ellipsis(item.orgName)}}</td>
-        <td>{{ellipsis(item.makerName)}}</td>
         <td>{{ellipsis(item.medicineIngredientModel.mainIngredientName)}}</td>
-        <td>{{item.medicineSubModel.standard}}</td>
+        <td>{{ellipsis(item.clientName)}}</td>
+        <td>{{ellipsis(item.makerName)}}</td>
+        <td>{{ellipsis(item.orgName)}}</td>
+        <td>{{item.kdCode}}</td>
         <td>{{item.maxPrice}}</td>
-        <!--
-        <td>{{item.customPrice}}</td>
-        <td>{{item.charge}}</td>
-        -->
-        <td>{{getApplyDate(item)}}</td>
+        <td>{{item.medicineSubModel.standard}}</td>
+        <td>{{item.medicineSubModel.etc1}}</td>
       </tr>
     </ng-template>
   </p-table>

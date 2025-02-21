@@ -8,6 +8,7 @@ export class MedicineModel {
   mainIngredientCode: string = "";
   kdCode: string = "";
   standardCode: number = 0;
+  clientName?: string = "";
   makerName?: string = "";
   makerCode: string = "";
   orgName: string = ""
@@ -26,6 +27,7 @@ export class MedicineModel {
     this.mainIngredientCode = data.mainIngredientCode;
     this.kdCode = data.kdCode;
     this.standardCode = data.standardCode;
+    this.clientName = data.clientName ?? "";
     this.makerName = data.makerName ?? "";
     this.makerCode = data.makerCode;
     this.orgName = data.orgName;
@@ -45,6 +47,7 @@ export class MedicineModel {
     lhs.mainIngredientCode = rhs.mainIngredientCode;
     lhs.kdCode = rhs.kdCode;
     lhs.standardCode = rhs.standardCode;
+    lhs.clientName = rhs.clientName ?? "";
     lhs.makerName = rhs.makerName ?? "";
     lhs.makerCode = rhs.makerCode;
     lhs.orgName = rhs.orgName;

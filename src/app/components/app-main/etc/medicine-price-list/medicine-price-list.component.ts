@@ -5,7 +5,6 @@ import * as FConstants from "../../../../guards/f-constants";
 import {Table} from "primeng/table";
 import {MedicineModel} from "../../../../models/rest/medicine/medicine-model";
 import {MedicinePriceListService} from "../../../../services/rest/medicine-price-list.service";
-import {ellipsis} from "../../../../guards/f-extensions";
 
 @Component({
   selector: "app-medicine-price-list",
@@ -17,7 +16,6 @@ export class MedicinePriceListComponent extends FComponentBase {
   @ViewChild("listTable") listTable!: Table;
   @ViewChild("inputPriceUploadExcel") inputPriceUploadExcel!: ElementRef<HTMLInputElement>;
   @ViewChild("inputMainIngredientUploadExcel") inputMainIngredientUploadExcel!: ElementRef<HTMLInputElement>;
-  lastApplyDate?: Date;
   applyDate: Date = new Date();
   initValue: MedicineModel[] = [];
   medicineModel: MedicineModel[] = [];
@@ -58,7 +56,7 @@ export class MedicinePriceListComponent extends FComponentBase {
   }
 
   get filterFields(): string[] {
-    return ["orgName", "kdCode", "pharma", "maxPrice"];
+    return ["medicineIngredientModel.mainIngredientName", "clientName", "makerName", "orgName"];
   }
   get uploadPriceTooltip(): string {
     return "medicine-price-list.price-excel";
@@ -76,5 +74,5 @@ export class MedicinePriceListComponent extends FComponentBase {
   protected readonly dateToYYYYMMdd = FExtensions.dateToYYYYMMdd;
   protected readonly tableStyle = FConstants.tableStyle;
   protected readonly filterTableOption = FConstants.filterTableOption;
-  protected readonly ellipsis = ellipsis;
+  protected readonly ellipsis = FExtensions.ellipsis;
 }

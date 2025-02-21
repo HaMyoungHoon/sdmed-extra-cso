@@ -11,7 +11,7 @@
       "sub-1": "EDI 등록",
       "sub-2": "EDI 신규처 등록",
       "sub-3": "EDI 목록",
-      "sub-4": "EDI 마감일"
+      "sub-4": "EDI 마감일정"
     }
   },
   "menu-3": {
@@ -99,17 +99,19 @@
   "medicine-price-list": {
     "price-excel": "약가 업로드",
     "main-ingredient-excel": "주성분코드 업로드",
-    "name": "제품명",
-    "pharma-name": "제조사",
-    "main-ingredient-code": "주성분코드",
+    "org-name": "제품명",
+    "client-name": "발주처",
+    "maker-name": "제조사",
+    "main-ingredient-name": "성분명",
+    "kd-code": "기준가코드",
     "standard": "요율",
     "max-price": "약가",
     "custom-price": "지정가",
-    "charge": "수수료율 %",
+    "charge": "수수료율",
     "general": "일반",
     "special": "전문",
     "price-history": "가격 이력",
-    "etc": "비고",
+    "etc1": "비고1",
     "apply-date": "기준일",
     "ancestor-code": "목록정비전코드"
   },
