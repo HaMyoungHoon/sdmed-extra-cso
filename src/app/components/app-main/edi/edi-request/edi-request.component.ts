@@ -12,7 +12,6 @@ import {EDIUploadPharmaModel} from "../../../../models/rest/edi/edi-upload-pharm
 import {EDIUploadPharmaMedicineModel} from "../../../../models/rest/edi/edi-upload-pharma-medicine-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
 import {EDIHosBuffModel} from "../../../../models/rest/edi/edi-hos-buff-model";
-import {getEDIUploadBlobName} from "../../../../guards/f-extensions";
 
 @Component({
   selector: "app-edi-request",
@@ -318,5 +317,5 @@ export class EdiRequestComponent extends FComponentBase {
   }
 
   protected readonly ellipsis = FExtensions.ellipsis;
-  protected readonly galleriaContainerStyle = FConstants.galleriaContainerStyle;
+  protected readonly galleriaContainerStyleWithThumbnail = FConstants.galleriaContainerStyleWithThumbnail;
 }

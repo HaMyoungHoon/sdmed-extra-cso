@@ -16,7 +16,6 @@ import {ActivatedRoute} from "@angular/router";
 import {EDIUploadResponseModel} from "../../../../models/rest/edi/edi-upload-response-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
 import {Subject, takeUntil} from "rxjs";
-import {HttpResponse} from "@angular/common/http";
 
 @Component({
   selector: "app-edi-view",
@@ -80,25 +79,29 @@ export class EdiViewComponent extends FComponentBase {
           objectUrl: FExtensions.extToBlobUrl(ext)
         });
       } else {
-        let blobBuff = await FImageCache.getImage(ediFile.blobUrl);
-        if (blobBuff == undefined) {
-          const ret: HttpResponse<Blob> | null = await FExtensions.tryCatchAsync(async (): Promise<HttpResponse<Blob>> => await this.commonService.downloadFile(ediFile.blobUrl),
-            e => this.fDialogService.error("downloadFile", e));
-          if (ret && ret.body) {
-            blobBuff = ret.body;
-            await FImageCache.putImage(ediFile.blobUrl, blobBuff);
-          } else {
-            this.imageCacheUrl.push({
-              blobUrl: ediFile.blobUrl,
-              objectUrl: FConstants.ASSETS_NO_IMAGE
-            });
-            continue;
-          }
-        }
         this.imageCacheUrl.push({
           blobUrl: ediFile.blobUrl,
-          objectUrl: URL.createObjectURL(blobBuff)
-        });
+          objectUrl: ediFile.blobUrl,
+        })
+//        let blobBuff = await FImageCache.getImage(ediFile.blobUrl);
+//        if (blobBuff == undefined) {
+//          const ret: HttpResponse<Blob> | null = await FExtensions.tryCatchAsync(async (): Promise<HttpResponse<Blob>> => await this.commonService.downloadFile(ediFile.blobUrl),
+//            e => this.fDialogService.error("downloadFile", e));
+//          if (ret && ret.body) {
+//            blobBuff = ret.body;
+//            await FImageCache.putImage(ediFile.blobUrl, blobBuff);
+//          } else {
+//            this.imageCacheUrl.push({
+//              blobUrl: ediFile.blobUrl,
+//              objectUrl: FConstants.ASSETS_NO_IMAGE
+//            });
+//            continue;
+//          }
+//        }
+//        this.imageCacheUrl.push({
+//          blobUrl: ediFile.blobUrl,
+//          objectUrl: URL.createObjectURL(blobBuff)
+//        });
       }
     }
   }
@@ -297,4 +300,5 @@ export class EdiViewComponent extends FComponentBase {
   protected readonly getEDIStateSeverity = FExtensions.getEDIStateSeverity;
   protected readonly tableStyle = FConstants.tableStyle;
   protected readonly galleriaContainerStyle = FConstants.galleriaContainerStyle;
+  protected readonly galleriaContainerStyleWithThumbnail = FConstants.galleriaContainerStyleWithThumbnail;
 }

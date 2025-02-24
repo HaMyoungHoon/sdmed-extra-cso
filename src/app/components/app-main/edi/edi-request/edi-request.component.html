@@ -34,10 +34,13 @@
     </p-list-box>
   </div>
   <div class="col-12 flex flex-column justify-content-center">
-    <p-galleria class="flex justify-content-center" [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
-                [containerStyle]="galleriaContainerStyle" [numVisible]="0" [(activeIndex)]="activeIndex">
+    <p-galleria class="flex justify-content-center" [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="true" [showIndicatorsOnItem]="false"
+                [containerStyle]="galleriaContainerStyleWithThumbnail" [numVisible]="5" [(activeIndex)]="activeIndex" [circular]="true">
       <ng-template pTemplate="item" let-item>
         <img [src]="item.blobUrl" [alt]="item.originalFilename" class="edi-image"/>
+      </ng-template>
+      <ng-template pTemplate="thumbnail" let-item>
+        <img [src]="item.blobUrl" [alt]="item.originalfilename" class="thumbnail-image" />
       </ng-template>
       <ng-template pTemplate="caption" let-item>
         <div class="flex">

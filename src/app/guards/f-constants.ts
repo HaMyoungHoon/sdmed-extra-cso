@@ -34,7 +34,8 @@ export const ASSETS_DOCX_IMAGE: string = "assets/image/word-image.png";
 
 export const tableStyle: {"min-width": string} = {"min-width": "20rem"};
 export const filterTableOption: string = "contains";
-export const galleriaContainerStyle: {"width": string, "height": string} = {"width": "300px", "height": "360px"};
+export const galleriaContainerStyle: {"width": string, "height": string} = {"width": "300px", "height": "300px"};
+export const galleriaContainerStyleWithThumbnail: {"width": string, "height": string} = {"width": "300px", "height": "400px"};
 
 export const REGEX_CHECK_ID: RegExp = /^(?=.*[A-Za-z가-힣])(?=.*[0-9]).{4,20}$/;
 export const REGEX_CHECK_PASSWORD_0: RegExp = /^(?=.*[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ])(?=.*[0-9]).{8,20}$/;

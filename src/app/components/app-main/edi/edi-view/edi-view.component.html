@@ -87,10 +87,10 @@
       </p-accordion-content>
     </p-accordion-panel>
   </p-accordion>
-  <p-galleria class="flex justify-content-center" tabindex="-1" [value]="uploadModel.fileList" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
-              [containerStyle]="galleriaContainerStyle" [numVisible]="0">
+  <p-galleria class="flex justify-content-center" tabindex="-1" [value]="uploadModel.fileList" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
+              [containerStyle]="galleriaContainerStyle" [numVisible]="0" [circular]="true">
     <ng-template pTemplate="item" let-item>
-      <p-image [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="edi-image" width="300" height="300" (click)="viewItem(uploadModel.fileList, item)" />
+      <p-image [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="edi-image" width="300" (click)="viewItem(uploadModel.fileList, item)" />
     </ng-template>
     <ng-template pTemplate="caption" let-item>
       <div class="flex">
@@ -102,10 +102,13 @@
     </ng-template>
   </p-galleria>
   <div class="col-12 flex flex-column justify-content-center" *ngIf="uploadAble">
-    <p-galleria class="flex justify-content-center" [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
-                [containerStyle]="galleriaContainerStyle" [numVisible]="0" [(activeIndex)]="activeIndex">
+    <p-galleria class="flex justify-content-center" [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="true" [showIndicatorsOnItem]="false"
+                [containerStyle]="galleriaContainerStyleWithThumbnail" [numVisible]="5" [(activeIndex)]="activeIndex" [circular]="true">
       <ng-template pTemplate="item" let-item>
         <img [src]="item.blobUrl" [alt]="item.originalFilename" class="edi-image"/>
+      </ng-template>
+      <ng-template pTemplate="thumbnail" let-item>
+        <img [src]="item.blobUrl" [alt]="item.originalfilename" class="thumbnail-image" />
       </ng-template>
       <ng-template pTemplate="caption" let-item>
         <div class="flex">

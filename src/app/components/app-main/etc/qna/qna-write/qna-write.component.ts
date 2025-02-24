@@ -173,5 +173,5 @@ export class QnaWriteComponent extends FComponentBase {
   }
 
   protected readonly ellipsis = FExtensions.ellipsis;
-  protected readonly galleriaContainerStyle = FConstants.galleriaContainerStyle;
+  protected readonly galleriaContainerStyleWithThumbnail = FConstants.galleriaContainerStyleWithThumbnail;
 }

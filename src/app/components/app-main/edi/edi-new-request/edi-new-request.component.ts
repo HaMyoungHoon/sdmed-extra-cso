@@ -1,17 +1,12 @@
 import {Component, ElementRef, ViewChild} from "@angular/core";
 import {FComponentBase} from "../../../../guards/f-component-base";
 import {EDIApplyDateModel} from "../../../../models/rest/edi/edi-apply-date-model";
-import {EDIHosBuffModel} from "../../../../models/rest/edi/edi-hos-buff-model";
-import {EDIPharmaBuffModel} from "../../../../models/rest/edi/edi-pharma-buff-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
 import {EdiRequestService} from "../../../../services/rest/edi-request.service";
 import {UserRole} from "../../../../models/rest/user/user-role";
 import * as FExtensions from "../../../../guards/f-extensions";
 import * as FConstants from "../../../../guards/f-constants";
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
-import {EDIMedicineBuffModel} from "../../../../models/rest/edi/edi-medicine-buff-model";
-import {EDIUploadPharmaModel} from "../../../../models/rest/edi/edi-upload-pharma-model";
-import {EDIUploadPharmaMedicineModel} from "../../../../models/rest/edi/edi-upload-pharma-medicine-model";
 
 @Component({
   selector: "app-edi-new-request",
@@ -182,5 +177,5 @@ export class EdiNewRequestComponent extends FComponentBase {
   }
 
   protected readonly ellipsis = FExtensions.ellipsis;
-  protected readonly galleriaContainerStyle = FConstants.galleriaContainerStyle;
+  protected readonly galleriaContainerStyleWithThumbnail = FConstants.galleriaContainerStyleWithThumbnail;
 }

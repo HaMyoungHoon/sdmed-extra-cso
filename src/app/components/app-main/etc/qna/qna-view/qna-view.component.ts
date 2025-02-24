@@ -380,4 +380,5 @@ export class QnaViewComponent extends FComponentBase {
   protected readonly getQnAStateSeverity = FExtensions.getQnAStateSeverity;
   protected readonly ellipsis = FExtensions.ellipsis;
   protected readonly galleriaContainerStyle = FConstants.galleriaContainerStyle;
+  protected readonly galleriaContainerStyleWithThumbnail = FConstants.galleriaContainerStyleWithThumbnail;
 }

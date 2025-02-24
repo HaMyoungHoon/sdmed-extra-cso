@@ -16,6 +16,7 @@ import {UserFileModel} from "../models/rest/user/user-file-model";
 import {FileViewModel} from "../models/common/file-view-model";
 import {BlobStorageInfoModel} from "../models/rest/blob-storage-info-model";
 import heic2any from "heic2any";
+import imageCompression from "browser-image-compression";
 
 export type voidFunc = () => void;
 export type anyFunc = (x: any) => void;
@@ -373,6 +374,9 @@ export async function gatheringAbleFile(fileList: FileList, notAble: (file: File
     if (isHeic(ext)) {
       buff = await heicToJpegFile(buff, ext);
       ext = "jpeg";
+    } else if (isImage(ext)) {
+      buff = await resizeImageFile(buff, ext);
+      ext = "webp";
     }
     const buffUrl = await parseFileBlobUrl(buff, ext);
     ret.push(applyClass(UploadFileBuffModel, (obj) => {
@@ -445,6 +449,17 @@ export function fileSizeToQuality(fileSize: number): number {
   if (fileSize < 9 * 1024 * 1024) return 0.6;
   if (fileSize < 10 * 1024 * 1024) return 0.6;
   return 0.5;
+}
+export async function resizeImageFile(file: File, ext: string): Promise<File> {
+  if (isImage(ext)) {
+    return await imageCompression(file, {
+      maxSizeMB: 3,
+      useWebWorker: true,
+      fileType: "image/webp"
+    });
+  } else {
+    return file;
+  }
 }
 export async function heicToJpegFile(file: File, ext: string): Promise<File> {
   if (isHeic(ext)) {

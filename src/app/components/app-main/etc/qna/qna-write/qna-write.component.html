@@ -10,13 +10,15 @@
   <div class="flex justify-content-center" >
     <p-editor #quillEditor id="quillEditor" [(ngModel)]="content" (onTextChange)="editorChange($event)" (onInit)="quillOnInit($event)" />
   </div>
-  <div class="flex grid justify-content-center m-2">
-    <p-button class="field align-content-center" size="small" (click)="fileUpload()">{{"common-desc.add" | translate}}</p-button>
-    <p-card class="w-fit field" *ngIf="uploadFileBuffModel.length > 0">
-      <p-galleria [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showIndicators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
-                  [containerStyle]="galleriaContainerStyle" [numVisible]="0" [(activeIndex)]="activeIndex">
+  <div class="flex flex-column justify-content-center align-self-center align-content-center align-items-center m-2">
+    <p-card class="flex" *ngIf="uploadFileBuffModel.length > 0">
+      <p-galleria [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="true" [showIndicatorsOnItem]="false"
+                  [containerStyle]="galleriaContainerStyleWithThumbnail" [numVisible]="5" [(activeIndex)]="activeIndex" [circular]="true">
         <ng-template pTemplate="item" let-item>
           <img [src]="item.blobUrl" [alt]="item.originalFilename" class="qna-image"/>
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+          <img [src]="item.blobUrl" [alt]="item.originalfilename" class="thumbnail-image" />
         </ng-template>
         <ng-template pTemplate="caption" let-item>
           <div class="flex">
@@ -26,6 +28,7 @@
         </ng-template>
       </p-galleria>
     </p-card>
+    <p-button class="flex align-content-center" size="small" (click)="fileUpload()">{{"common-desc.add" | translate}}</p-button>
   </div>
   <input #inputFiles class="collapse" type="file" [accept]="acceptFiles" (change)="fileSelected($event)" [multiple]="true" />
 </div>
