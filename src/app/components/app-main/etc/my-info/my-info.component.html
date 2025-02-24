@@ -82,7 +82,7 @@
             <ng-template #body let-hosData>
               <tr [pSelectableRow]="hosData">
                 <td>{{hosData.code}}</td>
-                <td><{{hosData.innerName}}</td>
+                <td>{{hosData.orgName}}</td>
               </tr>
             </ng-template>
           </p-table>
@@ -97,7 +97,7 @@
             <ng-template #body let-pharmaData>
               <tr>
                 <td>{{pharmaData.code}}</td>
-                <td>{{pharmaData.innerName}}</td>
+                <td>{{pharmaData.orgName}}</td>
               </tr>
             </ng-template>
           </p-table>
