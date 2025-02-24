@@ -37,7 +37,7 @@ export async function imageSelected(event: any, data: UserDataModel, userFileTyp
   return new RestResult<UserFileModel>().setFail("only image file");
 }
 export function userImageView(fileModel: UserFileModel | undefined, input: ElementRef<HTMLInputElement>, fDialogService: FDialogService): void {
-  if (fileModel) {
+  if (fileModel == undefined) {
     input.nativeElement.click();
     return;
   }
