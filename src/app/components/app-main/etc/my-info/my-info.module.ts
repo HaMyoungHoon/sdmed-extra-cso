@@ -9,13 +9,14 @@ import {TableModule} from "primeng/table";
 import {TranslatePipe} from "@ngx-translate/core";
 import {Tag} from "primeng/tag";
 import {Image} from "primeng/image";
+import {Divider} from "primeng/divider";
 
 
 
 @NgModule({
   declarations: [MyInfoComponent],
-  imports: [
-    CommonModule, MyInfoRoutingModule, ProgressSpinComponent, Accordion, AccordionPanel, AccordionHeader, AccordionContent, Button, TableModule, TranslatePipe, Tag, Image
-  ]
+	imports: [
+		CommonModule, MyInfoRoutingModule, ProgressSpinComponent, Accordion, AccordionPanel, AccordionHeader, AccordionContent, Button, TableModule, TranslatePipe, Tag, Image, Divider
+	]
 })
 export class MyInfoModule { }

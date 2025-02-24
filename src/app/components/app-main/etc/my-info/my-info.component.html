@@ -11,7 +11,7 @@
           <label class="col-6 mr-1">{{"my-info.detail.id" | translate}}</label>
           <label class="col-6">{{userDataModel.id}}</label>
         </div>
-        <div class="flex">
+        <div class="flex align-items-center">
           <label class="col-6 mr-1">{{"my-info.detail.password" | translate}}</label>
           <p-button class="col-6" (click)="passwordChange()">{{"common-desc.edit" | translate}}</p-button>
         </div>
@@ -19,6 +19,7 @@
           <label class="col-6 mr-1">{{"my-info.detail.name" | translate}}</label>
           <label class="col-6">{{userDataModel.name}}</label>
         </div>
+        <!--
         <div class="flex">
           <label class="col-6 mr-1">{{"my-info.detail.mail" | translate}}</label>
           <label class="col-6">{{userDataModel.mail}}</label>
@@ -35,29 +36,32 @@
           <label class="col-6 mr-1">{{"my-info.detail.status" | translate}}</label>
           <p-tag class="col-6" [value]="statusToUserStatusDesc(userDataModel.status)" [severity]="getSeverity(userDataModel.status)"/>
         </div>
-        <div class="flex">
+        -->
+        <div class="flex align-items-center">
           <label class="col-6 mr-1">{{"my-info.detail.reg-date" | translate}}</label>
           <label class="col-6">{{dateToYearFullString(userDataModel.regDate)}}</label>
         </div>
-        <div class="flex">
+        <div class="flex align-items-center">
           <label class="col-6 mr-1">{{"my-info.detail.last-login-date" | translate}}</label>
           <label class="col-6">{{dateToYearFullString(userDataModel.lastLoginDate)}}</label>
         </div>
+        <p-divider layout="horizontal" />
         <div class="field grid">
           <div class="col">
-            <label>{{userDataModel.companyNumber}}</label>
-            <p-image width="100" height="100" [src]="userImageUrl(UserFileType.Taxpayer)" [alt]="userDataModel.companyNumber" (click)="userImageView(UserFileType.Taxpayer)" />
+            <label class="flex">{{userDataModel.companyName}}</label>
+            <label class="flex">{{userDataModel.companyNumber}}</label>
+            <p-image width="100" height="100" [src]="userImageUrl(UserFileType.Taxpayer)" [alt]="userDataModel.companyName" (click)="userImageView(UserFileType.Taxpayer)" />
           </div>
           <div class="col">
-            <label>{{userDataModel.bankAccount}}</label>
+            <label class="flex">{{userDataModel.bankAccount}}</label>
             <p-image width="100" height="100" [src]="userImageUrl(UserFileType.BankAccount)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.BankAccount)" />
           </div>
           <div class="col">
-            <label>{{"my-info.detail.cso-report-image" | translate}}</label>
+            <label class="flex">{{"my-info.detail.cso-report-image" | translate}}</label>
             <p-image width="100" height="100" [src]="userImageUrl(UserFileType.CsoReport)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.CsoReport)" />
           </div>
           <div class="col">
-            <label>{{"my-info.detail.marketing-contract-image" | translate}}</label>
+            <label class="flex">{{"my-info.detail.marketing-contract-image" | translate}}</label>
             <p-image width="100" height="100" [src]="userImageUrl(UserFileType.MarketingContract)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.MarketingContract)" />
           </div>
           <input #taxpayerImageInput class="collapse" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp,.pdf" (change)="userImageSelected($event, UserFileType.Taxpayer)">
