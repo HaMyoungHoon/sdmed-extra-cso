@@ -135,12 +135,12 @@
       "marketing-contract-image": "marketing contract"
     },
     "hos-data": {
-      "code": "code",
-      "inner-name": "inner name"
+      "org-name": "name",
+      "address": "address"
     },
     "pharma-data": {
-      "code": "code",
-      "inner-name": "inner name"
+      "org-name": "name",
+      "address": "address"
     }
   },
   "how-much": {

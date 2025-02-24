@@ -75,14 +75,14 @@
                    size="small" stripedRows="true" [paginator]="true" [rows]="10">
             <ng-template #header>
               <tr>
-                <th class="w-2">{{"my-info.hos-data.code" | translate}}</th>
-                <th>{{"my-info.hos-data.inner-name" | translate}}</th>
+                <th>{{"my-info.hos-data.org-name" | translate}}</th>
+                <th>{{"my-info.hos-data.address" | translate}}</th>
               </tr>
             </ng-template>
             <ng-template #body let-hosData>
               <tr [pSelectableRow]="hosData">
-                <td>{{hosData.code}}</td>
                 <td>{{hosData.orgName}}</td>
+                <td>{{hosData.address}}</td>
               </tr>
             </ng-template>
           </p-table>
@@ -90,14 +90,14 @@
                    size="small" stripedRows="true" [paginator]="true" [rows]="10">
             <ng-template #header>
               <tr>
-                <th class="w-2">{{"my-info.pharma-data.code" | translate}}</th>
-                <th>{{"my-info.pharma-data.inner-name" | translate}}</th>
+                <th>{{"my-info.pharma-data.org-name" | translate}}</th>
+                <th>{{"my-info.pharma-data.address" | translate}}</th>
               </tr>
             </ng-template>
             <ng-template #body let-pharmaData>
               <tr>
-                <td>{{pharmaData.code}}</td>
                 <td>{{pharmaData.orgName}}</td>
+                <td>{{pharmaData.address}}</td>
               </tr>
             </ng-template>
           </p-table>
