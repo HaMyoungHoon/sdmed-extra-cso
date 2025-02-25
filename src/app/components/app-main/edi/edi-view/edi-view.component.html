@@ -16,25 +16,25 @@
   <div>
     <span>{{"edi-view.edi-state" | translate}}</span>
     <span>
-      <p-tag [value]="uploadModel.ediState" [severity]="getEDIStateSeverity(uploadModel.ediState)" />
+      <p-tag [value]="StringToEDIStateDesc[uploadModel.ediState]" [severity]="getEDIStateSeverity(uploadModel.ediState)" />
     </span>
   </div>
   <p-accordion [multiple]="multipleEnable">
     <p-accordion-panel *ngFor="let pharma of uploadModel.pharmaList" value="{{accordionPharmaIndex(pharma)}}">
       <p-accordion-header>
-        <div>
-          <span>{{pharma.orgName}}</span>
-          <div *ngIf="pharma.isCarriedOver">
-            <span>{{"edi-view.carried-over" | translate}}</span>
-            <span>{{"edi-view.approx-apply-date" | translate}}</span>
-            <br/>
-            <span>{{getPharmaApplyDate(pharma)}}</span>
+        <div class="flex flex-wrap w-full flex-row">
+          <div class="flex col-2 align-items-center">
+            <label>{{pharma.orgName}}</label>
+            <div *ngIf="pharma.isCarriedOver">
+              <label>{{"edi-view.carried-over" | translate}}</label>
+              <label>{{"edi-view.approx-apply-date" | translate}}</label>
+              <label>{{getPharmaApplyDate(pharma)}}</label>
+            </div>
           </div>
-        </div>
-        <div>
-          <span>{{"edi-view.edi-state" | translate}}</span>
-          <br/>
-          <p-tag [value]="pharma.ediState" [severity]="getEDIStateSeverity(pharma.ediState)" />
+          <div class="flex col-2 align-items-center">
+            <label>{{"edi-view.edi-state" | translate}}</label>
+            <p-tag [value]="StringToEDIStateDesc[pharma.ediState]" [severity]="getEDIStateSeverity(pharma.ediState)" />
+          </div>
         </div>
       </p-accordion-header>
       <p-accordion-content *ngIf="false">
@@ -66,24 +66,23 @@
   <p-accordion [multiple]="multipleEnable">
     <p-accordion-panel *ngFor="let response of uploadModel.responseList" value="{{accordionResponseIndex(response)}}">
       <p-accordion-header>
-        <div>
-          <span>{{response.pharmaName}}</span>
-          <br/>
-          <p-tag [value]="response.ediState" [severity]="getEDIStateSeverity(response.ediState)" />
-        </div>
-        <div>
-          <span>{{"edi-view.reply.reg-date" | translate}}</span>
-          <br/>
-          <span>{{dateToYYYYMMdd(response.regDate)}}</span>
-        </div>
-        <div *ngIf="false">
-          <span>{{"edi-view.reply.user-name" | translate}}</span>
-          <br/>
-          <span>{{response.userName}}</span>
+        <div class="flex flex-wrap w-full flex-row">
+          <div class="flex col-2 align-items-center">
+            <label>{{response.pharmaName}}</label>
+            <p-tag [value]="StringToEDIStateDesc[response.ediState]" [severity]="getEDIStateSeverity(response.ediState)" />
+          </div>
+          <div class="flex col-2 align-items-center">
+            <label>{{"edi-view.reply.reg-date" | translate}}</label>
+            <label>{{dateToYYYYMMdd(response.regDate)}}</label>
+          </div>
+          <div *ngIf="false" class="flex col2 align-items-center">
+            <label>{{"edi-view.reply.user-name" | translate}}</label>
+            <label>{{response.userName}}</label>
+          </div>
         </div>
       </p-accordion-header>
       <p-accordion-content *ngIf="response.etc.length > 0">
-        <textarea rows="5" cols="30" pTextarea [autoResize]="true" [(ngModel)]="response.etc" [readonly]="true"></textarea>
+        <textarea class="w-full" rows="5" cols="30" pTextarea [autoResize]="true" [(ngModel)]="response.etc" [readonly]="true"></textarea>
       </p-accordion-content>
     </p-accordion-panel>
   </p-accordion>

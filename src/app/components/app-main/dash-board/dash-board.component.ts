@@ -8,6 +8,7 @@ import {HowMuchHospitalModel} from "../../../models/rest/how-much-hospital-model
 import {HowMuchPharmaModel} from "../../../models/rest/how-much-pharma-model";
 import {HowMuchMedicineModel} from "../../../models/rest/how-much-medicine-model";
 import * as FExtensions from "../../../guards/f-extensions";
+import {StringToEDIStateDesc} from "../../../models/rest/edi/edi-state";
 
 @Component({
   selector: "app-dash-board",
@@ -305,4 +306,5 @@ export class DashBoardComponent extends FComponentBase {
 
   protected readonly ellipsis = FExtension.ellipsis;
   protected readonly getEDIStateSeverity = FExtension.getEDIStateSeverity;
+  protected readonly StringToEDIStateDesc = StringToEDIStateDesc;
 }

@@ -24,19 +24,19 @@ export function EDIStateToEDIStateDesc(ediState?: EDIState): string {
   return EDIStateDesc[ediState ?? EDIState.None];
 }
 export const EDIStateDesc: { [key in EDIState]: string } = {
-  [EDIState.None]: "미지정",
+  [EDIState.None]: "미처리",
   [EDIState.OK]: "완료",
-  [EDIState.Reject]: "거부",
-  [EDIState.Pending]: "보류",
-  [EDIState.Partial]: "부분",
+  [EDIState.Reject]: "불가",
+  [EDIState.Pending]: "이월",
+  [EDIState.Partial]: "부분처리",
 }
 
 export const StringToEDIStateDesc: { [key in string]: string } = {
-  "None": "미지정",
+  "None": "미처리",
   "OK": "완료",
-  "Reject": "거부",
-  "Pending": "보류",
-  "Partial": "부분",
+  "Reject": "불가",
+  "Pending": "이월",
+  "Partial": "부분처리",
 }
 export const StringToEDIState: { [key in string]: EDIState } = {
   "None": EDIState.None,
@@ -46,9 +46,9 @@ export const StringToEDIState: { [key in string]: EDIState } = {
   "Partial": EDIState.Partial,
 }
 export const EDIStateDescToEDIState: { [key in string]: EDIState } = {
-  "미지정": EDIState.None,
+  "미처리": EDIState.None,
   "완료": EDIState.OK,
-  "거부": EDIState.Reject,
-  "보류": EDIState.Pending,
-  "부분": EDIState.Partial,
+  "불가": EDIState.Reject,
+  "이월": EDIState.Pending,
+  "부분처리": EDIState.Partial,
 }

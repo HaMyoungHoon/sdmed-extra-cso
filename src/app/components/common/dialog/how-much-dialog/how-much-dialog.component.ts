@@ -10,6 +10,7 @@ import {InputText} from "primeng/inputtext";
 import {TranslatePipe} from "@ngx-translate/core";
 import * as FConstants from "../../../../guards/f-constants";
 import {ellipsis} from "../../../../guards/f-extensions";
+import {StringToEDIStateDesc} from "../../../../models/rest/edi/edi-state";
 
 @Component({
   selector: "app-how-much-dialog",
@@ -80,4 +81,5 @@ export class HowMuchDialogComponent extends FDialogComponentBase {
   protected readonly tableStyle = FConstants.tableStyle;
   protected readonly customSort = FExtensions.customSort;
   protected readonly ellipsis = ellipsis;
+  protected readonly StringToEDIStateDesc = StringToEDIStateDesc;
 }
