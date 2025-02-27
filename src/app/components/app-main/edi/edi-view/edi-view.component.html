@@ -1,23 +1,27 @@
 <div class="edi-view-container">
   <app-progress-spin [isLoading]="isLoading" />
-  <div>
-    <span>{{"edi-view.apply-date" | translate}} : </span>
-    <span>{{getApplyDate()}}</span>
-    <span>{{"edi-view.reg-date" | translate}} : </span>
-    <span>{{dateToYYYYMMdd(uploadModel.regDate)}}</span>
+  <div class="flex w-full">
+    <p-ifta-label class="m-1">
+      <input class="w-8rem" id="applyDate" [ngModel]="getApplyDate()" readonly pInputText />
+      <label for="applyDate">{{"edi-view.apply-date" | translate}}</label>
+    </p-ifta-label>
+    <p-ifta-label class="m-1">
+      <input class="w-10rem" id="hospitalName" [ngModel]="uploadModel.orgName" readonly pInputText />
+      <label for="hospitalName">{{"edi-view.hospital-name" | translate}}</label>
+    </p-ifta-label>
   </div>
-  <div>
-    <span>{{"edi-view.hospital-name" | translate}} : </span>
-    <span>{{uploadModel.orgName}}</span>
-    <div *ngIf="uploadModel.etc.length > 0">
-      <span>{{uploadModel.etc}}</span>
-    </div>
+  <div class="flex">
+    <p-ifta-label class="m-1">
+      <input class="w-8rem" id="regDate" [ngModel]="dateToYYYYMMdd(uploadModel.regDate)" readonly pInputText />
+      <label for="regDate">{{"edi-view.reg-date" | translate}}</label>
+    </p-ifta-label>
+    <p-ifta-label class="m-1" *ngIf="uploadModel.etc.length > 0">
+      <input class="w-10rem" id="hospitalNewName" [ngModel]="uploadModel.etc" readonly pInputText />
+      <label for="hospitalNewName">{{"edi-view.hospital-new-name" | translate}}</label>
+    </p-ifta-label>
   </div>
-  <div>
-    <span>{{"edi-view.edi-state" | translate}}</span>
-    <span>
-      <p-tag [value]="StringToEDIStateDesc[uploadModel.ediState]" [severity]="getEDIStateSeverity(uploadModel.ediState)" />
-    </span>
+  <div class="flex">
+    <p-tag class="flex" [value]="StringToEDIStateDesc[uploadModel.ediState]" [severity]="getEDIStateSeverity(uploadModel.ediState)" />
   </div>
   <p-accordion [multiple]="multipleEnable">
     <p-accordion-panel *ngFor="let pharma of uploadModel.pharmaList" value="{{accordionPharmaIndex(pharma)}}">
