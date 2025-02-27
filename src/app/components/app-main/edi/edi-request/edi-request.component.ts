@@ -77,11 +77,12 @@ export class EdiRequestComponent extends FComponentBase {
   async getPharmaList(): Promise<void> {
     if (this.selectHospital) {
       this.pharmaList = [...this.selectHospital.pharmaList];
-      this.selectPharma = this.pharmaList;
+//      this.selectPharma = this.pharmaList;
     } else {
       this.pharmaList = [];
       this.selectPharma = [];
     }
+    this.selectPharma = [];
 //    const hosPK = this.selectHospital?.thisPK;
 //    if (hosPK == null) {
 //      return;
