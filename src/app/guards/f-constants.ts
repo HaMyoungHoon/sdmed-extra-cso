@@ -8,6 +8,7 @@ export const CACHES_IMAGE_CACHE: string = "image-cache";
 
 export const THEME_LINK: string = "app-theme";
 export const MQTT_CONNECT_DATA: string = "mqtt-connect";
+export const CALENDAR_VIEW_TYPE: string = "calendarViewType";
 
 export const NOTFOUND_URL: string = "/notfound";
 export const API_CSO: string = "/apiCSO";

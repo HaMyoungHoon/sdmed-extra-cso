@@ -23,9 +23,9 @@ export class EdiDueDateComponent extends FComponentBase {
   calendarOptions = signal<CalendarOptions>({
     plugins: [interactionPlugin, dayGridPlugin],
     headerToolbar: {
-      left: "prev,next today",
+      start: "prev,next dayGridMonth,dayGridWeek",
       center: "title",
-      right: "",
+      end: "",
     },
     initialView: "dayGridMonth",
     weekends: true,
@@ -43,6 +43,10 @@ export class EdiDueDateComponent extends FComponentBase {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.UserChanger, UserRole.BusinessMan));
     const sub = new Subject<any>();
     this.sub.push(sub);
+    this.calendarOptions.update((options) => ({
+      ...options,
+      initialView: this.appConfig.getCalendarViewType()
+    }));
     this.translateService.onLangChange.pipe(takeUntil(sub)).subscribe((event: LangChangeEvent) => {
       this.calendarOptions.update((options) => ({
         ...options,
@@ -55,17 +59,22 @@ export class EdiDueDateComponent extends FComponentBase {
     await this.getList();
   }
 
+  setEvents(): void {
+    this.calendar.getApi().batchRendering(async () => {
+      this.calendar.getApi().removeAllEvents();
+      this.viewModel.forEach(x => {
+        this.addEvent(x);
+      });
+    });
+  }
   async getList(): Promise<void> {
     this.setLoading();
     const ret = await FExtensions.restTry(async() => await this.thisService.getList(FExtensions.dateToYYYYMMdd(this.calendar.getApi().getDate())),
       e => this.fDialogService.error("getList", e));
     this.setLoading(false);
     if (ret.result) {
-      this.calendar.getApi().removeAllEvents();
       this.viewModel = ret.data ?? [];
-      this.viewModel.forEach(x => {
-        this.addEvent(x);
-      });
+      this.setEvents();
       return;
     }
     this.fDialogService.warn("getList", ret.msg);
@@ -76,11 +85,8 @@ export class EdiDueDateComponent extends FComponentBase {
       e => this.fDialogService.error("getListRange", e));
     this.setLoading(false);
     if (ret.result) {
-      this.calendar.getApi().removeAllEvents();
       this.viewModel = ret.data ?? [];
-      this.viewModel.forEach(x => {
-        this.addEvent(x);
-      });
+      this.setEvents();
       return;
     }
     this.fDialogService.warn("getListRange", ret.msg);
@@ -89,6 +95,7 @@ export class EdiDueDateComponent extends FComponentBase {
   async datesSet(datesSetArg: DatesSetArg): Promise<void> {
     if (this.haveRole) {
       await this.getListRange(datesSetArg.start, datesSetArg.end);
+      this.appConfig.setCalendarViewType(datesSetArg.view.type);
     }
   }
   async eventSet(events: EventApi[]): Promise<void> {

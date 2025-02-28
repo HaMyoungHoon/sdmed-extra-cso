@@ -125,4 +125,15 @@ export class AppConfigService {
       FAmhohwa.setLocalStorage(FConstants.THEME_LINK, JSON.stringify(state));
     }
   }
+
+  getCalendarViewType(): string {
+    const buff = FAmhohwa.getLocalStorage(FConstants.CALENDAR_VIEW_TYPE);
+    if (buff.length <= 0) {
+      return "dayGridMonth"
+    }
+    return buff;
+  }
+  setCalendarViewType(typeString: string): void {
+    FAmhohwa.setLocalStorage(FConstants.CALENDAR_VIEW_TYPE, typeString);
+  }
 }

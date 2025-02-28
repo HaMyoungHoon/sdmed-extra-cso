@@ -35,6 +35,7 @@ export abstract class FComponentBase implements AfterContentInit, OnDestroy {
   protected configService: AppConfigService;
   protected azureBlobService: AzureBlobService;
   protected router: Router
+  protected appConfig: AppConfigService;
   protected constructor(protected arrayRole: Array<UserRole> = Array<UserRole>(UserRole.None)) {
     this.commonService = inject(CommonService);
     this.mqttService = inject(MqttService);
@@ -44,6 +45,7 @@ export abstract class FComponentBase implements AfterContentInit, OnDestroy {
     this.configService = inject(AppConfigService);
     this.azureBlobService = inject(AzureBlobService);
     this.router = inject(Router);
+    this.appConfig = inject(AppConfigService);
   }
 
   async ngAfterContentInit(): Promise<void> {
