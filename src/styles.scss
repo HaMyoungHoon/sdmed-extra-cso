@@ -38,3 +38,10 @@ app-qna-write .p-editor-content, .ql-editor {
 app-edi-due-date .fc-toolbar-title {
   font-size: 1em !important;
 }
+
+.drop-zone {
+}
+.drop-zone.drag-over {
+  background: var(--p-gray-300);
+  border: 2px dashed var(--p-blue-300);
+}

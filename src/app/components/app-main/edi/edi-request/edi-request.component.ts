@@ -30,6 +30,7 @@ export class EdiRequestComponent extends FComponentBase {
   activeIndex: number = 0;
   uploadFileBuffModel: UploadFileBuffModel[] = [];
   saveAble: boolean = false;
+  isDragging: boolean = false;
   constructor(private thisService: EdiRequestService) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
   }
@@ -264,6 +265,35 @@ export class EdiRequestComponent extends FComponentBase {
     }
 
     this.saveAble = true;
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragging = true;
+  }
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragging = false;
+  }
+  async onDrop(event: DragEvent): Promise<void> {
+    event.preventDefault();
+    this.isDragging = false;
+    if (event.dataTransfer?.files.length) {
+      this.setLoading();
+      const gatheringFile = (await FExtensions.gatheringAbleFile(event.dataTransfer.files, (file: File): void => {
+        this.translateService.get("common-desc.not-supported-file").subscribe(x => {
+          this.fDialogService.warn("fileUpload", `${file.name} ${x}`);
+        });
+      })).filter(x => !!x.file);
+      if (gatheringFile.length > 0) {
+        this.uploadFileBuffModel = this.uploadFileBuffModel.concat(gatheringFile);
+        this.uploadFileBuffModel = FExtensions.distinctByFields(this.uploadFileBuffModel, ["file.name", "file.size"]);
+      }
+      this.inputFiles.nativeElement.value = "";
+      this.checkSavable();
+
+      this.setLoading(false);
+    }
   }
 
   async fileUpload(): Promise<void> {

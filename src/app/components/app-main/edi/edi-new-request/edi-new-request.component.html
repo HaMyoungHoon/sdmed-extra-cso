@@ -1,4 +1,4 @@
-<div class="edi-request-container grid w-full">
+<div class="edi-request-container grid w-full drop-zone" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" [class.drag-over]="isDragging">
   <app-progress-spin [isLoading]="isLoading" />
   <div class="col-12 flex flex-column justify-content-center">
     <label class="flex justify-content-center">{{"edi-request.list.apply-date" | translate}}</label>
