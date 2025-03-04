@@ -27,7 +27,7 @@
     <p-accordion-panel *ngFor="let pharma of uploadModel.pharmaList" value="{{accordionPharmaIndex(pharma)}}">
       <p-accordion-header>
         <div class="flex flex-wrap w-full flex-row">
-          <div class="flex col-2 align-items-center">
+          <div class="flex align-items-center">
             <label>{{pharma.orgName}}</label>
             <div *ngIf="pharma.isCarriedOver">
               <label>{{"edi-view.carried-over" | translate}}</label>
@@ -35,8 +35,10 @@
               <label>{{getPharmaApplyDate(pharma)}}</label>
             </div>
           </div>
-          <div class="flex col-2 align-items-center">
+          <div class="flex align-items-center">
+            <!--
             <label>{{"edi-view.edi-state" | translate}}</label>
+            -->
             <p-tag [value]="StringToEDIStateDesc[pharma.ediState]" [severity]="getEDIStateSeverity(pharma.ediState)" />
           </div>
         </div>
