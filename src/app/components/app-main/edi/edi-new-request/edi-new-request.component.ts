@@ -7,6 +7,9 @@ import {UserRole} from "../../../../models/rest/user/user-role";
 import * as FExtensions from "../../../../guards/f-extensions";
 import * as FConstants from "../../../../guards/f-constants";
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
+import {EDIPharmaBuffModel} from "../../../../models/rest/edi/edi-pharma-buff-model";
+import {EDIUploadPharmaModel} from "../../../../models/rest/edi/edi-upload-pharma-model";
+import {EDIUploadPharmaMedicineModel} from "../../../../models/rest/edi/edi-upload-pharma-medicine-model";
 
 @Component({
   selector: "app-edi-new-request",
@@ -19,6 +22,8 @@ export class EdiNewRequestComponent extends FComponentBase {
   ediETC: string = "";
   applyDateList: EDIApplyDateModel[] = [];
   selectApplyDate?: EDIApplyDateModel;
+  pharmaList: EDIPharmaBuffModel[] = [];
+  selectPharma: EDIPharmaBuffModel[] = [];
   activeIndex: number = 0;
   uploadFileBuffModel: UploadFileBuffModel[] = [];
   saveAble: boolean = false;
@@ -39,10 +44,25 @@ export class EdiNewRequestComponent extends FComponentBase {
       this.applyDateList = ret.data ?? [];
       if (this.applyDateList.length >= 1) {
         this.selectApplyDate = this.applyDateList[0];
+        await this.getPharmaListAll();
       }
       return;
     }
     this.fDialogService.warn("getApplyDateList", ret.msg);
+  }
+  async getPharmaListAll(): Promise<void> {
+    if (this.selectApplyDate == null) {
+      return;
+    }
+    this.setLoading();
+    const applyDate = `${this.selectApplyDate.year}-${this.selectApplyDate.month}-01`;
+    const ret = await FExtensions.restTry(async() => await this.thisService.getPharmaListAll(applyDate),
+      e => this.fDialogService.error("getPharmaListAll", e));
+    this.setLoading(false);
+    if (ret.result) {
+      this.pharmaList = ret.data ?? [];
+      this.selectPharma = [];
+    }
   }
 
   async saveData(): Promise<void> {
@@ -96,6 +116,10 @@ export class EdiNewRequestComponent extends FComponentBase {
   }
 
   async applyDateOnSelect(): Promise<void> {
+    await this.getPharmaListAll();
+    this.checkSavable();
+  }
+  async pharmaOnSelect(): Promise<void> {
     this.checkSavable();
   }
 
@@ -105,6 +129,11 @@ export class EdiNewRequestComponent extends FComponentBase {
       ret.year = this.selectApplyDate.year;
       ret.month = this.selectApplyDate.month;
     }
+    this.selectPharma.forEach(pharmaBuff => {
+      ret.pharmaList.push(FExtensions.applyClass(EDIUploadPharmaModel, applyPharma => {
+        applyPharma.pharmaPK = pharmaBuff.thisPK;
+      }));
+    });
     ret.regDate = new Date();
     ret.etc = this.ediETC;
 
@@ -120,6 +149,10 @@ export class EdiNewRequestComponent extends FComponentBase {
       return;
     }
     if (this.selectApplyDate == null) {
+      this.saveAble = false;
+      return;
+    }
+    if (this.selectPharma.length <= 0) {
       this.saveAble = false;
       return;
     }
@@ -174,6 +207,9 @@ export class EdiNewRequestComponent extends FComponentBase {
 
   get removeFileTooltip(): string {
     return "common-desc.remove";
+  }
+  get pharmaFilterFields(): string[] {
+    return ["orgName"];
   }
 
   protected readonly ellipsis = FExtensions.ellipsis;

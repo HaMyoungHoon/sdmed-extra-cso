@@ -47,7 +47,7 @@
     "list": {
       "apply-date": "EDI 날짜"
     },
-    "hospital": "적용병원",
+    "hospital": "병원명(신규처 or 기존처 or 이관처)",
     "pharma": "적용제약사"
   },
   "edi-list": {

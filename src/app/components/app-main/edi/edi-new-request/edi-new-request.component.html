@@ -18,6 +18,17 @@
     </p-ifta-label>
   </div>
   <div class="col-12 flex flex-column justify-content-center">
+    <label class="flex justify-content-center">{{"edi-request.pharma" | translate}}</label>
+    <p-list-box class="flex justify-content-center max-h-20rem" [options]="pharmaList" [(ngModel)]="selectPharma" [multiple]="true"
+                (onChange)="pharmaOnSelect()" [filter]="true" [filterFields]="pharmaFilterFields">
+      <ng-template pTemplate="item" let-data>
+        <div class="flex">
+          <div>{{data.orgName}}</div>
+        </div>
+      </ng-template>
+    </p-list-box>
+  </div>
+  <div class="col-12 flex flex-column justify-content-center">
     <p-galleria class="flex justify-content-center" [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="true" [showIndicatorsOnItem]="false"
                 [containerStyle]="galleriaContainerStyleWithThumbnail" [numVisible]="5" [(activeIndex)]="activeIndex" [circular]="true">
       <ng-template pTemplate="item" let-item>
