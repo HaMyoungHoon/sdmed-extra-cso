@@ -35,7 +35,9 @@ export function decrypt(data : string | null): string {
 export function getRandomUUID(): string {
   return crypto.randomUUID()
 }
-
+export function isIphone(): boolean {
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
 const AES_KEY = "6574852065748520"
 const toHexStr = (data: string) : string => {
   const dataLength = data.length;

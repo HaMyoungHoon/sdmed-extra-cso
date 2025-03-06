@@ -376,7 +376,7 @@ export async function gatheringAbleFile(fileList: FileList, notAble: (file: File
       ext = "jpeg";
     }
     if (!isWebp(ext) && isImage(ext)) {
-      buff = await resizeImageFile(buff, ext);
+      buff = await resizeImageFile2(buff, ext);
       ext = "webp";
     }
     const buffUrl = await parseFileBlobUrl(buff, ext);
@@ -454,13 +454,85 @@ export function fileSizeToQuality(fileSize: number): number {
 export async function resizeImageFile(file: File, ext: string): Promise<File> {
   if (isImage(ext)) {
     const beforeSize = file.size;
-    let ret = await imageCompression(file, {
+    return await imageCompression(file, {
       fileType: "image/webp"
     });
-    if (ret.size >= beforeSize) {
-      return await resizeImageFile(ret, ext);
-    }
-    return ret;
+  } else {
+    return file;
+  }
+}
+export async function resizeImageFile2(file: File, ext: string): Promise<File> {
+  if (FAmhohwa.isIphone()) {
+    return await resizeImageFileIphone(file, ext);
+  }
+  if (isImage(ext)) {
+    return new Promise((resolve, _): void => {
+      const reader: FileReader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event: ProgressEvent<FileReader>): void => {
+        const canvas: HTMLCanvasElement = document.createElement("canvas");
+        const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
+        if (context) {
+          const image: HTMLImageElement = new Image();
+          image.src = event.target?.result as string;
+          image.onload = (): void => {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            context.drawImage(image, 0, 0);
+            canvas.toBlob((blob: Blob | null): void => {
+              if (blob) {
+                resolve(new File([blob], file.name, { type: FContentsType.type_webp }));
+              } else {
+                resolve(file);
+              }
+            }, FContentsType.type_webp, 0.9);
+            canvas.remove();
+          }
+        } else {
+          resolve(file);
+        }
+      }
+    });
+  } else {
+    return file;
+  }
+}
+export async function resizeImageFileIphone(file: File, ext: string): Promise<File> {
+  const maxSize = 1080;
+  if (isImage(ext)) {
+    return new Promise((resolve, _): void => {
+      const reader: FileReader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event: ProgressEvent<FileReader>): void => {
+        const canvas: HTMLCanvasElement = document.createElement("canvas");
+        const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
+        if (context) {
+          const image: HTMLImageElement = new Image();
+          image.src = event.target?.result as string;
+          image.onload = (): void => {
+            let { width, height } = image;
+            if (width > maxSize || height > maxSize) {
+              const scale = Math.min(maxSize / width, maxSize / height);
+              width = Math.round(width * scale);
+              height = Math.round(height * scale);
+            }
+            canvas.width = width;
+            canvas.height = height;
+            context.drawImage(image, 0, 0, width, height);
+            canvas.toBlob((blob: Blob | null): void => {
+              if (blob) {
+                resolve(new File([blob], file.name, { type: FContentsType.type_webp }));
+              } else {
+                resolve(file);
+              }
+            });
+            canvas.remove();
+          }
+        } else {
+          resolve(file);
+        }
+      }
+    });
   } else {
     return file;
   }
