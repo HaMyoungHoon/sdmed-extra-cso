@@ -374,7 +374,8 @@ export async function gatheringAbleFile(fileList: FileList, notAble: (file: File
     if (isHeic(ext)) {
       buff = await heicToJpegFile(buff, ext);
       ext = "jpeg";
-    } else if (isImage(ext)) {
+    }
+    if (!isWebp(ext) && isImage(ext)) {
       buff = await resizeImageFile(buff, ext);
       ext = "webp";
     }
@@ -452,11 +453,14 @@ export function fileSizeToQuality(fileSize: number): number {
 }
 export async function resizeImageFile(file: File, ext: string): Promise<File> {
   if (isImage(ext)) {
-    return await imageCompression(file, {
-      maxSizeMB: 3,
-      useWebWorker: true,
+    const beforeSize = file.size;
+    let ret = await imageCompression(file, {
       fileType: "image/webp"
     });
+    if (ret.size >= beforeSize) {
+      return await resizeImageFile(ret, ext);
+    }
+    return ret;
   } else {
     return file;
   }
@@ -527,23 +531,26 @@ export async function getMagicNumber(file: File, byteCount: number = 8): Promise
 }
 export function isAbleUpload(ext: string): boolean {
   if (isImage(ext)) return true;
-  if (ext == "zip") return true;
-  if (ext == "pdf") return true;
-  if (ext == "xlsx" || ext == "xls") return true;
-  if (ext == "docx" || ext == "doc") return true;
+  if (ext.toLowerCase() == "zip") return true;
+  if (ext.toLowerCase() == "pdf") return true;
+  if (ext.toLowerCase() == "xlsx" || ext.toLowerCase() == "xls") return true;
+  if (ext.toLowerCase() == "docx" || ext.toLowerCase() == "doc") return true;
   return false;
 }
 export function isHeic(ext: string): boolean {
-  return ext == "heic";
+  return ext.toLowerCase() == "heic";
+}
+export function isWebp(ext: string): boolean {
+  return ext.toLowerCase() == "webp";
 }
 export function isImage(ext: string): boolean {
-  if (ext == "jpeg") return true;
-  if (ext == "jpg") return true;
-  if (ext == "png") return true;
-  if (ext == "bmp") return true;
-  if (ext == "webp") return true;
-  if (ext == "heic") return true;
-  if (ext == "gif") return true;
+  if (ext.toLowerCase() == "jpeg") return true;
+  if (ext.toLowerCase() == "jpg") return true;
+  if (ext.toLowerCase() == "png") return true;
+  if (ext.toLowerCase() == "bmp") return true;
+  if (ext.toLowerCase() == "webp") return true;
+  if (ext.toLowerCase() == "heic") return true;
+  if (ext.toLowerCase() == "gif") return true;
 
   return false;
 }
