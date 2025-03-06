@@ -134,7 +134,7 @@ export class AppMainComponent implements AfterViewInit, OnDestroy {
       case MqttContentType.EDI_FILE_ADD: title = "mqtt-desc.title.edi-file-add"; break;
       case MqttContentType.EDI_FILE_DELETE: title = "mqtt-desc.title.edi-file-delete"; break;
     }
-//    this.fDialogService.mqttInfo(title, mqttContentModel.senderName,`${mqttContentModel.content}`, this.mqttConfirmFn, mqttContentModel);
+//    this.fDialogService.mqttInfo(title, mqttContentModel.senderID,`${mqttContentModel.content}`, this.mqttConfirmFn, mqttContentModel);
     this.fDialogService.mqttInfo(title, " ",`${mqttContentModel.content}`, this.mqttConfirmFn, mqttContentModel);
   }
   async mqttConfirmFn(event: MouseEvent, message: any, router: Router): Promise<void> {
