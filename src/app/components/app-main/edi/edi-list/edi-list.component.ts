@@ -93,6 +93,15 @@ export class EdiListComponent extends FComponentBase{
   getApplyDate(data: EDIUploadModel): string {
     return `${data.year}-${data.month}`;
   }
+  getItemOrgName(item: EDIUploadModel): string {
+    if (item.etc.length <= 0) {
+      return item.orgName;
+    }
+    return `${item.orgName} (${item.etc})`
+  }
+  isNewPlace(item: EDIUploadModel): boolean {
+    return item.etc.length > 0;
+  }
 
   protected readonly customSort = FExtensions.customSort;
   protected readonly filterTable = FExtensions.filterTable;
