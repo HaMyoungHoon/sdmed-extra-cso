@@ -29,6 +29,7 @@ export class EdiViewComponent extends FComponentBase {
   uploadModel: EDIUploadModel = new EDIUploadModel();
   uploadFileBuffModel: UploadFileBuffModel[] = [];
   activeIndex: number = 0;
+  uploadActiveIndex: number = 0;
   imageCacheUrl: {blobUrl: string, objectUrl: string}[] = [];
   constructor(private thisService: EdiListService, private route: ActivatedRoute) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
@@ -269,9 +270,9 @@ export class EdiViewComponent extends FComponentBase {
     const index = this.uploadFileBuffModel.indexOf(data);
     if (index == this.uploadFileBuffModel.length - 1) {
       if (this.uploadFileBuffModel.length - 1 > 0) {
-        this.activeIndex = this.uploadFileBuffModel.length - 2;
+        this.uploadActiveIndex = this.uploadFileBuffModel.length - 2;
       } else {
-        this.activeIndex = 0;
+        this.uploadActiveIndex = 0;
       }
     }
 

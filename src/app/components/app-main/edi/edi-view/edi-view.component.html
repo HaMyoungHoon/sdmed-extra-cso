@@ -93,22 +93,27 @@
     </p-accordion-panel>
   </p-accordion>
   <p-galleria class="flex justify-content-center" tabindex="-1" [value]="uploadModel.fileList" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
-              [containerStyle]="galleriaContainerStyle" [numVisible]="0" [circular]="true">
+              [containerStyle]="galleriaContainerStyle" [numVisible]="0" [circular]="true" [(activeIndex)]="activeIndex">
     <ng-template pTemplate="item" let-item>
-      <p-image [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="edi-image" width="300" (click)="viewItem(uploadModel.fileList, item)" />
+      <img [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="edi-image" (click)="viewItem(uploadModel.fileList, item)" />
     </ng-template>
-    <ng-template pTemplate="caption" let-item>
-      <div class="flex">
-        <p-button class="align-content-center" size="small" icon="pi pi-download" [rounded]="true" pTooltip="{{downloadFileTooltip | translate}}" (click)="downloadEDIFile(item)" />
-        <label class="m-1">{{ellipsis(item.originalFilename)}}</label>
+    <ng-template pTemplate="footer">
+      <div class="flex flex-column flex-wrap">
+        <div class="flex m-1 flex-row flex-wrap">
+          <label class="flex m-1 align-self-center">{{activeIndex + 1}}/{{uploadModel.fileList.length}}</label>
+          <label class="flex m-1 align-self-center">{{ellipsis(uploadModel.fileList[activeIndex].originalFilename, 30)}}</label>
+        </div>
+        <div class="flex flex-row flex-wrap">
+          <p-button class="flex m-1 align-content-center" size="small" icon="pi pi-download" [rounded]="true" pTooltip="{{downloadFileTooltip | translate}}" (click)="downloadEDIFile(uploadModel.fileList[activeIndex])" />
+          <p-confirm-popup />
+          <p-button class="flex m-1 justify-content-end ml-auto" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="removeEDIFile($event, uploadModel.fileList[activeIndex])" *ngIf="uploadAble"/>
+        </div>
       </div>
-      <p-confirm-popup />
-      <p-button class="flex m-1 justify-content-end ml-auto" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="removeEDIFile($event, item)" *ngIf="uploadAble"/>
     </ng-template>
   </p-galleria>
   <div class="col-12 flex flex-column justify-content-center" *ngIf="uploadAble">
     <p-galleria class="flex justify-content-center" [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="true" [showIndicatorsOnItem]="false"
-                [containerStyle]="galleriaContainerStyleWithThumbnail" [numVisible]="5" [(activeIndex)]="activeIndex" [circular]="true">
+                [containerStyle]="galleriaContainerStyleWithThumbnail" [numVisible]="5" [(activeIndex)]="uploadActiveIndex" [circular]="true">
       <ng-template pTemplate="item" let-item>
         <img [src]="item.blobUrl" [alt]="item.originalFilename" class="edi-image"/>
       </ng-template>
@@ -118,7 +123,10 @@
       <ng-template pTemplate="caption" let-item>
         <div class="flex">
           <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="deleteUploadFile(item)" />
-          <label class="m-1">{{ellipsis(item.file.name)}}</label>
+          <label class="flex m-1 align-self-center">{{uploadActiveIndex + 1}}/{{uploadFileBuffModel.length}}</label>
+        </div>
+        <div class="flex">
+          <label class="flex m-1 align-self-center">{{ellipsis(item.file.name, 30)}}</label>
         </div>
       </ng-template>
     </p-galleria>

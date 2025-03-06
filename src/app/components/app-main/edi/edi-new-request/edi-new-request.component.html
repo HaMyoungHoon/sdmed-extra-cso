@@ -40,6 +40,9 @@
       <ng-template pTemplate="caption" let-item>
         <div class="flex">
           <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="deleteUploadFile(item)" />
+          <label class="flex m-1 align-self-center">{{activeIndex + 1}}/{{uploadFileBuffModel.length}}</label>
+        </div>
+        <div class="flex">
           <label class="m-1">{{ellipsis(item.file.name)}}</label>
         </div>
       </ng-template>
