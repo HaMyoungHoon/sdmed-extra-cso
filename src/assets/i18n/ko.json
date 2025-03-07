@@ -188,7 +188,9 @@
     "delete-sure": "정말 삭제 하시겠습니까?",
     "in-visible": "숨김",
     "logout": "로그아웃",
-    "not-supported-file": "지원하지 않는 파일 형식입니다."
+    "not-supported-file": "지원하지 않는 파일 형식입니다.",
+    "NEW": "신규처",
+    "TRANSFER": "이관처"
   },
   "mqtt-desc": {
     "title": {

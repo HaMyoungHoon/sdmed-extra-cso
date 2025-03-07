@@ -188,7 +188,9 @@
     "delete-sure": "r u sure delete?",
     "in-visible": "invisible",
     "logout": "logout",
-    "not-supported-file": "not supported file format"
+    "not-supported-file": "not supported file format",
+    "NEW": "new",
+    "TRANSFER": "transfer"
   },
   "mqtt-desc": {
     "title": {

@@ -170,10 +170,12 @@ export class EdiNewRequestComponent extends FComponentBase {
     this.saveAble = true;
   }
 
+  ediTypeTranslate(item: string): string {
+    return `common-desc.${item}`;
+  }
   get pharmaFilterFields(): string[] {
     return ["orgName"];
   }
 
   protected readonly ellipsis = FExtensions.ellipsis;
-  protected readonly StringToEDITypeDesc = StringToEDITypeDesc;
 }
