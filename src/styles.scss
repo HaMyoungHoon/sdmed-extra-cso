@@ -49,13 +49,17 @@ app-edi-due-date .fc-toolbar-title {
 app-edi-pharma-file-combine-model .p-panel {
   width: 80vw;
 }
-.p-listbox-list-container {
-  min-height: 35rem !important;
-  max-height: 35rem !important;
+.h-35rem .p-listbox-list-container {
+  min-height: 35rem;
+  max-height: 35rem;
 }
 .no-drag {
   -webkit-user-select:none;
   -moz-user-select:none;
   -ms-user-select:none;
   user-select:none;
+}
+
+app-edi-list .p-paginator-content-end {
+  margin-inline-start: initial;
 }

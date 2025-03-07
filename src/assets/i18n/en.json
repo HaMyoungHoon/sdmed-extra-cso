@@ -57,6 +57,7 @@
     },
     "table": {
       "org-name": "hospital name",
+      "pharma-name": "pharma name",
       "edi-state": "state",
       "reg-date": "reg date",
       "apply-date": "edi date"
@@ -182,6 +183,7 @@
     "complete": "complete",
     "confirm": "confirm",
     "cancel": "cancel",
+    "search": "search",
     "sample-download": "sample download",
     "delete-sure": "r u sure delete?",
     "in-visible": "invisible",

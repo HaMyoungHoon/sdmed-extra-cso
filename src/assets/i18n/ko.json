@@ -57,6 +57,7 @@
     },
     "table": {
       "org-name": "병원명",
+      "pharma-name": "제약사명",
       "edi-state": "상태",
       "reg-date": "등록일",
       "apply-date": "EDI 날짜"
@@ -182,6 +183,7 @@
     "complete": "완료",
     "confirm": "확인",
     "cancel": "취소",
+    "search": "검색",
     "sample-download": "샘플 다운로드",
     "delete-sure": "정말 삭제 하시겠습니까?",
     "in-visible": "숨김",

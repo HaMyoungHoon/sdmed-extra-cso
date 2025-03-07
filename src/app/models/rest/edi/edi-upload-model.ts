@@ -15,6 +15,7 @@ export class EDIUploadModel {
   orgName: string = "";
   name: string = "";
   ediState: EDIState = EDIState.None;
+  ediStateDesc: string = "";
   ediType: EDIType = EDIType.DEFAULT;
   regDate: Date = new Date();
   etc: string = "";

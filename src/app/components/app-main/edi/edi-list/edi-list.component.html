@@ -14,33 +14,37 @@
         <div class="flex">
           <p-button class="align-content-center" size="small" icon="pi pi-refresh" (click)="refreshData()"></p-button>
         </div>
-        <!--
-        <p-iconfield class="flex ml-auto justify-content-end" iconPosition="left">
-          <p-inputicon>
-            <i class="pi pi-search"></i>
-          </p-inputicon>
-          <input pInputText type="text" (input)="filterTable(listTable, $event, filterTableOption)" placeholder="Search keyword" />
-        </p-iconfield>
-        -->
       </div>
     </ng-template>
     <ng-template #header>
       <tr>
         <th pSortableColumn="orgName">{{"edi-list.table.org-name" | translate}} <p-sortIcon field="orgName"/></th>
+        <th>{{"edi-list.table.pharma-name" | translate}}</th>
         <th pSortableColumn="ediState">{{"edi-list.table.edi-state" | translate}} <p-sortIcon field="ediState"/></th>
         <th pSortableColumn="regDate">{{"edi-list.table.reg-date" | translate}} <p-sortIcon field="regDate"/></th>
         <th>{{"edi-list.table.apply-date" | translate}}</th>
       </tr>
     </ng-template>
     <ng-template #body let-data>
-      <tr class="click-tr" (click)="open(data)">
+      <tr class="click-tr" (click)="open(data)" [pTooltip]="pharmaListTooltip(data)">
         <td [class.text-primary]="isNewPlace(data)">{{ellipsis(getItemOrgName(data), 20)}}</td>
+        <td>{{getItemPharmaName(data)}}</td>
         <td>
-          <p-tag [value]="StringToEDIStateDesc[data.ediState]" [severity]="getEDIStateSeverity(data.ediState)"/>
+          <p-tag [value]="data.ediStateDesc" [severity]="getEDIStateSeverity(data.ediState)"/>
         </td>
         <td>{{dateToYYYYMMdd(data.regDate)}}</td>
         <td>{{getApplyDate(data)}}</td>
       </tr>
+    </ng-template>
+    <ng-template #paginatorright>
+      <div class="block">
+        <p-iconfield iconPosition="left">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input pInputText type="text" (input)="filterTable(listTable, $event, filterTableOption)" [placeholder]="searchPlaceHolder | translate" />
+        </p-iconfield>
+      </div>
     </ng-template>
   </p-table>
 </div>

@@ -27,15 +27,15 @@
   </div>
   <div class="flex flex-column w-full">
     <label class="flex justify-content-center">{{"edi-request.pharma" | translate}}</label>
-    <p-list-box class="flex align-self-center w-fit" [options]="pharmaList" [filter]="true" [filterFields]="pharmaFilterFields" highlightOnSelect="false" optionLabel="orgName">
+    <p-list-box class="flex align-self-center w-fit h-35rem" [options]="pharmaList" [filter]="true" [filterFields]="pharmaFilterFields" highlightOnSelect="false" optionLabel="orgName">
       <ng-template pTemplate="item" let-item>
         <app-edi-pharma-file-combine-model class="flex" [pharmaItem]="item" (error)="onError($event)" (warn)="onWarn($event)" (changeFile)="pharmaItemChange($event)" />
       </ng-template>
     </p-list-box>
   </div>
-  <div class="col-12 flex flex-column justify-content-center">
-    <div class="flex grid justify-content-center m-1">
-      <p-button class="m-1 flex field align-content-center" size="small" (click)="saveData()" [disabled]="!saveAble">{{"common-desc.save" | translate}}</p-button>
+  <div class="flex flex-column w-full">
+    <div class="flex justify-content-center m-1">
+      <p-button class="flex align-content-center" size="small" (click)="saveData()" [disabled]="!saveAble">{{"common-desc.save" | translate}}</p-button>
     </div>
   </div>
 </div>

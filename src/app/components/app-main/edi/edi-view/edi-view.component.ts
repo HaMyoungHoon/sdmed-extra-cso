@@ -207,7 +207,6 @@ export class EdiViewComponent extends FComponentBase {
         inputBuff.nativeElement.value = "";
       }
 
-
       this.setLoading(false);
     }
   }

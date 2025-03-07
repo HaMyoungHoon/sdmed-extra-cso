@@ -39,6 +39,7 @@ export class EdiListComponent extends FComponentBase{
     this.setLoading(false);
     if (ret.result) {
       this.initValue = ret.data ?? [];
+      this.initValue.forEach(x => x.ediStateDesc = StringToEDIStateDesc[x.ediState]);
       this.viewList = [...this.initValue];
       return;
     }
@@ -82,7 +83,7 @@ export class EdiListComponent extends FComponentBase{
   }
 
   get filterFields(): string[] {
-    return ["orgName"];
+    return ["orgName", "ediStateDesc", "pharmaList.orgName"];
   }
   get startDateTooltip(): string {
     return "edi-list.header.start-date";
@@ -99,8 +100,29 @@ export class EdiListComponent extends FComponentBase{
     }
     return `${item.orgName} (${item.etc})`
   }
+  getItemPharmaName(item: EDIUploadModel): string {
+    if (item.pharmaList.length <= 0) {
+      return "???";
+    }
+    if (item.pharmaList.length == 1) {
+      return item.pharmaList[0].orgName;
+    }
+    return `${item.pharmaList[0].orgName} (${item.pharmaList.length})`;
+  }
   isNewPlace(item: EDIUploadModel): boolean {
     return item.etc.length > 0;
+  }
+  pharmaListTooltip(item: EDIUploadModel): string {
+    if (item.pharmaList.length <= 0) {
+      return "";
+    }
+    let ret = "";
+    item.pharmaList.forEach(x => ret += `${x.orgName}\n`);
+    return ret;
+  }
+
+  get searchPlaceHolder(): string {
+    return "common-desc.search";
   }
 
   protected readonly customSort = FExtensions.customSort;
@@ -110,5 +132,4 @@ export class EdiListComponent extends FComponentBase{
   protected readonly ellipsis = FExtensions.ellipsis;
   protected readonly tableStyle = FConstants.tableStyle;
   protected readonly filterTableOption = FConstants.filterTableOption;
-  protected readonly StringToEDIStateDesc = StringToEDIStateDesc;
 }
