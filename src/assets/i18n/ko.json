@@ -9,7 +9,7 @@
     "title": "EDI",
     "sub-menu": {
       "sub-1": "EDI 등록",
-      "sub-2": "EDI 신규처 등록",
+      "sub-2": "EDI 신규/이관처 등록",
       "sub-3": "EDI 목록",
       "sub-4": "EDI 마감일정"
     }

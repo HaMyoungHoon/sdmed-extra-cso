@@ -9,7 +9,7 @@
     "title": "edi",
     "sub-menu": {
       "sub-1": "edi upload",
-      "sub-2": "edi upload (new location)",
+      "sub-2": "edi upload (new, transfer)",
       "sub-3": "edi list",
       "sub-4": "edi due date"
     }
