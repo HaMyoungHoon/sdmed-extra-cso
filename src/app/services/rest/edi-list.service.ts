@@ -3,6 +3,7 @@ import {HttpResponseInterceptorService} from "../common/http-response-intercepto
 import {EDIUploadModel} from "../../models/rest/edi/edi-upload-model";
 import {RestResult} from "../../models/common/rest-result";
 import {EDIUploadFileModel} from "../../models/rest/edi/edi-upload-file-model";
+import {EDIUploadPharmaFileModel} from "../../models/rest/edi/edi-upload-pharma-file-model";
 
 @Injectable({
   providedIn: "root"
@@ -23,8 +24,14 @@ export class EdiListService {
   postFile(thisPK: string, ediUploadFileModel: EDIUploadFileModel[]): Promise<RestResult<EDIUploadFileModel[]>> {
     return this.httpResponse.post(`${this.baseUrl}/file/${thisPK}`, ediUploadFileModel);
   }
+  postPharmaFile(ediPK: string, ediPharmaPK: string, ediUploadPharmaFileModel: EDIUploadPharmaFileModel[]): Promise<RestResult<EDIUploadPharmaFileModel[]>> {
+    return this.httpResponse.post(`${this.baseUrl}/file/${ediPK}/pharma/${ediPharmaPK}`, ediUploadPharmaFileModel);
+  }
 
   deleteEDIFile(thisPK: string): Promise<RestResult<EDIUploadFileModel>> {
     return this.httpResponse.delete(`${this.baseUrl}/data/file/${thisPK}`);
+  }
+  deleteEDIPharmaFile(thisPK: string): Promise<RestResult<EDIUploadPharmaFileModel>> {
+    return this.httpResponse.delete(`${this.baseUrl}/data/pharma/file/${thisPK}`);
   }
 }

@@ -2,6 +2,7 @@ import {EDIState} from "./edi-state";
 import {EDIUploadPharmaModel} from "./edi-upload-pharma-model";
 import {EDIUploadFileModel} from "./edi-upload-file-model";
 import {EDIUploadResponseModel} from "./edi-upload-response-model";
+import {EDIType} from "./edi-type";
 
 export class EDIUploadModel {
   thisPK: string = "";
@@ -14,6 +15,7 @@ export class EDIUploadModel {
   orgName: string = "";
   name: string = "";
   ediState: EDIState = EDIState.None;
+  ediType: EDIType = EDIType.DEFAULT;
   regDate: Date = new Date();
   etc: string = "";
   pharmaList: EDIUploadPharmaModel[] = [];

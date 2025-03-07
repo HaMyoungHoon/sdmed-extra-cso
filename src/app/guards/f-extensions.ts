@@ -17,6 +17,7 @@ import {FileViewModel} from "../models/common/file-view-model";
 import {BlobStorageInfoModel} from "../models/rest/blob-storage-info-model";
 import heic2any from "heic2any";
 import imageCompression from "browser-image-compression";
+import {EDIUploadPharmaFileModel} from "../models/rest/edi/edi-upload-pharma-file-model";
 
 export type voidFunc = () => void;
 export type anyFunc = (x: any) => void;
@@ -328,6 +329,15 @@ export function getEDIUploadFileModel(file: File, blobStorageInfo: BlobStorageIn
     obj.mimeType = mimeType;
   });
 }
+export function getEDIUploadPharmaFileModel(file: File, blobStorageInfo: BlobStorageInfoModel, ext: string, mimeType: string): EDIUploadPharmaFileModel {
+  const blobUrl = `${blobStorageInfo.blobUrl}/${blobStorageInfo.blobContainerName}/${blobStorageInfo.blobName}`;
+  return applyClass(EDIUploadPharmaFileModel, (obj) => {
+    obj.blobUrl = blobUrl;
+    obj.blobName = blobStorageInfo.blobName;
+    obj.originalFilename = ableFilename(file.name);
+    obj.mimeType = mimeType;
+  });
+}
 
 export function userFileListToViewModel(userFileList: UserFileModel[]): FileViewModel[] {
   return userFileList.map(x => applyClass(FileViewModel, (obj) => {
@@ -339,6 +349,14 @@ export function userFileListToViewModel(userFileList: UserFileModel[]): FileView
 }
 
 export function ediFileListToViewModel(ediFileList: EDIUploadFileModel[]): FileViewModel[] {
+  return ediFileList.map(x => applyClass(FileViewModel, (obj) => {
+    obj.mimeType = x.mimeType;
+    obj.blobUrl = x.blobUrl;
+    obj.filename = ableFilename(x.originalFilename);
+    obj.ext = getExtMimeType(x.mimeType);
+  }));
+}
+export function ediPharmaFileListToViewModel(ediFileList: EDIUploadPharmaFileModel[]): FileViewModel[] {
   return ediFileList.map(x => applyClass(FileViewModel, (obj) => {
     obj.mimeType = x.mimeType;
     obj.blobUrl = x.blobUrl;

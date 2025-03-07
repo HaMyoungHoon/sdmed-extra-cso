@@ -1,0 +1,29 @@
+<div class="edi-pharma-file-combine-model-container drop-zone no-drag" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" [class.drag-over]="isDragging">
+  <p-panel class="flex w-fit" [header]="thisHeader()" [toggleable]="true" [(collapsed)]="isCollapsed" (click)="toggle($event)">
+    <div class="flex m-1 justify-content-center" *ngIf="isLoading">
+      <p-progress-spinner strokeWidth="2" />
+    </div>
+    <p-galleria class="flex justify-content-center" [value]="pharmaItem.uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="true" [showIndicatorsOnItem]="false"
+                [containerStyle]="galleriaContainerStyleWithThumbnail" [numVisible]="5" [(activeIndex)]="activeIndex" [circular]="true">
+      <ng-template pTemplate="item" let-item>
+        <img [src]="item.blobUrl" [alt]="item.originalFilename" class="edi-image"/>
+      </ng-template>
+      <ng-template pTemplate="thumbnail" let-item>
+        <img [src]="item.blobUrl" [alt]="item.originalfilename" class="thumbnail-image" />
+      </ng-template>
+      <ng-template pTemplate="caption" let-item>
+        <div class="flex">
+          <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="deleteUploadFile(item)" />
+          <label class="flex m-1 align-self-center">{{activeIndex + 1}}/{{pharmaItem.uploadFileBuffModel.length}}</label>
+        </div>
+        <div class="flex">
+          <label class="m-1">{{ellipsis(item.file.name)}}</label>
+        </div>
+      </ng-template>
+    </p-galleria>
+    <div class="flex m-1 justify-content-center">
+      <p-button class="align-content-center" size="small" (click)="fileUpload()">{{"common-desc.add" | translate}}</p-button>
+      <input #inputFiles class="collapse" type="file" [accept]="acceptFiles" (change)="fileSelected($event)" [multiple]="true" />
+    </div>
+  </p-panel>
+</div>

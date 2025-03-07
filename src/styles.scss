@@ -45,3 +45,17 @@ app-edi-due-date .fc-toolbar-title {
   background: var(--p-gray-300);
   border: 2px dashed var(--p-blue-300);
 }
+
+app-edi-pharma-file-combine-model .p-panel {
+  width: 80vw;
+}
+.p-listbox-list-container {
+  min-height: 35rem !important;
+  max-height: 35rem !important;
+}
+.no-drag {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}

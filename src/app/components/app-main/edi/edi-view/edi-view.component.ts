@@ -1,4 +1,4 @@
-import {Component, ElementRef, input, ViewChild} from "@angular/core";
+import {Component, ElementRef, input, QueryList, ViewChild, ViewChildren} from "@angular/core";
 import {FComponentBase} from "../../../../guards/f-component-base";
 import {EdiListService} from "../../../../services/rest/edi-list.service";
 import {UserRole} from "../../../../models/rest/user/user-role";
@@ -14,8 +14,9 @@ import {EDIUploadPharmaMedicineModel} from "../../../../models/rest/edi/edi-uplo
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {ActivatedRoute} from "@angular/router";
 import {EDIUploadResponseModel} from "../../../../models/rest/edi/edi-upload-response-model";
-import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
 import {Subject, takeUntil} from "rxjs";
+import {EDIType} from "../../../../models/rest/edi/edi-type";
+import {EDIUploadPharmaFileModel} from "../../../../models/rest/edi/edi-upload-pharma-file-model";
 
 @Component({
   selector: "app-edi-view",
@@ -24,12 +25,12 @@ import {Subject, takeUntil} from "rxjs";
   standalone: false,
 })
 export class EdiViewComponent extends FComponentBase {
-  @ViewChild("inputFiles") inputFiles!: ElementRef<HTMLInputElement>;
+  @ViewChildren("inputFiles") inputFiles!: QueryList<ElementRef>;
   thisPK: string = "";
   uploadModel: EDIUploadModel = new EDIUploadModel();
-  uploadFileBuffModel: UploadFileBuffModel[] = [];
+  pharmaFileActiveIndex: number[] = [];
+  pharmaUploadActiveIndex: number[] = [];
   activeIndex: number = 0;
-  uploadActiveIndex: number = 0;
   imageCacheUrl: {blobUrl: string, objectUrl: string}[] = [];
   constructor(private thisService: EdiListService, private route: ActivatedRoute) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
@@ -57,6 +58,10 @@ export class EdiViewComponent extends FComponentBase {
       e => this.fDialogService.error("getData", e));
     if (ret.result) {
       this.uploadModel = ret.data ?? new EDIUploadModel();
+      this.uploadModel.pharmaList.forEach(x => {
+        this.pharmaFileActiveIndex.push(0);
+        this.pharmaUploadActiveIndex.push(0);
+      });
       await this.readyImage();
       this.setLoading(false);
       return;
@@ -83,26 +88,7 @@ export class EdiViewComponent extends FComponentBase {
         this.imageCacheUrl.push({
           blobUrl: ediFile.blobUrl,
           objectUrl: ediFile.blobUrl,
-        })
-//        let blobBuff = await FImageCache.getImage(ediFile.blobUrl);
-//        if (blobBuff == undefined) {
-//          const ret: HttpResponse<Blob> | null = await FExtensions.tryCatchAsync(async (): Promise<HttpResponse<Blob>> => await this.commonService.downloadFile(ediFile.blobUrl),
-//            e => this.fDialogService.error("downloadFile", e));
-//          if (ret && ret.body) {
-//            blobBuff = ret.body;
-//            await FImageCache.putImage(ediFile.blobUrl, blobBuff);
-//          } else {
-//            this.imageCacheUrl.push({
-//              blobUrl: ediFile.blobUrl,
-//              objectUrl: FConstants.ASSETS_NO_IMAGE
-//            });
-//            continue;
-//          }
-//        }
-//        this.imageCacheUrl.push({
-//          blobUrl: ediFile.blobUrl,
-//          objectUrl: URL.createObjectURL(blobBuff)
-//        });
+        });
       }
     }
   }
@@ -130,6 +116,19 @@ export class EdiViewComponent extends FComponentBase {
 
   getBlobUrl(item: EDIUploadFileModel): string {
     return this.imageCacheUrl.find(x => x.blobUrl == item.blobUrl)?.objectUrl ?? FConstants.ASSETS_NO_IMAGE;
+  }
+  async viewPharmaItem(data: EDIUploadPharmaFileModel[], item: EDIUploadPharmaFileModel): Promise<void> {
+    this.fDialogService.openFullscreenFileView({
+      closable: false,
+      closeOnEscape: true,
+      maximizable: true,
+      width: "100%",
+      height: "100%",
+      data: {
+        file: FExtensions.ediPharmaFileListToViewModel(data),
+        index: data.findIndex(x => x.thisPK == item.thisPK)
+      }
+    });
   }
   async viewItem(data: EDIUploadFileModel[], item: EDIUploadFileModel): Promise<void> {
     this.fDialogService.openFullscreenFileView({
@@ -169,10 +168,25 @@ export class EdiViewComponent extends FComponentBase {
       saveAs(blobBuff, item.originalFilename);
     }
   }
-  async fileUpload(): Promise<void> {
-    this.inputFiles.nativeElement.click();
+  async downloadEDIPharmaFile(item: EDIUploadPharmaFileModel): Promise<void> {
+    let blobBuff = await FImageCache.getImage(item.blobUrl);
+    if (blobBuff == undefined) {
+      const ret = await FExtensions.tryCatchAsync(async() => await this.commonService.downloadFile(item.blobUrl),
+        e => this.fDialogService.error("downloadFile", e));
+      if (ret && ret.body) {
+        blobBuff = ret.body;
+        await FImageCache.putImage(item.blobUrl, blobBuff);
+      }
+    }
+    if (blobBuff) {
+      saveAs(blobBuff, item.originalFilename);
+    }
   }
-  async fileSelected(data: Event): Promise<void> {
+  async fileUpload(index: number): Promise<void> {
+    this.inputFiles.get(index)?.nativeElement?.click();
+  }
+  async fileSelected(data: Event, index: number): Promise<void> {
+    const pharma = this.uploadModel.pharmaList[index];
     const input = data.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.setLoading();
@@ -182,10 +196,17 @@ export class EdiViewComponent extends FComponentBase {
         });
       })).filter(x => !!x.file);
       if (gatheringFile.length > 0) {
-        this.uploadFileBuffModel = this.uploadFileBuffModel.concat(gatheringFile);
-        this.uploadFileBuffModel = FExtensions.distinctByFields(this.uploadFileBuffModel, ["file.name", "file.size"]);
+        if (pharma.uploadFileBuffModel == undefined) {
+          pharma.uploadFileBuffModel = [];
+        }
+        pharma.uploadFileBuffModel = pharma.uploadFileBuffModel.concat(gatheringFile);
+        pharma.uploadFileBuffModel = FExtensions.distinctByFields(pharma.uploadFileBuffModel, ["file.name", "file.size"]);
       }
-      this.inputFiles.nativeElement.value = "";
+      const inputBuff = this.inputFiles.get(index);
+      if (inputBuff) {
+        inputBuff.nativeElement.value = "";
+      }
+
 
       this.setLoading(false);
     }
@@ -215,35 +236,61 @@ export class EdiViewComponent extends FComponentBase {
       });
     });
   }
+  async removeEDIPharmaFile(event: Event, pharma: EDIUploadPharmaModel, index: number): Promise<void> {
+    const item = pharma.fileList[index];
+    this.translateService.get(["common-desc.delete-sure", "common-desc.cancel", "common-desc.confirm"]).subscribe(x => {
+      this.confirmCall(event, x["common-desc.remove"], x["common-desc.delete-sure"], x["common-desc.cancel"], x["common-desc.confirm"], async() => {
+        this.setLoading();
+        const ret = await FExtensions.restTry(async() => await this.thisService.deleteEDIPharmaFile(item.thisPK),
+          e => this.fDialogService.error("delete", e));
+        this.setLoading(false);
+        if (ret.result) {
+          const index = pharma.fileList.indexOf(item);
+          if (index == pharma.fileList.length - 1) {
+            if (pharma.fileList.length - 1 > 0) {
+              this.activeIndex = pharma.fileList.length - 2;
+            } else {
+              this.activeIndex = 0;
+            }
+          }
+          if (index >= 0) {
+            pharma.fileList = [...pharma.fileList.filter(x => x.thisPK != item.thisPK)];
+          }
+          return;
+        }
+        this.fDialogService.warn("delete", ret.msg);
+      });
+    });
+  }
 
   get acceptFiles(): string {
     return ".jpg,.jpeg,.png,.webp,.bmp,.xlsx,.pdf,.heif,.heic,.gif";
   }
-  async uploadAdditionalFile(): Promise<void> {
-    if (this.uploadFileBuffModel.length <= 0) {
+  async uploadAdditionalFile(pharma: EDIUploadPharmaModel): Promise<void> {
+    if (pharma.uploadFileBuffModel == undefined || pharma.uploadFileBuffModel.length <= 0) {
       return;
     }
     this.setLoading();
-    const fileList: EDIUploadFileModel[] = [];
-    const azureUploadRet = await this.uploadAzure(fileList);
+    const fileList: EDIUploadPharmaFileModel[] = [];
+    const azureUploadRet = await this.uploadAzure(pharma, fileList);
     if (!azureUploadRet) {
       this.setLoading(false);
       return;
     }
-    const ret = await FExtensions.restTry(async() => await this.thisService.postFile(this.thisPK, fileList),
+    const ret = await FExtensions.restTry(async() => await this.thisService.postPharmaFile(this.thisPK, pharma.thisPK, fileList),
       e => this.fDialogService.error("saveData", e));
     this.setLoading(false);
     if (ret.result) {
       await this.mqttSend(this.thisPK, this.uploadModel.orgName);
-      this.uploadFileBuffModel.forEach(x => x.revokeBlob());
+      pharma.uploadFileBuffModel.forEach(x => x.revokeBlob());
       window.location.reload();
       return;
     }
     this.fDialogService.warn("saveData", ret.msg);
   }
-  async uploadAzure(fileList: EDIUploadFileModel[]): Promise<boolean> {
+  async uploadAzure(pharma: EDIUploadPharmaModel, fileList: EDIUploadPharmaFileModel[]): Promise<boolean> {
     let ret = true;
-    for (const buff of this.uploadFileBuffModel) {
+    for (const buff of pharma.uploadFileBuffModel) {
       const blobName = FExtensions.getEDIUploadBlobName(buff.ext);
       const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(blobName),
         e => this.fDialogService.error("saveData", e));
@@ -252,7 +299,7 @@ export class EdiViewComponent extends FComponentBase {
         ret = false;
         break;
       }
-      const uploadFile = FExtensions.getEDIUploadFileModel(buff.file!!, blobStorageInfo.data!!, buff.ext, buff.mimeType);
+      const uploadFile = FExtensions.getEDIUploadPharmaFileModel(buff.file!!, blobStorageInfo.data!!, buff.ext, buff.mimeType);
       await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, blobStorageInfo.data, uploadFile.blobName, uploadFile.mimeType),
         e => {
           this.fDialogService.error("saveData", e);
@@ -266,19 +313,22 @@ export class EdiViewComponent extends FComponentBase {
 
     return ret;
   }
-  deleteUploadFile(data: UploadFileBuffModel): void {
-    const index = this.uploadFileBuffModel.indexOf(data);
-    if (index == this.uploadFileBuffModel.length - 1) {
-      if (this.uploadFileBuffModel.length - 1 > 0) {
-        this.uploadActiveIndex = this.uploadFileBuffModel.length - 2;
+  deleteUploadFile(pharma: EDIUploadPharmaModel, index: number): void {
+    if (pharma.uploadFileBuffModel == undefined) {
+      return;
+    }
+    const data = pharma.uploadFileBuffModel[index];
+    if (index == pharma.uploadFileBuffModel.length - 1) {
+      if (pharma.uploadFileBuffModel.length - 1 > 0) {
+        this.pharmaUploadActiveIndex[index] = pharma.uploadFileBuffModel.length - 2;
       } else {
-        this.uploadActiveIndex = 0;
+        this.pharmaUploadActiveIndex[index] = 0;
       }
     }
 
     if (index >= 0) {
       data.revokeBlob();
-      this.uploadFileBuffModel.splice(index, 1);
+      pharma.uploadFileBuffModel.splice(index, 1);
     }
   }
 
@@ -288,12 +338,24 @@ export class EdiViewComponent extends FComponentBase {
   get removeFileTooltip(): string {
     return "common-desc.remove";
   }
-  get uploadAble(): boolean {
-    if (this.thisPK.length <= 0) return false;
-    return this.uploadModel.ediState != EDIState.OK && this.uploadModel.ediState != EDIState.Reject
+  get isTransfer(): boolean {
+    return this.uploadModel.ediType == EDIType.TRANSFER;
   }
-  get saveAble(): boolean {
-    return this.uploadFileBuffModel.length > 0;
+  get isNew(): boolean {
+    return this.uploadModel.ediType == EDIType.NEW;
+  }
+  get isDefault(): boolean {
+    return this.uploadModel.ediType == EDIType.DEFAULT;
+  }
+  uploadAble(pharma: EDIUploadPharmaModel): boolean {
+    if (this.thisPK.length <= 0) return false;
+    return pharma.ediState != EDIState.OK && pharma.ediState != EDIState.Reject
+  }
+  saveAble(pharma: EDIUploadPharmaModel): boolean {
+    if (pharma.uploadFileBuffModel) {
+      return pharma.uploadFileBuffModel.length > 0;
+    }
+    return false;
   }
 
   protected readonly dateToYYYYMMdd = FExtensions.dateToYYYYMMdd;

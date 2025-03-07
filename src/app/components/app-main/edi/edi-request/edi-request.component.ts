@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from "@angular/core";
+import {Component} from "@angular/core";
 import {FComponentBase} from "../../../../guards/f-component-base";
 import {UserRole} from "../../../../models/rest/user/user-role";
 import {EdiRequestService} from "../../../../services/rest/edi-request.service";
@@ -20,17 +20,12 @@ import {EDIHosBuffModel} from "../../../../models/rest/edi/edi-hos-buff-model";
   standalone: false,
 })
 export class EdiRequestComponent extends FComponentBase {
-  @ViewChild("inputFiles") inputFiles!: ElementRef<HTMLInputElement>;
   applyDateList: EDIApplyDateModel[] = [];
   selectApplyDate?: EDIApplyDateModel;
   hospitalList: EDIHosBuffModel[] = [];
   pharmaList: EDIPharmaBuffModel[] = [];
   selectHospital?: EDIHosBuffModel;
-  selectPharma: EDIPharmaBuffModel[] = [];
-  activeIndex: number = 0;
-  uploadFileBuffModel: UploadFileBuffModel[] = [];
   saveAble: boolean = false;
-  isDragging: boolean = false;
   constructor(private thisService: EdiRequestService) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
   }
@@ -40,6 +35,12 @@ export class EdiRequestComponent extends FComponentBase {
     await this.getHospitalList();
   }
 
+  onError(data: {title: string, msg: string}): void {
+    this.fDialogService.error(data.title, data.msg);
+  }
+  onWarn(data: {title: string, msg: string}): void {
+    this.fDialogService.warn(data.title, data.msg);
+  }
   async getApplyDateList(): Promise<void> {
     this.setLoading();
     const ret = await FExtensions.restTry(async() => await this.thisService.getApplyDateList(),
@@ -78,30 +79,10 @@ export class EdiRequestComponent extends FComponentBase {
   async getPharmaList(): Promise<void> {
     if (this.selectHospital) {
       this.pharmaList = [...this.selectHospital.pharmaList];
-//      this.selectPharma = this.pharmaList;
+      this.pharmaList.forEach(x => x.uploadFileBuffModel = []);
     } else {
       this.pharmaList = [];
-      this.selectPharma = [];
     }
-    this.selectPharma = [];
-//    const hosPK = this.selectHospital?.thisPK;
-//    if (hosPK == null) {
-//      return;
-//    }
-//    if (this.selectApplyDate == null) {
-//      return;
-//    }
-//    const applyDate = `${this.selectApplyDate.year}-${this.selectApplyDate.month}-01`;
-//    this.setLoading();
-//    const ret = await FExtensions.restTry(async() => await this.thisService.getPharmaList(hosPK, applyDate),
-//      e => this.fDialogService.error("getPharmaList", e));
-//    this.setLoading(false);
-//    if (ret.result) {
-//      this.pharmaList = ret.data ?? [];
-//      this.selectPharma = this.pharmaList;
-//      return;
-//    }
-//    this.fDialogService.warn("getPharmaList", ret.msg);
   }
   async getMedicineList(): Promise<void> {
     const hosPK = this.selectHospital?.thisPK;
@@ -141,10 +122,7 @@ export class EdiRequestComponent extends FComponentBase {
     if (this.selectHospital == null) {
       return;
     }
-    if (this.selectPharma.length <= 0) {
-      return;
-    }
-    if (this.uploadFileBuffModel.length <= 0) {
+    if (this.pharmaList.filter(x => x.uploadFileBuffModel.length > 0).length <= 0) {
       return;
     }
     this.setLoading();
@@ -158,7 +136,7 @@ export class EdiRequestComponent extends FComponentBase {
       e => this.fDialogService.error("saveData", e));
     this.setLoading(false);
     if (ret.result) {
-      this.uploadFileBuffModel.forEach(x => x.revokeBlob());
+      this.pharmaList.forEach(x => x.uploadFileBuffModel.forEach(y => y.revokeBlob()));
       await this.mqttSend(ret.data?.thisPK, ret.data?.orgName);
       await this.router.navigate([`${FConstants.EDI_LIST_URL}`]);
       return;
@@ -167,25 +145,32 @@ export class EdiRequestComponent extends FComponentBase {
   }
   async uploadAzure(uploadModel: EDIUploadModel): Promise<boolean> {
     let ret = true;
-    for (const buff of this.uploadFileBuffModel) {
-      const blobName = FExtensions.getEDIUploadBlobName(buff.ext);
-      const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(blobName),
-        e => this.fDialogService.error("saveData", e));
-      if (!blobStorageInfo.result) {
-        this.fDialogService.warn("saveData", blobStorageInfo.msg);
-        ret = false;
-        break;
-      }
-      const uploadFile = FExtensions.getEDIUploadFileModel(buff.file!!, blobStorageInfo.data!!, buff.ext, buff.mimeType);
-      await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(buff.file!!, blobStorageInfo.data, uploadFile.blobName, uploadFile.mimeType),
-        e => {
-          this.fDialogService.error("saveData", e);
+    const ablePharma = this.pharmaList.filter(x => x.uploadFileBuffModel.length > 0);
+    for (const pharmaBuff of ablePharma) {
+      const pharma = FExtensions.applyClass(EDIUploadPharmaModel, obj => {
+        obj.pharmaPK = pharmaBuff.thisPK;
+      });
+      for (const fileBuff of pharmaBuff.uploadFileBuffModel) {
+        const blobName = FExtensions.getEDIUploadBlobName(fileBuff.ext);
+        const blobStorageInfo = await FExtensions.restTry(async() => await this.commonService.getGenerateSas(blobName),
+          e => this.fDialogService.error("saveData", e));
+        if (!blobStorageInfo.result) {
+          this.fDialogService.warn("saveData", blobStorageInfo.msg);
           ret = false;
-        });
-      if (!ret) {
-        break;
+          break;
+        }
+        const uploadFile = FExtensions.getEDIUploadPharmaFileModel(fileBuff.file!!, blobStorageInfo.data!!, fileBuff.ext, fileBuff.mimeType);
+        await FExtensions.tryCatchAsync(async() => await this.azureBlobService.putUpload(fileBuff.file!!, blobStorageInfo.data, uploadFile.blobName, uploadFile.mimeType),
+          e => {
+            this.fDialogService.error("saveData", e);
+            ret = false;
+          });
+        if (!ret) {
+          break;
+        }
+        pharma.fileList.push(uploadFile);
       }
-      uploadModel.fileList.push(uploadFile);
+      uploadModel.pharmaList.push(pharma);
     }
 
     return ret;
@@ -196,11 +181,7 @@ export class EdiRequestComponent extends FComponentBase {
     this.checkSavable();
   }
   async hospitalOnSelect(): Promise<void> {
-    this.selectPharma = [];
     await this.getPharmaList();
-    this.checkSavable();
-  }
-  async pharmaOnSelect(): Promise<void> {
     this.checkSavable();
   }
 
@@ -227,22 +208,17 @@ export class EdiRequestComponent extends FComponentBase {
       ret.hospitalPK = this.selectHospital.thisPK;
       ret.orgName = this.selectHospital.orgName;
     }
-    this.selectPharma.forEach(pharmaBuff => {
-      ret.pharmaList.push(FExtensions.applyClass(EDIUploadPharmaModel, applyPharma => {
-        applyPharma.pharmaPK = pharmaBuff.thisPK;
-        pharmaBuff.medicineList.forEach(medicineBuff => {
-          applyPharma.medicineList.push(FExtensions.applyClass(EDIUploadPharmaMedicineModel, applyMedicine => {
-            applyMedicine.pharmaPK = pharmaBuff.thisPK;
-            applyMedicine.medicinePK = medicineBuff.thisPK;
-          }));
-        });
-      }));
-    });
-    ret.regDate = new Date();
 
     return ret;
   }
 
+  pharmaItemChange(pharmaItem: EDIPharmaBuffModel): void {
+    const target = this.pharmaList.find(x => x.thisPK == pharmaItem.thisPK);
+    if (target) {
+      target.uploadFileBuffModel = pharmaItem.uploadFileBuffModel;
+    }
+    this.checkSavable();
+  }
   listItemApplyDateModel(data: EDIApplyDateModel): string {
     return `${data.year}-${data.month}`;
   }
@@ -255,86 +231,12 @@ export class EdiRequestComponent extends FComponentBase {
       this.saveAble = false;
       return;
     }
-    if (this.selectPharma.length <= 0) {
-      this.saveAble = false;
-      return;
-    }
-    if (this.uploadFileBuffModel.length <= 0) {
+    if (this.pharmaList.filter(x => x.uploadFileBuffModel.length > 0).length <= 0) {
       this.saveAble = false;
       return;
     }
 
     this.saveAble = true;
-  }
-
-  onDragOver(event: DragEvent): void {
-    event.preventDefault();
-    this.isDragging = true;
-  }
-  onDragLeave(event: DragEvent): void {
-    event.preventDefault();
-    this.isDragging = false;
-  }
-  async onDrop(event: DragEvent): Promise<void> {
-    event.preventDefault();
-    this.isDragging = false;
-    if (event.dataTransfer?.files.length) {
-      this.setLoading();
-      const gatheringFile = (await FExtensions.gatheringAbleFile(event.dataTransfer.files, (file: File): void => {
-        this.translateService.get("common-desc.not-supported-file").subscribe(x => {
-          this.fDialogService.warn("fileUpload", `${file.name} ${x}`);
-        });
-      })).filter(x => !!x.file);
-      if (gatheringFile.length > 0) {
-        this.uploadFileBuffModel = this.uploadFileBuffModel.concat(gatheringFile);
-        this.uploadFileBuffModel = FExtensions.distinctByFields(this.uploadFileBuffModel, ["file.name", "file.size"]);
-      }
-      this.inputFiles.nativeElement.value = "";
-      this.checkSavable();
-
-      this.setLoading(false);
-    }
-  }
-
-  async fileUpload(): Promise<void> {
-    this.inputFiles.nativeElement.click();
-  }
-  async fileSelected(data: Event): Promise<void> {
-    const input = data.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.setLoading();
-      const gatheringFile = (await FExtensions.gatheringAbleFile(input.files, (file: File): void => {
-        this.translateService.get("common-desc.not-supported-file").subscribe(x => {
-          this.fDialogService.warn("fileUpload", `${file.name} ${x}`);
-        });
-      })).filter(x => !!x.file);
-      if (gatheringFile.length > 0) {
-        this.uploadFileBuffModel = this.uploadFileBuffModel.concat(gatheringFile);
-        this.uploadFileBuffModel = FExtensions.distinctByFields(this.uploadFileBuffModel, ["file.name", "file.size"]);
-      }
-      this.inputFiles.nativeElement.value = "";
-      this.checkSavable();
-
-      this.setLoading(false);
-    }
-  }
-  get acceptFiles(): string {
-    return ".jpg,.jpeg,.png,.webp,.bmp,.xlsx,.pdf,.heif,.heic,.gif";
-  }
-  deleteUploadFile(data: UploadFileBuffModel): void {
-    const index = this.uploadFileBuffModel.indexOf(data);
-    if (index == this.uploadFileBuffModel.length - 1) {
-      if (this.uploadFileBuffModel.length - 1 > 0) {
-        this.activeIndex = this.uploadFileBuffModel.length - 2;
-      } else {
-        this.activeIndex = 0;
-      }
-    }
-
-    if (index >= 0) {
-      data.revokeBlob();
-      this.uploadFileBuffModel.splice(index, 1);
-    }
   }
 
   get hospitalFilterFields(): string[] {
@@ -343,10 +245,6 @@ export class EdiRequestComponent extends FComponentBase {
   get pharmaFilterFields(): string[] {
     return ["orgName"];
   }
-  get removeFileTooltip(): string {
-    return "common-desc.remove";
-  }
 
   protected readonly ellipsis = FExtensions.ellipsis;
-  protected readonly galleriaContainerStyleWithThumbnail = FConstants.galleriaContainerStyleWithThumbnail;
 }

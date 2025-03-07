@@ -47,7 +47,7 @@
     "list": {
       "apply-date": "EDI 날짜"
     },
-    "hospital": "병원명(신규처 or 기존처 or 이관처)",
+    "hospital": "병원명(신규처 or 이관처)",
     "pharma": "적용제약사"
   },
   "edi-list": {
@@ -67,6 +67,7 @@
     "reg-date": "등록일",
     "hospital-name": "병원명",
     "hospital-new-name": "신규처명",
+    "hospital-transfer-name": "이관처명",
     "id": "아이디",
     "user-name": "이름",
     "edi-state": "상태",

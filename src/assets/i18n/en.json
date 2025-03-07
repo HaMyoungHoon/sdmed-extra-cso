@@ -47,7 +47,7 @@
     "list": {
       "apply-date": "edi date"
     },
-    "hospital": "hospital name(new or exist or transfer)",
+    "hospital": "hospital name(new or transfer)",
     "pharma": "apply pharma"
   },
   "edi-list": {
@@ -67,6 +67,7 @@
     "reg-date": "reg date",
     "hospital-name": "hospital name",
     "hospital-new-name": "new place",
+    "hospital-transfer-name": "transfer place",
     "id": "id",
     "user-name": "user name",
     "edi-state": "state",

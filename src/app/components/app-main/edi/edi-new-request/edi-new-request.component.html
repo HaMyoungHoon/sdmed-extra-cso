@@ -1,6 +1,14 @@
-<div class="edi-request-container grid w-full drop-zone" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" [class.drag-over]="isDragging">
+<div class="edi-request-container grid w-full">
   <app-progress-spin [isLoading]="isLoading" />
   <div class="col-12 flex flex-column justify-content-center">
+    <p-select class="flex m-1 align-self-center max-h-10rem" [options]="ediTypeList" [(ngModel)]="selectedEDIType">
+      <ng-template pTemplate="selectedItem" let-item>
+        <div>{{StringToEDITypeDesc[item]}}</div>
+      </ng-template>
+      <ng-template pTemplate="item" let-item>
+        <div>{{StringToEDITypeDesc[item]}}</div>
+      </ng-template>
+    </p-select>
     <label class="flex justify-content-center">{{"edi-request.list.apply-date" | translate}}</label>
     <p-list-box class="flex justify-content-center max-h-10rem" [options]="applyDateList" [(ngModel)]="selectApplyDate" [multiple]="false"
                 (onChange)="applyDateOnSelect()">
@@ -11,46 +19,23 @@
       </ng-template>
     </p-list-box>
   </div>
-  <div class="col-12 flex flex-column justify-content-center">
-    <p-ifta-label class="flex justify-content-center align-content-center align-self-center">
+  <div class="flex flex-column w-full">
+    <p-ifta-label class="flex align-self-center w-fit">
       <input id="edi-new-hospital-name" [(ngModel)]="ediETC" pInputText (ngModelChange)="checkSavable()">
       <label for="edi-new-hospital-name">{{"edi-request.hospital" | translate}}</label>
     </p-ifta-label>
   </div>
-  <div class="col-12 flex flex-column justify-content-center">
+  <div class="flex flex-column w-full">
     <label class="flex justify-content-center">{{"edi-request.pharma" | translate}}</label>
-    <p-list-box class="flex justify-content-center max-h-20rem" [options]="pharmaList" [(ngModel)]="selectPharma" [multiple]="true"
-                (onChange)="pharmaOnSelect()" [filter]="true" [filterFields]="pharmaFilterFields">
-      <ng-template pTemplate="item" let-data>
-        <div class="flex">
-          <div>{{data.orgName}}</div>
-        </div>
+    <p-list-box class="flex align-self-center w-fit" [options]="pharmaList" [filter]="true" [filterFields]="pharmaFilterFields" highlightOnSelect="false" optionLabel="orgName">
+      <ng-template pTemplate="item" let-item>
+        <app-edi-pharma-file-combine-model class="flex" [pharmaItem]="item" (error)="onError($event)" (warn)="onWarn($event)" (changeFile)="pharmaItemChange($event)" />
       </ng-template>
     </p-list-box>
   </div>
   <div class="col-12 flex flex-column justify-content-center">
-    <p-galleria class="flex justify-content-center" [value]="uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="true" [showIndicatorsOnItem]="false"
-                [containerStyle]="galleriaContainerStyleWithThumbnail" [numVisible]="5" [(activeIndex)]="activeIndex" [circular]="true">
-      <ng-template pTemplate="item" let-item>
-        <img [src]="item.blobUrl" [alt]="item.originalFilename" class="edi-image"/>
-      </ng-template>
-      <ng-template pTemplate="thumbnail" let-item>
-        <img [src]="item.blobUrl" [alt]="item.originalfilename" class="thumbnail-image" />
-      </ng-template>
-      <ng-template pTemplate="caption" let-item>
-        <div class="flex">
-          <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="deleteUploadFile(item)" />
-          <label class="flex m-1 align-self-center">{{activeIndex + 1}}/{{uploadFileBuffModel.length}}</label>
-        </div>
-        <div class="flex">
-          <label class="m-1">{{ellipsis(item.file.name)}}</label>
-        </div>
-      </ng-template>
-    </p-galleria>
     <div class="flex grid justify-content-center m-1">
-      <p-button class="m-1 flex field align-content-center" size="small" (click)="fileUpload()">{{"common-desc.add" | translate}}</p-button>
       <p-button class="m-1 flex field align-content-center" size="small" (click)="saveData()" [disabled]="!saveAble">{{"common-desc.save" | translate}}</p-button>
-      <input #inputFiles class="collapse" type="file" [accept]="acceptFiles" (change)="fileSelected($event)" [multiple]="true" />
     </div>
   </div>
 </div>

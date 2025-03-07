@@ -11,13 +11,17 @@ import {Button} from "primeng/button";
 import {Tooltip} from "primeng/tooltip";
 import {InputText} from "primeng/inputtext";
 import {IftaLabel} from "primeng/iftalabel";
+import {Select} from "primeng/select";
+import {
+  EdiPharmaFileCombineModelComponent
+} from "../../../common/edi-pharma-file-combine-model/edi-pharma-file-combine-model.component";
 
 
 
 @NgModule({
   declarations: [EdiNewRequestComponent],
   imports: [
-    CommonModule, EdiNewRequestRoutingModule, ProgressSpinComponent, Listbox, TranslatePipe, FormsModule, GalleriaModule, Button, Tooltip, InputText, IftaLabel
+    CommonModule, EdiNewRequestRoutingModule, ProgressSpinComponent, Listbox, TranslatePipe, FormsModule, GalleriaModule, Button, Tooltip, InputText, IftaLabel, Select, EdiPharmaFileCombineModelComponent
   ]
 })
 export class EdiNewRequestModule { }
