@@ -59,6 +59,9 @@ export class EdiViewComponent extends FComponentBase {
     if (ret.result) {
       this.uploadModel = ret.data ?? new EDIUploadModel();
       this.uploadModel.pharmaList.forEach(x => {
+        if (x.fileList == undefined) {
+          x.fileList = [];
+        }
         this.pharmaFileActiveIndex.push(0);
         this.pharmaUploadActiveIndex.push(0);
       });
@@ -247,9 +250,9 @@ export class EdiViewComponent extends FComponentBase {
           const index = pharma.fileList.indexOf(item);
           if (index == pharma.fileList.length - 1) {
             if (pharma.fileList.length - 1 > 0) {
-              this.activeIndex = pharma.fileList.length - 2;
+              this.pharmaFileActiveIndex[index] = pharma.fileList.length - 2;
             } else {
-              this.activeIndex = 0;
+              this.pharmaFileActiveIndex[index] = 0;
             }
           }
           if (index >= 0) {
