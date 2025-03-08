@@ -21,7 +21,7 @@
   </div>
   <div class="flex flex-column w-full">
     <p-ifta-label class="flex align-self-center w-fit">
-      <input id="edi-new-hospital-name" [(ngModel)]="ediETC" pInputText (ngModelChange)="checkSavable()">
+      <input id="edi-new-hospital-name" [(ngModel)]="tempOrgName" pInputText (ngModelChange)="checkSavable()">
       <label for="edi-new-hospital-name">{{"edi-request.hospital" | translate}}</label>
     </p-ifta-label>
   </div>

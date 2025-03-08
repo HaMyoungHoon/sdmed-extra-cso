@@ -35,10 +35,10 @@ export class EdiRequestComponent extends FComponentBase {
     await this.getHospitalList();
   }
 
-  onError(data: {title: string, msg: string}): void {
+  onError(data: {title: string, msg?: string}): void {
     this.fDialogService.error(data.title, data.msg);
   }
-  onWarn(data: {title: string, msg: string}): void {
+  onWarn(data: {title: string, msg?: string}): void {
     this.fDialogService.warn(data.title, data.msg);
   }
   async getApplyDateList(): Promise<void> {

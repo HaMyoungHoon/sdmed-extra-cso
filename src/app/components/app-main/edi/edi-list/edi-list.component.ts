@@ -8,6 +8,7 @@ import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {EdiListService} from "../../../../services/rest/edi-list.service";
 import {Calendar} from "primeng/calendar";
 import {StringToEDIStateDesc} from "../../../../models/rest/edi/edi-state";
+import {EDIType} from "../../../../models/rest/edi/edi-type";
 
 @Component({
   selector: "app-edi-list",
@@ -95,10 +96,11 @@ export class EdiListComponent extends FComponentBase{
     return `${data.year}-${data.month}`;
   }
   getItemOrgName(item: EDIUploadModel): string {
-    if (item.etc.length <= 0) {
+    if (item.ediType == EDIType.DEFAULT) {
       return item.orgName;
     }
-    return `${item.orgName} (${item.etc})`
+
+    return `${item.orgName} (${item.tempOrgName})`
   }
   getItemPharmaName(item: EDIUploadModel): string {
     if (item.pharmaList.length <= 0) {
@@ -109,8 +111,14 @@ export class EdiListComponent extends FComponentBase{
     }
     return `${item.pharmaList[0].orgName} (${item.pharmaList.length})`;
   }
+  isPrimary(item: EDIUploadModel): boolean {
+    return this.isNewPlace(item) || this.isTransferPlace(item);
+  }
   isNewPlace(item: EDIUploadModel): boolean {
-    return item.etc.length > 0;
+    return item.ediType == EDIType.NEW;
+  }
+  isTransferPlace(item: EDIUploadModel): boolean {
+    return item.ediType == EDIType.TRANSFER;
   }
   pharmaListTooltip(item: EDIUploadModel): string {
     if (item.pharmaList.length <= 0) {

@@ -1,4 +1,4 @@
-import {Component, ElementRef, input, QueryList, ViewChild, ViewChildren} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, input, QueryList, ViewChild, ViewChildren} from "@angular/core";
 import {FComponentBase} from "../../../../guards/f-component-base";
 import {EdiListService} from "../../../../services/rest/edi-list.service";
 import {UserRole} from "../../../../models/rest/user/user-role";
@@ -17,6 +17,9 @@ import {EDIUploadResponseModel} from "../../../../models/rest/edi/edi-upload-res
 import {Subject, takeUntil} from "rxjs";
 import {EDIType} from "../../../../models/rest/edi/edi-type";
 import {EDIUploadPharmaFileModel} from "../../../../models/rest/edi/edi-upload-pharma-file-model";
+import {
+  EdiPharmaFileViewModelComponent
+} from "../../../common/edi-pharma-file-view-model/edi-pharma-file-view-model.component";
 
 @Component({
   selector: "app-edi-view",
@@ -25,14 +28,12 @@ import {EDIUploadPharmaFileModel} from "../../../../models/rest/edi/edi-upload-p
   standalone: false,
 })
 export class EdiViewComponent extends FComponentBase {
-  @ViewChildren("inputFiles") inputFiles!: QueryList<ElementRef>;
+  @ViewChildren("ediPharmaFileViewModel") ediPharmaFileViewModel!: QueryList<EdiPharmaFileViewModelComponent>;
   thisPK: string = "";
   uploadModel: EDIUploadModel = new EDIUploadModel();
-  pharmaFileActiveIndex: number[] = [];
-  pharmaUploadActiveIndex: number[] = [];
   activeIndex: number = 0;
   imageCacheUrl: {blobUrl: string, objectUrl: string}[] = [];
-  constructor(private thisService: EdiListService, private route: ActivatedRoute) {
+  constructor(private thisService: EdiListService, private route: ActivatedRoute, private cd: ChangeDetectorRef) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
     this.thisPK = this.route.snapshot.params["thisPK"];
   }
@@ -52,6 +53,12 @@ export class EdiViewComponent extends FComponentBase {
     });
   }
 
+  onError(data: {title: string, msg?: string}): void {
+    this.fDialogService.error(data.title, data.msg);
+  }
+  onWarn(data: {title: string, msg?: string}): void {
+    this.fDialogService.warn(data.title, data.msg);
+  }
   async getData(): Promise<void> {
     this.setLoading();
     const ret = await FExtensions.restTry(async() => await this.thisService.getData(this.thisPK),
@@ -62,9 +69,8 @@ export class EdiViewComponent extends FComponentBase {
         if (x.fileList == undefined) {
           x.fileList = [];
         }
-        this.pharmaFileActiveIndex.push(0);
-        this.pharmaUploadActiveIndex.push(0);
       });
+      this.cd.detectChanges();
       await this.readyImage();
       this.setLoading(false);
       return;
@@ -94,6 +100,9 @@ export class EdiViewComponent extends FComponentBase {
         });
       }
     }
+    for (let fileView of this.ediPharmaFileViewModel) {
+      await fileView.readyImage();
+    }
   }
 
   getApplyDate(): string {
@@ -120,7 +129,7 @@ export class EdiViewComponent extends FComponentBase {
   getBlobUrl(item: EDIUploadFileModel): string {
     return this.imageCacheUrl.find(x => x.blobUrl == item.blobUrl)?.objectUrl ?? FConstants.ASSETS_NO_IMAGE;
   }
-  async viewPharmaItem(data: EDIUploadPharmaFileModel[], item: EDIUploadPharmaFileModel): Promise<void> {
+  async viewPharmaItem(data: {list: EDIUploadPharmaFileModel[], item: EDIUploadPharmaFileModel}): Promise<void> {
     this.fDialogService.openFullscreenFileView({
       closable: false,
       closeOnEscape: true,
@@ -128,8 +137,8 @@ export class EdiViewComponent extends FComponentBase {
       width: "100%",
       height: "100%",
       data: {
-        file: FExtensions.ediPharmaFileListToViewModel(data),
-        index: data.findIndex(x => x.thisPK == item.thisPK)
+        file: FExtensions.ediPharmaFileListToViewModel(data.list),
+        index: data.list.findIndex(x => x.thisPK == data.item.thisPK)
       }
     });
   }
@@ -185,33 +194,9 @@ export class EdiViewComponent extends FComponentBase {
       saveAs(blobBuff, item.originalFilename);
     }
   }
-  async fileUpload(index: number): Promise<void> {
-    this.inputFiles.get(index)?.nativeElement?.click();
-  }
-  async fileSelected(data: Event, index: number): Promise<void> {
-    const pharma = this.uploadModel.pharmaList[index];
-    const input = data.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.setLoading();
-      const gatheringFile = (await FExtensions.gatheringAbleFile(input.files, (file: File): void => {
-        this.translateService.get("common-desc.not-supported-file").subscribe(x => {
-          this.fDialogService.warn("fileUpload", `${file.name} ${x}`);
-        });
-      })).filter(x => !!x.file);
-      if (gatheringFile.length > 0) {
-        if (pharma.uploadFileBuffModel == undefined) {
-          pharma.uploadFileBuffModel = [];
-        }
-        pharma.uploadFileBuffModel = pharma.uploadFileBuffModel.concat(gatheringFile);
-        pharma.uploadFileBuffModel = FExtensions.distinctByFields(pharma.uploadFileBuffModel, ["file.name", "file.size"]);
-      }
-      const inputBuff = this.inputFiles.get(index);
-      if (inputBuff) {
-        inputBuff.nativeElement.value = "";
-      }
-
-      this.setLoading(false);
-    }
+  changeFile(pharma: EDIUploadPharmaModel): void {
+    const target = this.uploadModel.pharmaList.find(x => x.thisPK == pharma.thisPK);
+    target?.init(pharma);
   }
   async removeEDIFile(event: Event, item: EDIUploadFileModel): Promise<void> {
     this.translateService.get(["common-desc.delete-sure", "common-desc.cancel", "common-desc.confirm"]).subscribe(x => {
@@ -238,36 +223,20 @@ export class EdiViewComponent extends FComponentBase {
       });
     });
   }
-  async removeEDIPharmaFile(event: Event, pharma: EDIUploadPharmaModel, index: number): Promise<void> {
-    const item = pharma.fileList[index];
+  async removeEDIPharmaFile(data: {event: Event, item: EDIUploadPharmaFileModel}): Promise<void> {
     this.translateService.get(["common-desc.delete-sure", "common-desc.cancel", "common-desc.confirm"]).subscribe(x => {
-      this.confirmCall(event, x["common-desc.remove"], x["common-desc.delete-sure"], x["common-desc.cancel"], x["common-desc.confirm"], async() => {
+      this.confirmCall(data.event, x["common-desc.remove"], x["common-desc.delete-sure"], x["common-desc.cancel"], x["common-desc.confirm"], async() => {
         this.setLoading();
-        const ret = await FExtensions.restTry(async() => await this.thisService.deleteEDIPharmaFile(item.thisPK),
+        const ret = await FExtensions.restTry(async() => await this.thisService.deleteEDIPharmaFile(data.item.thisPK),
           e => this.fDialogService.error("delete", e));
         this.setLoading(false);
         if (ret.result) {
-          const index = pharma.fileList.indexOf(item);
-          if (index == pharma.fileList.length - 1) {
-            if (pharma.fileList.length - 1 > 0) {
-              this.pharmaFileActiveIndex[index] = pharma.fileList.length - 2;
-            } else {
-              this.pharmaFileActiveIndex[index] = 0;
-            }
-          }
-          if (index >= 0) {
-            pharma.fileList = [...pharma.fileList.filter(x => x.thisPK != item.thisPK)];
-          }
-          return;
         }
         this.fDialogService.warn("delete", ret.msg);
       });
     });
   }
 
-  get acceptFiles(): string {
-    return ".jpg,.jpeg,.png,.webp,.bmp,.xlsx,.pdf,.heif,.heic,.gif";
-  }
   async uploadAdditionalFile(pharma: EDIUploadPharmaModel): Promise<void> {
     if (pharma.uploadFileBuffModel == undefined || pharma.uploadFileBuffModel.length <= 0) {
       return;
@@ -315,24 +284,6 @@ export class EdiViewComponent extends FComponentBase {
 
     return ret;
   }
-  deleteUploadFile(pharma: EDIUploadPharmaModel, index: number): void {
-    if (pharma.uploadFileBuffModel == undefined) {
-      return;
-    }
-    const data = pharma.uploadFileBuffModel[index];
-    if (index == pharma.uploadFileBuffModel.length - 1) {
-      if (pharma.uploadFileBuffModel.length - 1 > 0) {
-        this.pharmaUploadActiveIndex[index] = pharma.uploadFileBuffModel.length - 2;
-      } else {
-        this.pharmaUploadActiveIndex[index] = 0;
-      }
-    }
-
-    if (index >= 0) {
-      data.revokeBlob();
-      pharma.uploadFileBuffModel.splice(index, 1);
-    }
-  }
 
   get downloadFileTooltip(): string {
     return "common-desc.save";
@@ -365,6 +316,5 @@ export class EdiViewComponent extends FComponentBase {
   protected readonly getEDIStateSeverity = FExtensions.getEDIStateSeverity;
   protected readonly tableStyle = FConstants.tableStyle;
   protected readonly galleriaContainerStyle = FConstants.galleriaContainerStyle;
-  protected readonly galleriaContainerStyleWithThumbnail = FConstants.galleriaContainerStyleWithThumbnail;
   protected readonly StringToEDIStateDesc = StringToEDIStateDesc;
 }

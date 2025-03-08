@@ -17,7 +17,7 @@ import {allEDITypeArray, StringToEDIType, StringToEDITypeDesc} from "../../../..
   standalone: false,
 })
 export class EdiNewRequestComponent extends FComponentBase {
-  ediETC: string = "";
+  tempOrgName: string = "";
   ediTypeList: string[] = [];
   selectedEDIType: string = "";
   applyDateList: EDIApplyDateModel[] = [];
@@ -34,10 +34,10 @@ export class EdiNewRequestComponent extends FComponentBase {
     await this.getApplyDateList();
   }
 
-  onError(data: {title: string, msg: string}): void {
+  onError(data: {title: string, msg?: string}): void {
     this.fDialogService.error(data.title, data.msg);
   }
-  onWarn(data: {title: string, msg: string}): void {
+  onWarn(data: {title: string, msg?: string}): void {
     this.fDialogService.warn(data.title, data.msg);
   }
   async getApplyDateList(): Promise<void> {
@@ -139,7 +139,7 @@ export class EdiNewRequestComponent extends FComponentBase {
       ret.year = this.selectApplyDate.year;
       ret.month = this.selectApplyDate.month;
     }
-    ret.etc = this.ediETC;
+    ret.tempOrgName = this.tempOrgName;
     return ret;
   }
 
@@ -154,7 +154,7 @@ export class EdiNewRequestComponent extends FComponentBase {
     return `${data.year}-${data.month}`;
   }
   checkSavable(): void {
-    if (this.ediETC.length <= 0) {
+    if (this.tempOrgName.length <= 0) {
       this.saveAble = false;
       return;
     }

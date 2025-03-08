@@ -16,7 +16,7 @@
       <label for="regDate">{{"edi-view.reg-date" | translate}}</label>
     </p-ifta-label>
     <p-ifta-label class="m-1" *ngIf="!isDefault">
-      <input class="w-10rem" id="hospitalNewName" [ngModel]="uploadModel.etc" readonly pInputText />
+      <input class="w-10rem" id="hospitalNewName" [ngModel]="uploadModel.tempOrgName" readonly pInputText />
       <label for="hospitalNewName" *ngIf="isNew">{{"edi-view.hospital-new-name" | translate}}</label>
       <label for="hospitalNewName" *ngIf="isTransfer">{{"edi-view.hospital-transfer-name" | translate}}</label>
     </p-ifta-label>
@@ -45,54 +45,8 @@
         </div>
       </p-accordion-header>
       <p-accordion-content>
-        <div class="flex flex-column flex-wrap">
-          <p-galleria class="flex justify-content-center" tabindex="-1" [value]="pharma.fileList" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
-                      [containerStyle]="galleriaContainerStyle" [numVisible]="0" [circular]="true" [(activeIndex)]="pharmaFileActiveIndex[i]">
-            <ng-template pTemplate="item" let-item>
-              <img [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="edi-image" (click)="viewPharmaItem(pharma.fileList, item)" />
-            </ng-template>
-            <ng-template pTemplate="footer">
-              <div class="flex flex-column flex-wrap">
-                <div class="flex m-1 flex-row flex-wrap">
-                  <label class="flex m-1 align-self-center">{{pharmaFileActiveIndex[i] + 1}}/{{pharma.fileList.length}}</label>
-                  <label class="flex m-1 align-self-center">{{ellipsis(pharma.fileList[pharmaFileActiveIndex[i]].originalFilename, 30)}}</label>
-                </div>
-                <div class="flex flex-row flex-wrap">
-                  <p-button class="flex m-1 align-content-center" size="small" icon="pi pi-download" [rounded]="true"
-                            pTooltip="{{downloadFileTooltip | translate}}" (click)="downloadEDIPharmaFile(pharma.fileList[pharmaFileActiveIndex[i]])" />
-                  <p-confirm-popup />
-                  <p-button class="flex m-1 justify-content-end ml-auto" size="small" icon="pi pi-times" [rounded]="true"
-                            pTooltip="{{removeFileTooltip | translate}}" (click)="removeEDIPharmaFile($event, pharma, pharmaFileActiveIndex[i])" *ngIf="uploadAble"/>
-                </div>
-              </div>
-            </ng-template>
-          </p-galleria>
-          <p-galleria class="flex justify-content-center" [value]="pharma.uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="true" [showIndicatorsOnItem]="false"
-                      [containerStyle]="galleriaContainerStyleWithThumbnail" [numVisible]="5" [(activeIndex)]="pharmaUploadActiveIndex[i]" [circular]="true">
-            <ng-template pTemplate="item" let-item>
-              <img [src]="item.blobUrl" [alt]="item.originalFilename" class="edi-image"/>
-            </ng-template>
-            <ng-template pTemplate="thumbnail" let-item>
-              <img [src]="item.blobUrl" [alt]="item.originalfilename" class="thumbnail-image" />
-            </ng-template>
-            <ng-template pTemplate="caption" let-item>
-              <div class="flex">
-                <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="deleteUploadFile(pharma, pharmaUploadActiveIndex[i])" />
-                <label class="flex m-1 align-self-center">{{pharmaUploadActiveIndex[i] + 1}}/{{pharma.uploadFileBuffModel.length}}</label>
-              </div>
-              <div class="flex">
-                <label class="m-1">{{ellipsis(item.file.name)}}</label>
-              </div>
-            </ng-template>
-          </p-galleria>
-          <div class="col-12 flex flex-column justify-content-center" *ngIf="uploadAble(pharma)">
-            <div class="flex grid justify-content-center m-1">
-              <p-button class="m-1 flex field align-content-center" size="small" (click)="fileUpload(i)">{{"common-desc.add" | translate}}</p-button>
-              <p-button class="m-1 flex field align-content-center" size="small" (click)="uploadAdditionalFile(pharma)" [disabled]="!saveAble(pharma)">{{"common-desc.save" | translate}}</p-button>
-              <input #inputFiles class="collapse" type="file" [accept]="acceptFiles" (change)="fileSelected($event, i)" [multiple]="true" />
-            </div>
-          </div>
-        </div>
+        <app-edi-pharma-file-view-model #ediPharmaFileViewModel [pharmaModel]="pharma" (error)="onError($event)" (warn)="onWarn($event)" (downloadPharmaItemEvent)="downloadEDIPharmaFile($event)" (removeEDIPharmaItemEvent)="removeEDIPharmaFile($event)"
+                                        (viewPharmaItemEvent)="viewPharmaItem($event)" (changeFile)="changeFile($event)" (uploadAdditionalFileEvent)="uploadAdditionalFile($event)"/>
         <p-table #listTable [value]="pharma.medicineList" [scrollable]="true" [paginator]="true" [rows]="10" [tableStyle]="tableStyle" size="small" stripedRows="true" *ngIf="false">
           <ng-template #header>
             <tr>

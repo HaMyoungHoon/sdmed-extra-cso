@@ -17,13 +17,16 @@ import {Textarea} from "primeng/textarea";
 import {ConfirmPopup} from "primeng/confirmpopup";
 import {IftaLabel} from "primeng/iftalabel";
 import {InputText} from "primeng/inputtext";
+import {
+	EdiPharmaFileViewModelComponent
+} from "../../../common/edi-pharma-file-view-model/edi-pharma-file-view-model.component";
 
 
 
 @NgModule({
   declarations: [EdiViewComponent],
-  imports: [
-    CommonModule, EdiViewRoutingModule, TranslatePipe, GalleriaModule, ProgressSpinComponent, Tag, Accordion, AccordionPanel, AccordionHeader, Select, FormsModule, AccordionContent, TableModule, Button, Tooltip, Image, Textarea, ConfirmPopup, IftaLabel, InputText
-  ]
+	imports: [
+		CommonModule, EdiViewRoutingModule, TranslatePipe, GalleriaModule, ProgressSpinComponent, Tag, Accordion, AccordionPanel, AccordionHeader, Select, FormsModule, AccordionContent, TableModule, Button, Tooltip, Image, Textarea, ConfirmPopup, IftaLabel, InputText, EdiPharmaFileViewModelComponent
+	]
 })
 export class EdiViewModule { }

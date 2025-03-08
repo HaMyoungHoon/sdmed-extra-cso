@@ -27,7 +27,7 @@
     </ng-template>
     <ng-template #body let-data>
       <tr class="click-tr" (click)="open(data)" [pTooltip]="pharmaListTooltip(data)">
-        <td [class.text-primary]="isNewPlace(data)">{{ellipsis(getItemOrgName(data), 20)}}</td>
+        <td [class.text-primary]="isPrimary(data)">{{ellipsis(getItemOrgName(data), 20)}}</td>
         <td>{{getItemPharmaName(data)}}</td>
         <td>
           <p-tag [value]="data.ediStateDesc" [severity]="getEDIStateSeverity(data.ediState)"/>

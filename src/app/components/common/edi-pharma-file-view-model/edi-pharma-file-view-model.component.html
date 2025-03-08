@@ -1,0 +1,53 @@
+<div class="edi-pharma-file-view-model-container flex" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" [class.drag-over]="isDragging">
+  <div class="flex m-1 justify-content-center" *ngIf="isLoading">
+    <p-progress-spinner strokeWidth="2" />
+  </div>
+  <div class="flex flex-column flex-wrap">
+    <p-galleria class="flex justify-content-center" tabindex="-1" [value]="pharmaModel.fileList" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="false" [showIndicatorsOnItem]="false"
+                [containerStyle]="galleriaContainerStyle" [numVisible]="0" [circular]="true" [(activeIndex)]="activeIndex">
+      <ng-template pTemplate="item" let-item>
+        <img [src]="getBlobUrl(item)" [alt]="item.originalFilename" class="edi-image" (click)="viewPharmaItem(item)" />
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <div class="flex flex-column flex-wrap">
+          <div class="flex m-1 flex-row flex-wrap">
+            <label class="flex m-1 align-self-center">{{activeIndex + 1}}/{{pharmaModel.fileList.length}}</label>
+            <label class="flex m-1 align-self-center">{{ellipsis(pharmaModel.fileList[activeIndex].originalFilename, 30)}}</label>
+          </div>
+          <div class="flex flex-row flex-wrap">
+            <p-button class="flex m-1 align-content-center" size="small" icon="pi pi-download" [rounded]="true"
+                      pTooltip="{{downloadFileTooltip | translate}}" (click)="downloadEDIPharmaFile(pharmaModel.fileList[activeIndex])" />
+            <p-confirm-popup />
+            <p-button class="flex m-1 justify-content-end ml-auto" size="small" icon="pi pi-times" [rounded]="true"
+                      pTooltip="{{removeFileTooltip | translate}}" (click)="removeEDIPharmaFile($event)" *ngIf="uploadAble"/>
+          </div>
+        </div>
+      </ng-template>
+    </p-galleria>
+    <p-galleria class="flex justify-content-center" [value]="pharmaModel.uploadFileBuffModel" indicatorsPosition="bottom" [showItemNavigators]="true" [showThumbnails]="true" [showIndicatorsOnItem]="false"
+                [containerStyle]="galleriaContainerStyleWithThumbnail" [numVisible]="5" [(activeIndex)]="uploadActiveIndex" [circular]="true">
+      <ng-template pTemplate="item" let-item>
+        <img [src]="item.blobUrl" [alt]="item.originalFilename" class="edi-image"/>
+      </ng-template>
+      <ng-template pTemplate="thumbnail" let-item>
+        <img [src]="item.blobUrl" [alt]="item.originalfilename" class="thumbnail-image" />
+      </ng-template>
+      <ng-template pTemplate="caption" let-item>
+        <div class="flex">
+          <p-button class="align-content-center" size="small" icon="pi pi-times" [rounded]="true" pTooltip="{{removeFileTooltip | translate}}" (click)="deleteUploadFile()" />
+          <label class="flex m-1 align-self-center">{{uploadActiveIndex + 1}}/{{pharmaModel.uploadFileBuffModel.length}}</label>
+        </div>
+        <div class="flex">
+          <label class="m-1">{{ellipsis(item.file.name)}}</label>
+        </div>
+      </ng-template>
+    </p-galleria>
+    <div class="col-12 flex flex-column justify-content-center" *ngIf="uploadAble()">
+      <div class="flex grid justify-content-center m-1">
+        <p-button class="m-1 flex field align-content-center" size="small" (click)="fileUpload()">{{"common-desc.add" | translate}}</p-button>
+        <p-button class="m-1 flex field align-content-center" size="small" (click)="uploadAdditionalFile()" [disabled]="!saveAble()">{{"common-desc.save" | translate}}</p-button>
+        <input #inputFiles class="collapse" type="file" [accept]="acceptFiles" (change)="fileSelected($event)" [multiple]="true" />
+      </div>
+    </div>
+  </div>
+</div>

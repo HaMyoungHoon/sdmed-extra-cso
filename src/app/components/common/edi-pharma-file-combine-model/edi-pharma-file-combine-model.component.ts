@@ -21,9 +21,9 @@ import {ProgressSpinner} from "primeng/progressspinner";
 export class EdiPharmaFileCombineModelComponent {
   @ViewChild("inputFiles") inputFiles!: ElementRef<HTMLInputElement>;
   @Input() pharmaItem: EDIPharmaBuffModel = new EDIPharmaBuffModel();
-  @Output() error: EventEmitter<{title: string, msg: string}> = new EventEmitter<{title: string; msg: string}>();
-  @Output() warn: EventEmitter<{title: string, msg: string}> = new EventEmitter<{title: string; msg: string}>();
-  @Output() changeFile: EventEmitter<EDIPharmaBuffModel> = new EventEmitter<EDIPharmaBuffModel>();
+  @Output() error: EventEmitter<{title: string, msg?: string}> = new EventEmitter();
+  @Output() warn: EventEmitter<{title: string, msg?: string}> = new EventEmitter();
+  @Output() changeFile: EventEmitter<EDIPharmaBuffModel> = new EventEmitter();
   activeIndex: number = 0;
   isDragging: boolean = false;
   isLoading: boolean = false;
@@ -31,10 +31,10 @@ export class EdiPharmaFileCombineModelComponent {
   constructor(private translateService: TranslateService) {
   }
 
-  onError(title: string, msg: string): void {
+  onError(title: string, msg?: string): void {
     this.error.next({title: title, msg: msg});
   }
-  onWarn(title: string, msg: string): void {
+  onWarn(title: string, msg?: string): void {
     this.warn.next({title: title, msg: msg});
   }
   onChangeFile(): void {
