@@ -23,8 +23,7 @@ export class EdiRequestService {
     this.httpResponse.addParam("applyDate", applyDate);
     return this.httpResponse.get(`${this.baseUrl}/list/hospital`);
   }
-  getPharmaListAll(applyDate: string): Promise<RestResult<EDIPharmaBuffModel[]>> {
-    this.httpResponse.addParam("applyDate", applyDate);
+  getPharmaListAll(): Promise<RestResult<EDIPharmaBuffModel[]>> {
     return this.httpResponse.get(`${this.baseUrl}/list/pharma`);
   }
   getPharmaList(hosPK: string, applyDate: string): Promise<RestResult<EDIPharmaBuffModel[]>> {

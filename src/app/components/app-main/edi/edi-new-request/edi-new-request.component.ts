@@ -60,8 +60,7 @@ export class EdiNewRequestComponent extends FComponentBase {
       return;
     }
     this.setLoading();
-    const applyDate = `${this.selectApplyDate.year}-${this.selectApplyDate.month}-01`;
-    const ret = await FExtensions.restTry(async() => await this.thisService.getPharmaListAll(applyDate),
+    const ret = await FExtensions.restTry(async() => await this.thisService.getPharmaListAll(),
       e => this.fDialogService.error("getPharmaListAll", e));
     this.setLoading(false);
     if (ret.result) {
@@ -128,7 +127,6 @@ export class EdiNewRequestComponent extends FComponentBase {
   }
 
   async applyDateOnSelect(): Promise<void> {
-    await this.getPharmaListAll();
     this.checkSavable();
   }
 
