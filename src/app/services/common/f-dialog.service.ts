@@ -9,6 +9,12 @@ import {PasswordChangeDialogComponent} from "../../components/common/dialog/pass
 import {FullScreenFileViewDialogComponent} from "../../components/common/dialog/full-screen-file-view-dialog/full-screen-file-view-dialog.component";
 import {Router} from "@angular/router";
 import {HowMuchDialogComponent} from "../../components/common/dialog/how-much-dialog/how-much-dialog.component";
+import {
+  HospitalTempFindComponent
+} from "../../components/common/dialog/hospital-temp-find/hospital-temp-find.component";
+import {
+  HospitalTempDetailComponent
+} from "../../components/common/dialog/hospital-temp-detail/hospital-temp-detail.component";
 
 @Injectable({
   providedIn: "root"
@@ -25,6 +31,14 @@ export class FDialogService {
       closeOnEscape: false,
     });
 
+    return this.ref.onClose;
+  }
+  openHospitalTempFindView(config: DynamicDialogConfig): Observable<any> {
+    this.ref = this.dialogService.open(HospitalTempFindComponent, config);
+    return this.ref.onClose;
+  }
+  openHospitalTempDetailView(config: DynamicDialogConfig): Observable<any> {
+    this.ref = this.dialogService.open(HospitalTempDetailComponent, config);
     return this.ref.onClose;
   }
   openHowMuchView(config: DynamicDialogConfig): Observable<any> {

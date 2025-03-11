@@ -20,6 +20,7 @@ import {EDIUploadPharmaFileModel} from "../../../../models/rest/edi/edi-upload-p
 import {
   EdiPharmaFileViewModelComponent
 } from "../../../common/edi-pharma-file-view-model/edi-pharma-file-view-model.component";
+import {HospitalTempModel} from "../../../../models/rest/hospital/hospital-temp-model";
 
 @Component({
   selector: "app-edi-view",
@@ -153,6 +154,16 @@ export class EdiViewComponent extends FComponentBase {
         file: FExtensions.ediFileListToViewModel(data),
         index: data.findIndex(x => x.thisPK == item.thisPK)
       }
+    });
+  }
+  openHospitalTempDetail(): void {
+    this.fDialogService.openHospitalTempDetailView({
+      closable: false,
+      closeOnEscape: true,
+      maximizable: true,
+      width: "90%",
+      height: "90%",
+      data: this.uploadModel.tempHospitalPK
     });
   }
   async mqttSend(thisPK: string | undefined, content: string | undefined): Promise<void> {
@@ -309,6 +320,9 @@ export class EdiViewComponent extends FComponentBase {
       return pharma.uploadFileBuffModel.length > 0;
     }
     return false;
+  }
+  get hospitalTempDetailAble(): boolean {
+    return this.uploadModel.tempHospitalPK.length > 0;
   }
 
   protected readonly dateToYYYYMMdd = FExtensions.dateToYYYYMMdd;

@@ -9,6 +9,8 @@ import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {EDIPharmaBuffModel} from "../../../../models/rest/edi/edi-pharma-buff-model";
 import {EDIUploadPharmaModel} from "../../../../models/rest/edi/edi-upload-pharma-model";
 import {allEDITypeArray, StringToEDIType, StringToEDITypeDesc} from "../../../../models/rest/edi/edi-type";
+import {Subject, takeUntil} from "rxjs";
+import {HospitalTempModel} from "../../../../models/rest/hospital/hospital-temp-model";
 
 @Component({
   selector: "app-edi-new-request",
@@ -17,7 +19,9 @@ import {allEDITypeArray, StringToEDIType, StringToEDITypeDesc} from "../../../..
   standalone: false,
 })
 export class EdiNewRequestComponent extends FComponentBase {
+  tempHospitalPK: string = "";
   tempOrgName: string = "";
+  selectHospitalBuff: string = "";
   ediTypeList: string[] = [];
   selectedEDIType: string = "";
   applyDateList: EDIApplyDateModel[] = [];
@@ -39,6 +43,26 @@ export class EdiNewRequestComponent extends FComponentBase {
   }
   onWarn(data: {title: string, msg?: string}): void {
     this.fDialogService.warn(data.title, data.msg);
+  }
+  openHospitalFind(): void {
+    const sub = new Subject<any>();
+    this.sub.push(sub);
+    this.fDialogService.openHospitalTempFindView({
+      closable: false,
+      closeOnEscape: true,
+      maximizable: true,
+      width: "90%",
+      height: "90%",
+      data: {
+      }
+    }).pipe(takeUntil(sub)).subscribe(x => {
+      const buff = x as HospitalTempModel | null;
+      if (buff) {
+        this.tempHospitalPK = buff.thisPK;
+        this.tempOrgName = buff.orgName;
+        this.selectHospitalBuff = buff.orgName;
+      }
+    });
   }
   async getApplyDateList(): Promise<void> {
     this.setLoading();
@@ -136,6 +160,11 @@ export class EdiNewRequestComponent extends FComponentBase {
     if (this.selectApplyDate) {
       ret.year = this.selectApplyDate.year;
       ret.month = this.selectApplyDate.month;
+    }
+    if (this.selectHospitalBuff != this.tempOrgName) {
+      ret.tempHospitalPK = "";
+    } else {
+      ret.tempHospitalPK = this.tempHospitalPK;
     }
     ret.tempOrgName = this.tempOrgName;
     return ret;

@@ -1,0 +1,12 @@
+<div class="hospital-temp-detail-container">
+  <div class="flex m-1 justify-content-center" *ngIf="isLoading">
+    <p-progress-spinner strokeWidth="2" />
+  </div>
+  <div class="header-container flex">
+    <p-button class="flex m-1 ml-auto justify-content-end" size="small" icon="pi pi-times" (click)="close()" [rounded]="true" />
+  </div>
+  <div class="content-container" [hidden]="!mapVisible">
+    <app-google-map #googleMap (error)="tossError($event)" (warn)="tossWarn($event)" />
+  </div>
+
+</div>

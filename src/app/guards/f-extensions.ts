@@ -21,6 +21,9 @@ import {EDIUploadPharmaFileModel} from "../models/rest/edi/edi-upload-pharma-fil
 
 export type voidFunc = () => void;
 export type anyFunc = (x: any) => void;
+export function awaitDelay(ms: number): Promise<void> {
+  return new Promise(x => setTimeout(x, ms));
+}
 
 export function numberWithCommas(data: string): string {
   return data.replace(/\B(?=(\d{3})+(?!\d))/g, ",");

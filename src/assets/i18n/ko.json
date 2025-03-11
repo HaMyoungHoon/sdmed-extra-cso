@@ -69,6 +69,7 @@
     "hospital-name": "병원명",
     "hospital-new-name": "신규처명",
     "hospital-transfer-name": "이관처명",
+    "hospital-temp-detail": "병원자세히",
     "id": "아이디",
     "user-name": "이름",
     "edi-state": "상태",
@@ -164,6 +165,14 @@
     "after-pw": "바꿀 비밀번호",
     "confirm-pw": "비밀번호 확인"
   },
+  "hospital-temp-find": {
+    "search-hospital": "병원 검색",
+    "map-toggle": "지도여닫기",
+    "find-nearby": "근처병원찾기",
+    "warn": {
+      "search-string": "3글자 이상 입력해주세요."
+    }
+  },
   "error": {
     "title": "요청하신 페이지를 찾을 수 없습니다.",
     "contents": "페이지의 주소가 잘못 입력되었거나,\n찾으시려는 페이지의 주소가 삭제 또는 변경되어 사용할 수 없는 상태입니다.\n입력하신 주소가 정확한지 한 번 더 확인해 주시기 바랍니다.",
@@ -184,13 +193,15 @@
     "confirm": "확인",
     "cancel": "취소",
     "search": "검색",
+    "select": "선택",
     "sample-download": "샘플 다운로드",
     "delete-sure": "정말 삭제 하시겠습니까?",
     "in-visible": "숨김",
     "logout": "로그아웃",
     "not-supported-file": "지원하지 않는 파일 형식입니다.",
     "NEW": "신규처",
-    "TRANSFER": "이관처"
+    "TRANSFER": "이관처",
+    "open-map": "지도보기"
   },
   "mqtt-desc": {
     "title": {

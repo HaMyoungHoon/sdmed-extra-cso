@@ -22,7 +22,8 @@
     </p-ifta-label>
   </div>
   <div class="flex">
-    <p-tag class="flex" [value]="StringToEDIStateDesc[uploadModel.ediState]" [severity]="getEDIStateSeverity(uploadModel.ediState)" />
+    <p-button class="m-1" *ngIf="hospitalTempDetailAble" (click)="openHospitalTempDetail()">{{"edi-view.hospital-temp-detail" | translate}}</p-button>
+    <p-tag class="m-1" [value]="StringToEDIStateDesc[uploadModel.ediState]" [severity]="getEDIStateSeverity(uploadModel.ediState)" />
   </div>
   <p-accordion [multiple]="multipleEnable">
     <p-accordion-panel *ngFor="let pharma of uploadModel.pharmaList; index as i" value="{{accordionPharmaIndex(pharma)}}">
