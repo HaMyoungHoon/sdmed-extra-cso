@@ -81,3 +81,16 @@ app-edi-list .p-paginator-content-end {
     padding: 10px;
   }
 }
+
+.foreground-orange {
+  color: var(--p-orange-600) !important;
+}
+.foreground-teal {
+  color: var(--p-teal-600) !important;
+}
+.background-orange {
+  background-color: var(--p-orange-600) !important;
+}
+.background-teal {
+  background-color: var(--p-teal-600) !important;
+}

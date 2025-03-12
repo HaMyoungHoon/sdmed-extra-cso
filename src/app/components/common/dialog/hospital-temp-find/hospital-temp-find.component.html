@@ -19,7 +19,7 @@
     <ng-template pTemplate="item" let-item>
       <div class="flex flex-wrap">
         <div class="flex align-items-center justify-content-center m-1">{{item.orgName}}</div>
-        <div class="flex align-items-center justify-content-center m-1">{{item.address}}</div>
+        <div class="flex align-items-center justify-content-center m-1 foreground-orange">{{item.address}}</div>
         <div class="flex align-items-center justify-content-center m-1">{{item.phoneNumber}}</div>
         <p-button (click)="openMap(item)">{{"common-desc.open-map" | translate}}</p-button>
       </div>

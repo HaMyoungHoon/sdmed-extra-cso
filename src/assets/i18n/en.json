@@ -48,6 +48,7 @@
       "apply-date": "edi date"
     },
     "hospital": "hospital name(new or transfer)",
+    "hospital-search": "hospital search",
     "pharma": "apply pharma"
   },
   "edi-list": {

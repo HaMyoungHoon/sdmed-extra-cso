@@ -18,8 +18,8 @@
   <p-drawer [visible]="menuVisible" [baseZIndex]="1000" (onHide)="menuClose()">
     <p-menu class="w-full h-full" [model]="menuItems">
       <ng-template #submenuheader let-item>
-        <span class="text-primary font-bold" *ngIf="item.routerLink == undefined">{{item.label | translate}}</span>
-        <a pRipple class="text-primary font-bold" [routerLink]="item.routerLink" *ngIf="item.routerLink">
+        <span class="foreground-orange font-bold" *ngIf="item.routerLink == undefined">{{item.label | translate}}</span>
+        <a pRipple class="foreground-orange font-bold" [routerLink]="item.routerLink" *ngIf="item.routerLink">
           <span [class]="item.icon"></span>
           <span class="ml-2">{{item.label | translate}}</span>
         </a>

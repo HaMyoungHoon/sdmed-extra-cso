@@ -20,7 +20,7 @@
     </p-list-box>
   </div>
   <div class="flex flex-column w-full">
-    <p-button class="flex align-self-center" (click)="openHospitalFind()">{{"edi-request.hospital" | translate}}</p-button>
+    <p-button class="flex align-self-center" (click)="openHospitalFind()">{{"edi-request.hospital-search" | translate}}</p-button>
     <p-ifta-label class="flex align-self-center w-fit">
       <input id="edi-new-hospital-name" [(ngModel)]="tempOrgName" pInputText (ngModelChange)="checkSavable()">
       <label for="edi-new-hospital-name">{{"edi-request.hospital" | translate}}</label>
