@@ -18,7 +18,7 @@ export class HospitalTempService {
     this.httpResponse.addParam("searchString", searchString);
     return this.httpResponse.get(`${this.baseUrl}/list/search`);
   }
-  getListNearBy(latitude: number, longitude: number, distance: number = 1): Promise<RestResult<HospitalTempModel[]>> {
+  getListNearBy(latitude: number, longitude: number, distance: number = 1000): Promise<RestResult<HospitalTempModel[]>> {
     this.httpResponse.addParam("latitude", latitude);
     this.httpResponse.addParam("longitude", longitude);
     this.httpResponse.addParam("distance", distance);

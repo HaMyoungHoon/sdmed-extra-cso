@@ -66,10 +66,12 @@ export class HospitalTempDetailComponent extends FDialogComponentBase {
       await this.googleMapMarkerClear();
       const markerModel: GoogleSetMarkerModel[] = [];
       markerModel.push(FExtensions.applyClass(GoogleSetMarkerModel, obj => {
+        obj.title = hospital.orgName;
         obj.content = FGoogleMapStyle.hospitalContent(hospital.orgName, hospital.address, hospital.phoneNumber, hospital.websiteUrl);
         obj.position = {lat: hospital.latitude, lng: hospital.longitude};
+        obj.icon.src = "/assets/icon/hospital_green.svg";
       }));
-      await this.googleMap.googleSetMarker(markerModel);
+      await this.googleMapSetMarker(markerModel);
     }
   }
 
@@ -78,16 +80,21 @@ export class HospitalTempDetailComponent extends FDialogComponentBase {
     this.cd.detectChanges();
     await FExtensions.awaitDelay(100);
   }
-  async googleMapPan(latitude: number, longitude: number): Promise<void> {
+  async googleMapPan(latitude: number, longitude: number, zoom: number = 15): Promise<void> {
     this.cd.detectChanges();
     await FExtensions.awaitDelay(100);
     if (this.googleMap) {
-      this.googleMap.panTo(latitude, longitude);
+      this.googleMap.panTo(latitude, longitude, zoom);
     }
   }
   async googleMapMarkerClear(): Promise<void> {
     if (this.googleMap) {
       this.googleMap.clearMarker();
+    }
+  }
+  async googleMapSetMarker(markerModel: GoogleSetMarkerModel[]): Promise<void> {
+    if (this.googleMap) {
+      await this.googleMap.googleSetMarker(markerModel);
     }
   }
 }

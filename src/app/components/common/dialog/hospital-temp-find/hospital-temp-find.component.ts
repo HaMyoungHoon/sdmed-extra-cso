@@ -29,7 +29,7 @@ export class HospitalTempFindComponent extends FDialogComponentBase {
   searchString: string = "";
   latitude: number = FConstants.DEF_LAT;
   longitude: number = FConstants.DEF_LNG;
-  mapVisible: boolean = false;
+  mapVisible: boolean = true;
   hospitalItems: HospitalTempModel[] = [];
   selectedHospital?: HospitalTempModel;
   findNearbyAble: boolean = false;
@@ -65,7 +65,6 @@ export class HospitalTempFindComponent extends FDialogComponentBase {
     this.setLoading(false);
     if (ret.result) {
       this.hospitalItems = ret.data ?? [];
-      this.mapVisible = false;
       return;
     }
     this.onWarn("getNearbyHospital", ret.msg);
@@ -116,9 +115,10 @@ export class HospitalTempFindComponent extends FDialogComponentBase {
   onErrorGeolocation(): void {
     this.findNearbyAble = false;
   }
-  async selectHospitalChange(event?: HospitalTempModel): Promise<void> {
-    if (event) {
-      await this.openMap(event)
+  async selectHospitalChange(data?: HospitalTempModel): Promise<void> {
+    if (data) {
+      await this.openMap(data)
+      await this.googleOpenInfoWindow(data);
     }
   }
   get filterFields(): string[] {
@@ -131,10 +131,12 @@ export class HospitalTempFindComponent extends FDialogComponentBase {
     await this.googleMapMarkerClear();
     const markerModel: GoogleSetMarkerModel[] = [];
     markerModel.push(FExtensions.applyClass(GoogleSetMarkerModel, obj => {
+      obj.title = data.orgName;
       obj.content = FGoogleMapStyle.hospitalContent(data.orgName, data.address, data.phoneNumber, data.websiteUrl);
       obj.position = {lat: data.latitude, lng: data.longitude};
+      obj.icon.src = "/assets/icon/hospital_green.svg";
     }));
-    await this.googleMap.googleSetMarker(markerModel);
+    await this.googleMapSetMarker(markerModel);
   }
 
   async setMapVisible(data: boolean = true): Promise<void> {
@@ -142,16 +144,26 @@ export class HospitalTempFindComponent extends FDialogComponentBase {
     this.cd.detectChanges();
     await FExtensions.awaitDelay(100);
   }
-  async googleMapPan(latitude: number, longitude: number): Promise<void> {
+  async googleMapPan(latitude: number, longitude: number, zoom: number = 15): Promise<void> {
     this.cd.detectChanges();
     await FExtensions.awaitDelay(100);
     if (this.googleMap) {
-      this.googleMap.panTo(latitude, longitude);
+      this.googleMap.panTo(latitude, longitude, zoom);
     }
   }
   async googleMapMarkerClear(): Promise<void> {
     if (this.googleMap) {
       this.googleMap.clearMarker();
+    }
+  }
+  async googleMapSetMarker(markerModel: GoogleSetMarkerModel[]): Promise<void> {
+    if (this.googleMap) {
+      await this.googleMap.googleSetMarker(markerModel);
+    }
+  }
+  async googleOpenInfoWindow(data: HospitalTempModel): Promise<void> {
+    if (this.googleMap) {
+      await this.googleMap.googleOpenInfoWindow(FGoogleMapStyle.hospitalContent(data.orgName, data.address, data.phoneNumber, data.websiteUrl), {lat: data.latitude, lng: data.longitude});
     }
   }
 }

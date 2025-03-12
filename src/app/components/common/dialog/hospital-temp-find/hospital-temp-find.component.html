@@ -1,28 +1,31 @@
 <div class="hospital-temp-find-container">
-  <div class="flex m-1 justify-content-center" *ngIf="isLoading">
+  <div class="absolute w-full z-5" *ngIf="isLoading">
     <p-progress-spinner strokeWidth="2" />
   </div>
-  <div class="header-container flex">
-    <p-ifta-label class="m-1">
-      <input class="w-10rem h-fit align-self-center" id="searchString" [(ngModel)]="searchString" pInputText (keydown.enter)="searchHospital($event)" />
-      <label for="searchString">{{"hospital-temp-find.search-hospital" | translate}}</label>
-    </p-ifta-label>
-    <p-button class="flex m-1 h-fit align-self-center" size="small" (click)="getNearbyHospital()" [disabled]="!findNearbyAble">{{"hospital-temp-find.find-nearby" | translate}}</p-button>
-    <p-button class="flex m-1 h-fit align-self-center" size="small" (click)="mapToggle()">{{"hospital-temp-find.map-toggle" | translate}}</p-button>
-    <p-button class="flex m-1 h-fit align-self-center" size="small" (click)="hospitalSelect()" [disabled]="selectedHospital == undefined">{{"common-desc.select" | translate}}</p-button>
-    <p-button class="flex m-1 ml-auto justify-content-end" size="small" icon="pi pi-times" (click)="close()" [rounded]="true" />
-  </div>
-  <div class="content-container" [hidden]="!mapVisible">
-    <app-google-map #googleMap (error)="tossError($event)" (warn)="tossWarn($event)" />
-  </div>
-  <p-list-box class="h-35rem" [options]="hospitalItems" [filter]="true" [filterFields]="filterFields" [(ngModel)]="selectedHospital" optionLabel="orgName" (ngModelChange)="selectHospitalChange($event)">
-    <ng-template pTemplate="item" let-item>
-      <div class="flex flex-wrap">
-        <div class="flex align-items-center justify-content-center m-1">{{item.orgName}}</div>
-        <div class="flex align-items-center justify-content-center m-1 foreground-orange">{{item.address}}</div>
-        <div class="flex align-items-center justify-content-center m-1">{{item.phoneNumber}}</div>
-        <p-button (click)="openMap(item)">{{"common-desc.open-map" | translate}}</p-button>
+  <div class="field grid flex-wrap">
+    <div class="flex flex-column flex-wrap col-fixed w-full">
+      <div class="header-container flex">
+        <p-ifta-label class="m-1">
+          <input class="w-10rem h-fit align-self-center" id="searchString" [(ngModel)]="searchString" pInputText (keydown.enter)="searchHospital($event)" />
+          <label for="searchString">{{"hospital-temp-find.search-hospital" | translate}}</label>
+        </p-ifta-label>
+        <p-button class="flex m-1 h-fit align-self-center" size="small" (click)="getNearbyHospital()" [disabled]="!findNearbyAble">{{"hospital-temp-find.find-nearby" | translate}}</p-button>
+        <p-button class="flex m-1 h-fit align-self-center" size="small" (click)="mapToggle()">{{"hospital-temp-find.map-toggle" | translate}}</p-button>
+        <p-button class="flex m-1 h-fit align-self-center" size="small" (click)="hospitalSelect()" [disabled]="selectedHospital == undefined">{{"common-desc.select" | translate}}</p-button>
+        <p-button class="flex m-1 ml-auto justify-content-end" size="small" icon="pi pi-times" (click)="close()" [rounded]="true" />
       </div>
-    </ng-template>
-  </p-list-box>
+    </div>
+    <div class="col-fixed content-container" [hidden]="!mapVisible">
+      <app-google-map #googleMap (error)="tossError($event)" (warn)="tossWarn($event)" />
+    </div>
+    <p-list-box class="flex h-35rem col w-full" [options]="hospitalItems" [filter]="true" [filterFields]="filterFields" [(ngModel)]="selectedHospital" optionLabel="orgName" (ngModelChange)="selectHospitalChange($event)">
+      <ng-template pTemplate="item" let-item>
+        <div class="flex flex-wrap">
+          <div class="flex align-items-center justify-content-center m-1">{{item.orgName}}</div>
+          <div class="flex align-items-center justify-content-center m-1 foreground-orange">{{item.address}}</div>
+          <div class="flex align-items-center justify-content-center m-1">{{item.phoneNumber}}</div>
+        </div>
+      </ng-template>
+    </p-list-box>
+  </div>
 </div>

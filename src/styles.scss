@@ -65,6 +65,9 @@ app-edi-list .p-paginator-content-end {
 }
 
 @media screen and (max-width: 750px) {
+  .content-container {
+    width: 100%;
+  }
   .map-view-container {
     width: 100%;
     height: 80vh;
@@ -73,6 +76,9 @@ app-edi-list .p-paginator-content-end {
   }
 }
 @media screen and (min-width: 750px) {
+  .content-container {
+    width: 50%;
+  }
   .map-view-container {
     width: 100%;
     height: 80vh;

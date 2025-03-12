@@ -44,6 +44,7 @@ export const REGEX_CHECK_PASSWORD_1: RegExp = /^(?=.*[A-Za-z가-힣ㄱ-ㅎㅏ-�
 export const REGEX_CHECK_PASSWORD_2: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
 
 export const MAP_GOOGLE_API_KEY = "AIzaSyAXbfpHy7uOHr2cFKAMqpNfapHJ-yynm3k";
+export const MAP_GOOGLE_ID = "c4e783549a7f4ba6 ";
 
 export let DEF_LAT: number = 37.5020656;
 export let DEF_LNG: number = 126.8880897;
