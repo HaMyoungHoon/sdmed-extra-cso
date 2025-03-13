@@ -98,7 +98,6 @@ export class HospitalTempFindComponent extends FDialogComponentBase {
     if (this.searchString.length <= 2) {
       this.translateService.get("hospital-temp-find.warn.search-string").subscribe(x => {
         this.fDialogService.warn("search", x);
-        console.log(x);
       });
       return;
     }
