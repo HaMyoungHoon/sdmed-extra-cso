@@ -62,6 +62,13 @@ export class MyInfoComponent extends FComponentBase {
     FAmhohwa.removeLocalStorage(FConstants.AUTH_TOKEN);
     this.router.navigate([`/`]).then();
   }
+  multiLogin(): void {
+    const sub = new Subject<any>();
+    this.sub.push(sub);
+    this.fDialogService.openSignIn(true).pipe(takeUntil(sub)).subscribe(async() => {
+      await this.getData();
+    });
+  }
 
   userImageUrl(userFileType: UserFileType): string {
     const file = this.userDataModel.fileList.find(x => x.userFileType == userFileType);

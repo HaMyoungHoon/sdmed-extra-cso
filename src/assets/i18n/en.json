@@ -202,7 +202,8 @@
     "not-supported-file": "not supported file format",
     "NEW": "new",
     "TRANSFER": "transfer",
-    "open-map": "open map"
+    "open-map": "open map",
+    "multi-login": "multi login"
   },
   "mqtt-desc": {
     "title": {

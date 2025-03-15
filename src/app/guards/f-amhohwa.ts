@@ -122,15 +122,29 @@ export function isExpired(token: string): boolean {
   const exp = getTokenExpired(token);
   return now > exp;
 }
+export function getToken(): string {
+  return getLocalStorage(AUTH_TOKEN);
+}
+export function setToken(token?: string): void {
+  if (token) {
+    setLocalStorage(AUTH_TOKEN, token);
+  }
+}
 export function getThisPK(): string {
   const token = getLocalStorage(AUTH_TOKEN);
   return getTokenThisPK(token);
 }
-export function getUserID(): string {
-  return decodeUtf8(getTokenID(getLocalStorage(AUTH_TOKEN)));
+export function getDecodeUserID(): string {
+  return decodeUtf8(getUserID());
 }
-export function getUserName(): string {
+export function getUserID(): string {
+  return getTokenID(getLocalStorage(AUTH_TOKEN));
+}
+export function getDecodeUserName(): string {
   return decodeUtf8(getTokenName(getLocalStorage(AUTH_TOKEN)));
+}
+export function geUserName(): string {
+  return getTokenName(getLocalStorage(AUTH_TOKEN));
 }
 function decodeUtf8(base64String: string): string {
   return decodeURIComponent(

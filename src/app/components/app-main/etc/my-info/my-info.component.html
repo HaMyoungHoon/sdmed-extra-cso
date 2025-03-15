@@ -5,7 +5,8 @@
       <p-accordion-header>{{"my-info.accordion-header.detail" | translate}}</p-accordion-header>
       <p-accordion-content>
         <div class="flex">
-          <p-button (click)="logout()">{{"common-desc.logout" | translate}}</p-button>
+          <p-button class="flex m-1" (click)="logout()">{{"common-desc.logout" | translate}}</p-button>
+          <p-button class="flex m-1" (click)="multiLogin()">{{"common-desc.multi-login" | translate}}</p-button>
         </div>
         <div class="flex">
           <label class="col-6 mr-1">{{"my-info.detail.id" | translate}}</label>

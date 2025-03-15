@@ -3,6 +3,7 @@ import * as FConstants from "../../guards/f-constants";
 import * as FAmhohwa from "../../guards/f-amhohwa";
 import {AppState} from "../../models/common/app-state";
 import {DOCUMENT, isPlatformBrowser} from "@angular/common";
+import {UserMultiLoginModel} from "../../models/rest/user/user-multi-login-model";
 
 @Injectable({
   providedIn: "root"
@@ -12,6 +13,7 @@ export class AppConfigService {
     isNewTab: false,
     scale: 14
   });
+  multiLogin: UserMultiLoginModel[] = [];
   document = inject(DOCUMENT);
   platformId = inject(PLATFORM_ID);
   theme = computed(() => (this.appState()?.darkTheme ? "dark" : "light"));
@@ -19,7 +21,7 @@ export class AppConfigService {
   private initialized = false;
   constructor() {
     this.appState.set({ ...this.loadAppState() });
-
+    this.multiLogin = this.loadMultiLogin();
     effect(
       () => {
         const state = this.appState();
@@ -67,7 +69,7 @@ export class AppConfigService {
   isMenuActive = computed(() => this.appState().menuActive ?? false);
   isNewTab = computed(() => this.appState().isNewTab ?? false);
   getScale = computed(() => this.appState().scale ?? 14);
-
+  getLoginData = computed(() => this.multiLogin ?? []);
 
   private onTransitionEnd() {
     this.transitionComplete.set(true);
@@ -119,11 +121,46 @@ export class AppConfigService {
       scale: 14,
     };
   }
+  private loadMultiLogin(): UserMultiLoginModel[] {
+    const ret: UserMultiLoginModel[] = [];
+    const storedState = FAmhohwa.getLocalStorage(FConstants.STORAGE_MULTI_LOGIN);
+    if (storedState.length > 0) {
+      const buff = JSON.parse(storedState) as UserMultiLoginModel[];
+      buff.forEach(x => ret.push(x));
+    }
+    return ret;
+  }
 
   private saveAppState(state: any): void {
     if (isPlatformBrowser(this.platformId)) {
       FAmhohwa.setLocalStorage(FConstants.THEME_LINK, JSON.stringify(state));
     }
+  }
+  private saveMultiLogin(data: UserMultiLoginModel[]): void {
+    FAmhohwa.setLocalStorage(FConstants.STORAGE_MULTI_LOGIN, JSON.stringify(data));
+    this.multiLogin = data;
+  }
+  addMultiLogin(data: UserMultiLoginModel): void {
+    let currentData = this.getLoginData() as UserMultiLoginModel[];
+    if (currentData.length == undefined) {
+      currentData = [];
+    }
+    currentData.forEach(x => x.isLogin = false);
+    const buff = currentData.findIndex(x => x.thisPK == data.thisPK);
+    if (buff == -1) {
+      currentData.push(data);
+    } else {
+      currentData[buff].thisPK = data.thisPK;
+      currentData[buff].id = data.id;
+      currentData[buff].name = data.name;
+      currentData[buff].token = data.token;
+      currentData[buff].isLogin = data.isLogin;
+    }
+    this.saveMultiLogin(currentData);
+  }
+  removeMultiLogin(data: UserMultiLoginModel): void {
+    const currentData = this.getLoginData().filter(x => x.thisPK != data.thisPK);
+    this.saveMultiLogin(currentData);
   }
 
   getCalendarViewType(): string {

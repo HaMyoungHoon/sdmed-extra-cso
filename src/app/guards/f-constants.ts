@@ -2,6 +2,7 @@ export const AUTH_TOKEN: string = "token";
 
 export const STORAGE_KEY_LANG: string = "lang";
 export const STORAGE_IMAGE_CACHE_CLEAR_TIME: string = "imageCacheClearTime";
+export const STORAGE_MULTI_LOGIN: string = "multiLogin";
 
 export const HEADERS_CACHE_TIMESTAMP: string = "X-Cache-Timestamp";
 export const CACHES_IMAGE_CACHE: string = "image-cache";

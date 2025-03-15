@@ -23,12 +23,12 @@ export class FDialogService {
   ref?: DynamicDialogRef
   constructor(private dialogService: DialogService, private messageService: MessageService) { }
 
-  openSignIn(): Observable<any> {
+  openSignIn(closable: boolean = false): Observable<any> {
     this.ref = this.dialogService.open(SignDialogComponent, {
       header: "sign in",
       modal: true,
       closable: true,
-      closeOnEscape: false,
+      closeOnEscape: closable,
     });
 
     return this.ref.onClose;

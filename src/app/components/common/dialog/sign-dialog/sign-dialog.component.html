@@ -1,4 +1,7 @@
-<div class="sign-container mt-7">
+<div class="sign-container mt-1" [class.mt-7]="!closable">
+  <div class="flex justify-content-end mb-5" *ngIf="closable">
+    <p-icon-field class="pi pi-times cursor-pointer" (click)="close()" />
+  </div>
   <div class="mb-4">
     <p-float-label>
       <input type="text" id="id_input" class="w-full" pInputText [(ngModel)]="id" (keydown)="idChange($event)" (keydown.space)="$event.preventDefault()">
@@ -11,5 +14,17 @@
       <label for="pw_input">pw</label>
     </p-float-label>
   </div>
+  <p-button class="flex justify-content-start" *ngIf="multiLogin.length > 0" (click)="multiLoginPop.toggle($event)">{{"common-desc.multi-login" | translate}}</p-button>
   <p-button class="flex justify-content-end" [disabled]="signInDisable" (onClick)="signIn()" label="login" />
+  <p-popover #multiLoginPop appendTo="body">
+    <p-list-box *ngIf="multiLogin.length > 0" [options]="multiLogin" highlightOnSelect="false" optionLabel="name" [multiple]="false" >
+      <ng-template pTemplate="item" let-item>
+        <div class="flex">
+          <div class="flex align-items-center foreground-orange m-2">{{item.id}}</div>
+          <div class="flex align-items-center foreground-teal m-2">{{item.name}}</div>
+          <p-button class="flex align-items-center m-2" (click)="multiSign(item)" label="login" />
+        </div>
+      </ng-template>
+    </p-list-box>
+  </p-popover>
 </div>

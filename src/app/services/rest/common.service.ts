@@ -19,6 +19,10 @@ export class CommonService {
     this.httpResponse.addParam("pw", pw);
     return this.httpResponse.get(`${this.baseUrl}/signIn`);
   }
+  multiSign(token: string): Promise<RestResult<string>> {
+    this.httpResponse.addParam("token", token);
+    return this.httpResponse.get(`${this.baseUrl}/multiSign`);
+  }
   signUp(confirmPW: string, data: UserDataModel): Promise<RestResult<UserDataModel>> {
     this.httpResponse.addParam("confirmPW", confirmPW);
     return this.httpResponse.post(`${this.baseUrl}/signUp`, data);

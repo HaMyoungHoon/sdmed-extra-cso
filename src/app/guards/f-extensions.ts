@@ -292,7 +292,7 @@ export function getUserBlobModel(file: File, blobStorageInfo: BlobStorageInfoMod
   return getBlobModel(blobName, FAmhohwa.getThisPK(), file, blobStorageInfo, ext);
 }
 export function getQnABlobName(ext: string): string {
-  const userID = FAmhohwa.getUserID();
+  const userID = FAmhohwa.getDecodeUserID();
   return `qna/${userID}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
 }
 export function getQnAPostFileModel(file: File, blobStorageInfo: BlobStorageInfoModel, blobName: string, ext: string, mimeType: string): QnAFileModel {
@@ -306,7 +306,7 @@ export function getQnAPostFileModel(file: File, blobStorageInfo: BlobStorageInfo
 }
 
 export function getQnAReplyBlobName(ext: string): string {
-  const userName = FAmhohwa.getUserID();
+  const userName = FAmhohwa.getDecodeUserID();
   return `qna/${userName}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
 }
 export function getQnAReplyPostFileModel(file: File, thisPK: string, blobStorageInfo: BlobStorageInfoModel, blobName: string, ext: string, mimeType: string): QnAReplyFileModel {
@@ -320,7 +320,7 @@ export function getQnAReplyPostFileModel(file: File, thisPK: string, blobStorage
   });
 }
 export function getEDIUploadBlobName(ext: string): string {
-  const userName = FAmhohwa.getUserID();
+  const userName = FAmhohwa.getDecodeUserID();
   return `edi/${userName}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
 }
 export function getEDIUploadFileModel(file: File, blobStorageInfo: BlobStorageInfoModel, ext: string, mimeType: string): EDIUploadFileModel {
