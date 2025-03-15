@@ -22,7 +22,7 @@
         <div class="flex">
           <div class="flex align-items-center foreground-orange m-2">{{item.id}}</div>
           <div class="flex align-items-center foreground-teal m-2">{{item.name}}</div>
-          <p-button class="flex align-items-center m-2" (click)="multiSign(item)" label="login" />
+          <p-button class="flex align-items-center m-2" (click)="multiSign(item)" label="login" *ngIf="item.isLogin != true" />
         </div>
       </ng-template>
     </p-list-box>

@@ -61,6 +61,7 @@ export class MyInfoComponent extends FComponentBase {
   logout(): void {
     FAmhohwa.removeLocalStorage(FConstants.AUTH_TOKEN);
     this.router.navigate([`/`]).then();
+    this.appConfig.logoutMultiLogin();
   }
   multiLogin(): void {
     const sub = new Subject<any>();

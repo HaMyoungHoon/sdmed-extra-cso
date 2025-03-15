@@ -140,6 +140,14 @@ export class AppConfigService {
     FAmhohwa.setLocalStorage(FConstants.STORAGE_MULTI_LOGIN, JSON.stringify(data));
     this.multiLogin = data;
   }
+  logoutMultiLogin(): void {
+    let currentData = this.getLoginData() as UserMultiLoginModel[];
+    if (currentData.length == undefined) {
+      currentData = [];
+    }
+    currentData.forEach(x => x.isLogin = false);
+    this.saveMultiLogin(currentData);
+  }
   addMultiLogin(data: UserMultiLoginModel): void {
     let currentData = this.getLoginData() as UserMultiLoginModel[];
     if (currentData.length == undefined) {
