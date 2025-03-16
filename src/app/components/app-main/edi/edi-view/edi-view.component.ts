@@ -161,8 +161,8 @@ export class EdiViewComponent extends FComponentBase {
       closable: false,
       closeOnEscape: true,
       maximizable: true,
-      width: "90%",
-      height: "90%",
+      width: "85%",
+      modal: true,
       data: this.uploadModel.tempHospitalPK
     });
   }

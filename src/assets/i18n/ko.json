@@ -168,11 +168,15 @@
   },
   "hospital-temp-find": {
     "search-hospital": "병원 검색",
-    "map-toggle": "지도여닫기",
+    "map-toggle": "지도토글",
     "find-nearby": "근처병원찾기",
     "warn": {
       "search-string": "3글자 이상 입력해주세요."
     }
+  },
+  "hospital-temp-detail": {
+    "map-toggle": "지도토글",
+    "pharmacy-toggle": "약국토글"
   },
   "error": {
     "title": "요청하신 페이지를 찾을 수 없습니다.",

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import {HttpResponseInterceptorService} from "../common/http-response-interceptor.service";
 import {RestResult} from "../../models/common/rest-result";
 import {HospitalTempModel} from "../../models/rest/hospital/hospital-temp-model";
+import {PharmacyTempModel} from "../../models/rest/hospital/pharmacy-temp-model";
 
 @Injectable({
   providedIn: "root"
@@ -23,5 +24,11 @@ export class HospitalTempService {
     this.httpResponse.addParam("longitude", longitude);
     this.httpResponse.addParam("distance", distance);
     return this.httpResponse.get(`${this.baseUrl}/list/nearby`);
+  }
+  getPharmacyListNearBy(latitude: number, longitude: number, distance: number = 1000): Promise<RestResult<PharmacyTempModel[]>> {
+    this.httpResponse.addParam("latitude", latitude);
+    this.httpResponse.addParam("longitude", longitude);
+    this.httpResponse.addParam("distance", distance);
+    return this.httpResponse.get(`${this.baseUrl}/list/nearby/pharmacy`);
   }
 }

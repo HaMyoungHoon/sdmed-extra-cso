@@ -51,10 +51,8 @@ export class EdiNewRequestComponent extends FComponentBase {
       closable: false,
       closeOnEscape: true,
       maximizable: true,
-      width: "90%",
-      height: "90%",
-      data: {
-      }
+      width: "85%",
+      modal: true,
     }).pipe(takeUntil(sub)).subscribe(x => {
       const buff = x as HospitalTempModel | null;
       if (buff) {

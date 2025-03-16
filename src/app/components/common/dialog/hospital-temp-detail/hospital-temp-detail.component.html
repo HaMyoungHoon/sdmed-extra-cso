@@ -2,11 +2,25 @@
   <div class="flex m-1 justify-content-center" *ngIf="isLoading">
     <p-progress-spinner strokeWidth="2" />
   </div>
-  <div class="header-container flex">
-    <p-button class="flex m-1 ml-auto justify-content-end" size="small" icon="pi pi-times" (click)="close()" [rounded]="true" />
+  <div class="field grid flex-wrap">
+    <p-icon-field class="flex m-1 h-fit ml-auto justify-content-end pi pi-times cursor-pointer" (click)="close()"></p-icon-field>
+    <div class="flex flex-column flex-wrap col-fixed w-full">
+      <div class="header-container flex">
+        <p-button class="flex m-1 h-fit align-self-center" size="small" (click)="mapToggle()">{{"hospital-temp-detail.map-toggle" | translate}}</p-button>
+        <p-button class="flex m-1 h-fit align-self-center" size="small" (click)="pharmacyToggle()">{{"hospital-temp-detail.pharmacy-toggle" | translate}}</p-button>
+      </div>
+    </div>
+    <div class="col-fixed content-container" [hidden]="!mapVisible">
+      <app-google-map #googleMap (error)="tossError($event)" (warn)="tossWarn($event)" />
+    </div>
+    <p-list-box class="flex h-35rem col w-full" [options]="pharmacyItems" [filter]="true" [filterFields]="filterFields" [(ngModel)]="selectedPharmacy" optionLabel="orgName" (ngModelChange)="selectPharmacyChange($event)">
+      <ng-template pTemplate="item" let-item>
+        <div class="flex flex-wrap">
+          <div class="flex align-items-center justify-content-center m-1">{{item.orgName}}</div>
+          <div class="flex align-items-center justify-content-center m-1 foreground-orange">{{item.address}}</div>
+          <div class="flex align-items-center justify-content-center m-1">{{item.phoneNumber}}</div>
+        </div>
+      </ng-template>
+    </p-list-box>
   </div>
-  <div class="content-container" [hidden]="!mapVisible">
-    <app-google-map #googleMap (error)="tossError($event)" (warn)="tossWarn($event)" />
-  </div>
-
 </div>

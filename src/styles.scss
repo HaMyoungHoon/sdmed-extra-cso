@@ -53,6 +53,10 @@ app-edi-pharma-file-combine-model .p-panel {
   min-height: 35rem;
   max-height: 35rem;
 }
+.w-35rem .p-listbox-list-container {
+  min-width: 35rem;
+  max-width: 35rem;
+}
 .no-drag {
   -webkit-user-select:none;
   -moz-user-select:none;
@@ -77,11 +81,11 @@ app-edi-list .p-paginator-content-end {
 }
 @media screen and (min-width: 750px) {
   .content-container {
-    width: 50%;
+    width: 60%;
   }
   .map-view-container {
     width: 100%;
-    height: 80vh;
+    height: 100%;
     display: flex;
     flex: 0 0 auto;
     padding: 10px;

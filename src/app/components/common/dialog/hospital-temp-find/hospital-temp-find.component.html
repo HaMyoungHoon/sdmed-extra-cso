@@ -3,22 +3,21 @@
     <p-progress-spinner strokeWidth="2" />
   </div>
   <div class="field grid flex-wrap">
-    <div class="flex flex-column flex-wrap col-fixed w-full">
-      <div class="header-container flex">
-        <p-ifta-label class="m-1">
+    <p-icon-field class="flex m-1 ml-auto justify-content-end pi pi-times cursor-pointer" (click)="close()"></p-icon-field>
+    <div class="flex flex-column flex-wrap w-full">
+      <div class="flex flex-row">
+        <p-ifta-label class="flex w-fit m-1">
           <input class="w-10rem h-fit align-self-center" id="searchString" [(ngModel)]="searchString" pInputText (keydown.enter)="searchHospital($event)" />
           <label for="searchString">{{"hospital-temp-find.search-hospital" | translate}}</label>
         </p-ifta-label>
-        <p-button class="flex m-1 h-fit align-self-center" size="small" (click)="getNearbyHospital()" [disabled]="!findNearbyAble">{{"hospital-temp-find.find-nearby" | translate}}</p-button>
-        <p-button class="flex m-1 h-fit align-self-center" size="small" (click)="mapToggle()">{{"hospital-temp-find.map-toggle" | translate}}</p-button>
-        <p-button class="flex m-1 h-fit align-self-center" size="small" (click)="hospitalSelect()" [disabled]="selectedHospital == undefined">{{"common-desc.select" | translate}}</p-button>
-        <p-button class="flex m-1 ml-auto justify-content-end" size="small" icon="pi pi-times" (click)="close()" [rounded]="true" />
+        <p-button class="flex m-1 h-fit w-fit align-self-center" size="small" (click)="mapToggle()">{{"hospital-temp-find.map-toggle" | translate}}</p-button>
+        <p-button class="flex m-1 h-fit w-fit align-self-center" size="small" (click)="hospitalSelect()" [disabled]="selectedHospital == undefined">{{"common-desc.select" | translate}}</p-button>
       </div>
     </div>
     <div class="col-fixed content-container" [hidden]="!mapVisible">
       <app-google-map #googleMap (error)="tossError($event)" (warn)="tossWarn($event)" />
     </div>
-    <p-list-box class="flex h-35rem col w-full" [options]="hospitalItems" [filter]="true" [filterFields]="filterFields" [(ngModel)]="selectedHospital" optionLabel="orgName" (ngModelChange)="selectHospitalChange($event)">
+    <p-list-box class="flex w-35rem h-35rem col w-fit" [options]="hospitalItems" [filter]="true" [filterFields]="filterFields" [(ngModel)]="selectedHospital" optionLabel="orgName" (ngModelChange)="selectHospitalChange($event)">
       <ng-template pTemplate="item" let-item>
         <div class="flex flex-wrap">
           <div class="flex align-items-center justify-content-center m-1">{{item.orgName}}</div>

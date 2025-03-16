@@ -804,6 +804,14 @@ export function hospitalContent(orgName: string, address: string, phoneNumber: s
     <div (click)="window.location(websiteUrl)">${websiteUrl}</div>
 </div>`;
 }
+export function pharmacyContent(orgName: string, address: string, phoneNumber: string): string {
+  return `
+<div id="content" class="card flex-row">
+    <div>${orgName}</div>
+    <div>${address}</div>
+    <div>${phoneNumber}</div>
+</div>`;
+}
 
 export function googleThemeList(): any {
   return [

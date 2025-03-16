@@ -16,10 +16,11 @@ import {HospitalTempModel} from "../../../../models/rest/hospital/hospital-temp-
 import {Button} from "primeng/button";
 import {GoogleSetMarkerModel} from "../../../../models/common/google-set-marker-model";
 import {ProgressSpinner} from "primeng/progressspinner";
+import {IconField} from "primeng/iconfield";
 
 @Component({
   selector: "app-hospital-temp-find",
-  imports: [GoogleMapComponent, FormsModule, IftaLabel, InputText, TranslatePipe, Listbox, PrimeTemplate, Button, NgIf, ProgressSpinner],
+  imports: [GoogleMapComponent, FormsModule, IftaLabel, InputText, TranslatePipe, Listbox, PrimeTemplate, Button, NgIf, ProgressSpinner, IconField],
   templateUrl: "./hospital-temp-find.component.html",
   styleUrl: "./hospital-temp-find.component.scss",
   standalone: true,
@@ -53,7 +54,7 @@ export class HospitalTempFindComponent extends FDialogComponentBase {
     this.setLoading(false);
     if (ret.result) {
       this.hospitalItems = ret.data ?? [];
-      this.mapVisible = false;
+      await this.addMarker();
       return;
     }
     this.onWarn("getSearchHospital", ret.msg);
@@ -65,6 +66,7 @@ export class HospitalTempFindComponent extends FDialogComponentBase {
     this.setLoading(false);
     if (ret.result) {
       this.hospitalItems = ret.data ?? [];
+      await this.addMarker();
       return;
     }
     this.onWarn("getNearbyHospital", ret.msg);
@@ -110,13 +112,14 @@ export class HospitalTempFindComponent extends FDialogComponentBase {
     await this.setMapVisible();
     await this.googleMapPan(this.latitude, this.longitude);
     this.findNearbyAble = true;
+    await this.getNearbyHospital();
   }
   onErrorGeolocation(): void {
     this.findNearbyAble = false;
   }
   async selectHospitalChange(data?: HospitalTempModel): Promise<void> {
     if (data) {
-      await this.openMap(data)
+      await this.openMap(data);
       await this.googleOpenInfoWindow(data);
     }
   }
@@ -124,18 +127,22 @@ export class HospitalTempFindComponent extends FDialogComponentBase {
     return ["orgName", "address"];
   }
 
+  async addMarker(): Promise<void> {
+    await this.googleMapMarkerClear();
+    const markerModel: GoogleSetMarkerModel[] = [];
+    this.hospitalItems.forEach(x => {
+      markerModel.push(FExtensions.applyClass(GoogleSetMarkerModel, obj => {
+        obj.title = x.orgName;
+        obj.content = FGoogleMapStyle.hospitalContent(x.orgName, x.address, x.phoneNumber, x.websiteUrl);
+        obj.position = {lat: x.latitude, lng: x.longitude};
+        obj.icon.src = "/assets/icon/hospital_green.svg";
+      }));
+    });
+    await this.googleMapSetMarker(markerModel);
+  }
   async openMap(data: HospitalTempModel): Promise<void> {
     await this.setMapVisible();
     await this.googleMapPan(data.latitude, data.longitude);
-    await this.googleMapMarkerClear();
-    const markerModel: GoogleSetMarkerModel[] = [];
-    markerModel.push(FExtensions.applyClass(GoogleSetMarkerModel, obj => {
-      obj.title = data.orgName;
-      obj.content = FGoogleMapStyle.hospitalContent(data.orgName, data.address, data.phoneNumber, data.websiteUrl);
-      obj.position = {lat: data.latitude, lng: data.longitude};
-      obj.icon.src = "/assets/icon/hospital_green.svg";
-    }));
-    await this.googleMapSetMarker(markerModel);
   }
 
   async setMapVisible(data: boolean = true): Promise<void> {
