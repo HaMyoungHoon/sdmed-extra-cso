@@ -48,22 +48,40 @@
         </div>
         <p-divider layout="horizontal" />
         <div class="field grid">
-          <div class="col">
+          <div class="user-file-gap">
+            <p-image width="100" height="100" [src]="userImageUrl(UserFileType.Taxpayer)" [alt]="userDataModel.companyName" (click)="userImageView(UserFileType.Taxpayer)" />
             <label class="flex">{{userDataModel.companyName}}</label>
             <label class="flex">{{userDataModel.companyNumber}}</label>
-            <p-image width="100" height="100" [src]="userImageUrl(UserFileType.Taxpayer)" [alt]="userDataModel.companyName" (click)="userImageView(UserFileType.Taxpayer)" />
           </div>
-          <div class="col">
-            <label class="flex">{{userDataModel.bankAccount}}</label>
+          <div class="user-file-gap">
             <p-image width="100" height="100" [src]="userImageUrl(UserFileType.BankAccount)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.BankAccount)" />
+            <label class="flex">{{userDataModel.bankAccount}}</label>
           </div>
-          <div class="col">
-            <label class="flex">{{"my-info.detail.cso-report-image" | translate}}</label>
+          <div class="user-file-gap">
             <p-image width="100" height="100" [src]="userImageUrl(UserFileType.CsoReport)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.CsoReport)" />
+            <div class="flex contract-gap">
+              <label>{{"my-info.detail.cso-report-date" | translate}}</label>
+              <span>{{dateToYYYYMMDD(userDataModel.csoReportDate)}}</span>
+            </div>
+            <div class="flex contract-gap">
+              <label>{{"my-info.detail.contract-date" | translate}}</label>
+              <span>{{dateToYYYYMMDD(userDataModel.contractDate)}}</span>
+            </div>
           </div>
-          <div class="col">
+          <div class="user-file-gap">
+            <p-image class="col-fixed" width="100" height="100" [src]="userImageUrl(UserFileType.MarketingContract)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.MarketingContract)" />
             <label class="flex">{{"my-info.detail.marketing-contract-image" | translate}}</label>
-            <p-image width="100" height="100" [src]="userImageUrl(UserFileType.MarketingContract)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.MarketingContract)" />
+          </div>
+          <div>
+            <p-image width="100" height="100" [src]="trainingImageUrl()" (click)="trainingImageView()" />
+            <div class="align-self-center">
+              <label class="flex">{{trainingDate()}}</label>
+              <p-button class="flex" (click)="userTrainingFilePop.toggle($event)">{{"my-info.detail.training-image-add" | translate}}</p-button>
+              <p-popover #userTrainingFilePop appendTo="body">
+                <popover-user-training-file-add #userTrainingFileAdd [trainingList]="userDataModel.trainingList" (error)="onError($event)" (warn)="onWarn($event)"
+                                                (viewItemEvent)="viewUserTrainingItem($event)" (uploadFileEvent)="userTrainingUpload($event)" />
+              </p-popover>
+            </div>
           </div>
           <input #taxpayerImageInput class="collapse" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp,.pdf" (change)="userImageSelected($event, UserFileType.Taxpayer)">
           <input #bankAccountImageInput class="collapse" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp,.pdf" (change)="userImageSelected($event, UserFileType.BankAccount)">

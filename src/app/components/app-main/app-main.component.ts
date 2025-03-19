@@ -133,6 +133,7 @@ export class AppMainComponent implements AfterViewInit, OnDestroy {
       case MqttContentType.EDI_RECEP: title = "mqtt-desc.title.edi-recep"; break;
       case MqttContentType.EDI_FILE_ADD: title = "mqtt-desc.title.edi-file-add"; break;
       case MqttContentType.EDI_FILE_DELETE: title = "mqtt-desc.title.edi-file-delete"; break;
+      case MqttContentType.USER_FILE_ADD: title = "mqtt-desc.title.user-file-add"; break;
     }
 //    this.fDialogService.mqttInfo(title, mqttContentModel.senderID,`${mqttContentModel.content}`, this.mqttConfirmFn, mqttContentModel);
     this.fDialogService.mqttInfo(title, " ",`${mqttContentModel.content}`, this.mqttConfirmFn, mqttContentModel);
@@ -150,6 +151,7 @@ export class AppMainComponent implements AfterViewInit, OnDestroy {
         case MqttContentType.EDI_RECEP:
         case MqttContentType.EDI_FILE_ADD:
         case MqttContentType.EDI_FILE_DELETE: await router.navigate([`/${FConstants.EDI_LIST_URL}/${mqttContentModel.targetItemPK}`]); break;
+        case MqttContentType.USER_FILE_ADD: await router.navigate([`/${FConstants.MY_INFO_URL}`]); break;
       }
     });
   }

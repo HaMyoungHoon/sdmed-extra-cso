@@ -8,4 +8,5 @@ export enum MqttContentType {
   EDI_RECEP = "EDI_RECEP",
   EDI_FILE_ADD = "EDI_FILE_ADD",
   EDI_FILE_DELETE = "EDI_FILE_DELETE",
+  USER_FILE_ADD = "USER_FILE_ADD",
 }

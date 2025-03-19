@@ -17,7 +17,7 @@ export async function imageSelected(event: any, data: UserDataModel, userFileTyp
   if (input.files && input.files.length > 0) {
     const file = input.files[0];
     const ext = await FExtensions.getFileExt(file);
-    if (!FExtensions.isImage(ext)) {
+    if (!FExtensions.isAbleUpload(ext)) {
       return new RestResult<UserFileModel>().setFail("only image file");
     }
     const blobName = FExtensions.getUserBlobName(data.id, ext);

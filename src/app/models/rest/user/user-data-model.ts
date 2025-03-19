@@ -1,6 +1,7 @@
 import {UserStatus} from "./user-status";
 import {HospitalModel} from "../hospital/hospital-model";
 import {UserFileModel} from "./user-file-model";
+import {UserTrainingModel} from "./user-training-model";
 
 export class UserDataModel {
   thisPK: string = "";
@@ -16,10 +17,13 @@ export class UserDataModel {
   companyNumber: string = "";
   companyAddress: string = "";
   bankAccount: string = "";
+  csoReportDate?: Date;
+  contractDate?: Date;
   regDate: Date = new Date();
   lastLoginDate?: Date;
   motherPK: string = "";
   children: UserDataModel[] = [];
   hosList: HospitalModel[] = [];
   fileList: UserFileModel[] = [];
+  trainingList: UserTrainingModel[] = [];
 }

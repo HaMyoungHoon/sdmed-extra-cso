@@ -69,6 +69,16 @@ export class MqttService {
       resolve(new RestResult<any>().setFail("통신 에러"));
     });
   }
+  async postUserFileAdd(content: string): Promise<RestResult<any>> {
+    await this.postPublish("extra-cso", FExtensions.applyClass(MqttContentModel, (obj) => {
+      obj.contentType = MqttContentType.USER_FILE_ADD;
+      obj.content = content;
+      obj.targetItemPK = FAmhohwa.getThisPK();
+    }));
+    return new Promise((resolve): void => {
+      resolve(new RestResult<any>().setFail("통신 에러"));
+    });
+  }
   mqttConnect(mqttConnectModel: MqttConnectModel): void {
     if (this.mqttClient?.connected) {
       return;

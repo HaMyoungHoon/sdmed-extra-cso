@@ -1,0 +1,21 @@
+.contract-gap {
+  @media screen and (min-width: 400px) {
+    gap: 0.5rem !important;
+  }
+  @media screen and (max-width: 400px) {
+    flex-direction: column !important;
+  }
+}
+
+.user-file-gap {
+  @media screen and (min-width: 720px) {
+    flex: 0 0 auto !important;
+    padding: 0.5rem !important;
+    width: 25% !important;
+  }
+  @media screen and (max-width: 720px) {
+    flex: 0 0 auto !important;
+    padding: 0.5rem !important;
+    width: 50% !important;
+  }
+}

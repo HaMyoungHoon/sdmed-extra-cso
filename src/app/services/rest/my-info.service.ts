@@ -6,6 +6,7 @@ import {BlobUploadModel} from "../../models/rest/blob-upload-model";
 import * as FAmhohwa from "../../guards/f-amhohwa";
 import {UserFileType} from "../../models/rest/user/user-file-type";
 import {UserFileModel} from "../../models/rest/user/user-file-model";
+import {UserTrainingModel} from "../../models/rest/user/user-training-model";
 
 @Injectable({
   providedIn: "root"
@@ -17,6 +18,7 @@ export class MyInfoService {
 
   getData(): Promise<RestResult<UserDataModel>> {
     this.httpResponse.addParam("relationView", true);
+    this.httpResponse.addParam("trainingModelView", true);
     return this.httpResponse.get(`${this.baseUrl}/data`);
   }
   putPasswordChange(currentPW: string, afterPW: string, confirmPW: string): Promise<RestResult<UserDataModel>> {
@@ -28,5 +30,9 @@ export class MyInfoService {
   putUserFileImageUrl(blobModel: BlobUploadModel, userFileType: UserFileType): Promise<RestResult<UserFileModel>> {
     this.httpResponse.addParam("userFileType", userFileType);
     return this.httpResponse.put(`${this.baseUrl}/file/${FAmhohwa.getThisPK()}`, blobModel);
+  }
+  postUserTrainingData(blobModel: BlobUploadModel, trainingDate: string): Promise<RestResult<UserTrainingModel>> {
+    this.httpResponse.addParam("trainingDate", trainingDate);
+    return this.httpResponse.post(`${this.baseUrl}/file/training/${FAmhohwa.getThisPK()}`, blobModel);
   }
 }

@@ -1,0 +1,30 @@
+<div class="user-training-file-add-container">
+  <div *ngIf="trainingList.length > 0">
+    <span class="font-bold">{{"user-training-file-add.title.training-list" | translate}}</span>
+    <p-virtual-scroller [items]="trainingList" [style]="{ width: '300px', height: '200px' }">
+      <ng-template #item let-item>
+        <div class="flex align-items-center gap-2 m-2">
+          <img [src]="getBlobUrl(item)" [alt]="item.originalFilename" (click)="viewTrainingFile(item)" class="training-add-image"/>
+          <div>
+            <span class="font-medium">{{getTrainingDate(item)}}</span>
+            <div class="text-sm text-muted-color">{{item.originalFilename}}</div>
+          </div>
+        </div>
+      </ng-template>
+    </p-virtual-scroller>
+  </div>
+  <div class="col-12 flex flex-column justify-content-center">
+    <div class="flex flex-column" *ngIf="uploadFileBuff">
+      <div class="col">
+        <span>{{"user-training-file-add.title.training-date" | translate}}</span>
+        <p-date-picker [(ngModel)]="trainingDate" dateFormat="yy-mm-dd" view="date" readonlyInput="true" appendTo="body" />
+      </div>
+      <img [src]="uploadFileBuff.blobUrl" [alt]="uploadFileBuff.filename" class="training-add-image" />
+    </div>
+    <div class="flex grid justify-content-center m-1">
+      <p-button class="m-1 flex field align-content-center" size="small" (click)="fileUpload()">{{"common-desc.add" | translate}}</p-button>
+      <p-button class="m-1 flex field align-content-center" size="small" (click)="uploadFile()" [disabled]="!saveAble()">{{"common-desc.save" | translate}}</p-button>
+      <input #inputFile class="collapse" type="file" [accept]="acceptFiles" (change)="fileSelected($event)" [multiple]="false" />
+    </div>
+  </div>
+</div>
