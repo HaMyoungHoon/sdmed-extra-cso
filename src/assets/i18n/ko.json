@@ -137,7 +137,7 @@
       "reg-date": "등록일",
       "last-login-date": "마지막 로그인일",
       "cso-report-image": "CSO 신고증",
-      "cso-report-date": "CSO 신고일",
+      "cso-report-number": "CSO 신고번호",
       "contract-date": "CSO 계약일",
       "marketing-contract-image": "마케팅 계약서",
       "training-image": "교육수료증",

@@ -1,12 +1,3 @@
-.contract-gap {
-  @media screen and (min-width: 400px) {
-    gap: 0.5rem !important;
-  }
-  @media screen and (max-width: 400px) {
-    flex-direction: column !important;
-  }
-}
-
 .user-file-gap {
   @media screen and (min-width: 720px) {
     flex: 0 0 auto !important;

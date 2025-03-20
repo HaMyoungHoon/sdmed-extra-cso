@@ -15,9 +15,10 @@ export class UserDataModel {
   status: UserStatus = UserStatus.None;
   companyName: string = "";
   companyNumber: string = "";
+  companyOwner: string = "";
   companyAddress: string = "";
   bankAccount: string = "";
-  csoReportDate?: Date;
+  csoReportNumber: string = "";
   contractDate?: Date;
   regDate: Date = new Date();
   lastLoginDate?: Date;

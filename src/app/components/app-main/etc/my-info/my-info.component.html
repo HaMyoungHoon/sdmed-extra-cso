@@ -59,18 +59,13 @@
           </div>
           <div class="user-file-gap">
             <p-image width="100" height="100" [src]="userImageUrl(UserFileType.CsoReport)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.CsoReport)" />
-            <div class="flex contract-gap">
-              <label>{{"my-info.detail.cso-report-date" | translate}}</label>
-              <span>{{dateToYYYYMMDD(userDataModel.csoReportDate)}}</span>
-            </div>
-            <div class="flex contract-gap">
-              <label>{{"my-info.detail.contract-date" | translate}}</label>
-              <span>{{dateToYYYYMMDD(userDataModel.contractDate)}}</span>
-            </div>
+            <label class="flex">{{"my-info.detail.cso-report-number" | translate}}</label>
+            <label class="flex">{{userDataModel.csoReportNumber}}</label>
           </div>
           <div class="user-file-gap">
             <p-image class="col-fixed" width="100" height="100" [src]="userImageUrl(UserFileType.MarketingContract)" [alt]="userDataModel.bankAccount" (click)="userImageView(UserFileType.MarketingContract)" />
-            <label class="flex">{{"my-info.detail.marketing-contract-image" | translate}}</label>
+            <label class="flex">{{"my-info.detail.contract-date" | translate}}</label>
+            <label class="flex">{{dateToYYYYMMDD(userDataModel.contractDate)}}</label>
           </div>
           <div>
             <p-image width="100" height="100" [src]="trainingImageUrl()" (click)="trainingImageView()" />
