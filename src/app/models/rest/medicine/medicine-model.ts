@@ -4,7 +4,6 @@ import {MedicineDiv} from "./medicine-div";
 
 export class MedicineModel {
   thisPK: string = "";
-  makerName?: string = "";
   orgName: string = "";
   innerName: string = "";
   kdCode: string = "";
@@ -15,16 +14,17 @@ export class MedicineModel {
   mainIngredientCode: string = "";
   code: string = "";
   makerCode: string = "";
+  clientCode: string = "";
+  makerName?: string = "";
+  clientName?: string = "";
   medicineDiv: MedicineDiv = MedicineDiv.Open;
   inVisible: boolean = false;
-  clientName?: string = "";
   maxPrice: number = 0;
   medicineIngredientModel: MedicineIngredientModel = new MedicineIngredientModel();
   medicinePriceModel: MedicinePriceModel[] = [];
 
   init(data: MedicineModel): MedicineModel {
     this.thisPK = data.thisPK;
-    this.makerName = data.makerName;
     this.orgName = data.orgName;
     this.innerName = data.innerName;
     this.kdCode = data.kdCode;
@@ -35,9 +35,11 @@ export class MedicineModel {
     this.mainIngredientCode = data.mainIngredientCode;
     this.code = data.code;
     this.makerCode = data.makerCode;
+    this.clientCode = data.clientCode;
+    this.makerName = data.makerName;
+    this.clientName = data.clientName;
     this.medicineDiv = data.medicineDiv;
     this.inVisible = data.inVisible;
-    this.clientName = data.clientName;
     this.maxPrice = data.maxPrice;
     this.medicineIngredientModel = data.medicineIngredientModel;
     this.medicinePriceModel = data.medicinePriceModel;
@@ -45,7 +47,6 @@ export class MedicineModel {
   }
   copyLhsFromRhs(lhs: MedicineModel, rhs: MedicineModel): void {
     lhs.thisPK = rhs.thisPK;
-    lhs.makerName = rhs.makerName;
     lhs.orgName = rhs.orgName;
     lhs.innerName = rhs.innerName;
     lhs.kdCode = rhs.kdCode;
@@ -56,9 +57,11 @@ export class MedicineModel {
     lhs.mainIngredientCode = rhs.mainIngredientCode;
     lhs.code = rhs.code;
     lhs.makerCode = rhs.makerCode;
+    lhs.clientCode = rhs.clientCode;
+    lhs.makerName = rhs.makerName;
+    lhs.clientName = rhs.clientName;
     lhs.medicineDiv = rhs.medicineDiv;
     lhs.inVisible = rhs.inVisible;
-    lhs.clientName = rhs.clientName;
     lhs.maxPrice = rhs.maxPrice;
     lhs.medicineIngredientModel = rhs.medicineIngredientModel;
     lhs.medicinePriceModel = rhs.medicinePriceModel;
