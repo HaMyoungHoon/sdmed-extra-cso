@@ -86,6 +86,9 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
       disableDefaultUI: true,
       scaleControl: true,
       zoomControl: true,
+      options: {
+        gestureHandling: "greedy"
+      }
     });
     window.google.maps.importLibrary("marker");
     window.googleGeocoder = new window.google.maps.Geocoder();

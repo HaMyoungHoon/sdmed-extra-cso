@@ -17,7 +17,7 @@
     <div class="col-fixed content-container" [hidden]="!mapVisible">
       <app-google-map #googleMap (error)="tossError($event)" (warn)="tossWarn($event)" />
     </div>
-    <p-list-box class="flex w-35rem h-35rem col w-fit" [options]="hospitalItems" [filter]="true" [filterFields]="filterFields" [(ngModel)]="selectedHospital" optionLabel="orgName" (ngModelChange)="selectHospitalChange($event)">
+    <p-list-box class="flex h-35rem col w-full" [options]="hospitalItems" [filter]="true" [filterFields]="filterFields" [(ngModel)]="selectedHospital" optionLabel="orgName" (ngModelChange)="selectHospitalChange($event)">
       <ng-template pTemplate="item" let-item>
         <div class="flex flex-wrap">
           <div class="flex align-items-center justify-content-center m-1">{{item.orgName}}</div>
