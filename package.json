@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "local": "ng serve --port 5200 --proxy-config proxy.conf.json",
-    "local2": "ng serve --host 192.168.0.197 --port 5200 --proxy-config proxy.conf.json --disable-host-check",
+    "local": "ng serve --port 5200 --proxy-config proxy.conf.local.json",
+    "back": "ng serve --port 5200 --proxy-config proxy.conf.json",
     "build": "ng build"
   },
   "private": true,

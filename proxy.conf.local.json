@@ -1,0 +1,12 @@
+{
+  "/apiCSO/": {
+    "target": "http://localhost:25801",
+    "__target__": "https://back-cso.sdmed.co.kr",
+    "secure": false,
+    "loglevel": "debug",
+    "pathRewrite": {
+      "^/apiCSO": ""
+    },
+    "changeOrigin": true
+  }
+}
