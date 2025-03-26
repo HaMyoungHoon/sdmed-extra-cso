@@ -3,8 +3,8 @@ import {PharmaModel} from "../pharma/pharma-model";
 export class HospitalModel {
   thisPK: string = "";
   code: string = "";
-  orgName: string = "";
   innerName: string = "";
+  orgName: string = "";
   ownerName: string = "";
   taxpayerNumber: string = "";
   address: string = "";
@@ -23,8 +23,8 @@ export class HospitalModel {
   init(data: HospitalModel): HospitalModel {
     this.thisPK = data.thisPK;
     this.code = data.code;
-    this.orgName = data.orgName;
     this.innerName = data.innerName;
+    this.orgName = data.orgName;
     this.ownerName = data.ownerName;
     this.taxpayerNumber = data.taxpayerNumber;
     this.address = data.address;
@@ -44,8 +44,8 @@ export class HospitalModel {
   copyLhsFromRhs(lhs: HospitalModel, rhs: HospitalModel): void {
     lhs.thisPK = rhs.thisPK;
     lhs.code = rhs.code;
-    lhs.orgName = rhs.orgName;
     lhs.innerName = rhs.innerName;
+    lhs.orgName = rhs.orgName;
     lhs.ownerName = rhs.ownerName;
     lhs.taxpayerNumber = rhs.taxpayerNumber;
     lhs.address = rhs.address;

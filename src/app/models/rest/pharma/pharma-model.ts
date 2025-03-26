@@ -1,15 +1,10 @@
-import {BillType} from "../bill-type";
-import {PharmaType} from "./pharma-type";
-import {PharmaGroup} from "./pharma-group";
-import {ContractType} from "../contract-type";
-import {DeliveryDiv} from "../delivery-div";
 import {MedicineModel} from "../medicine/medicine-model";
 
 export class PharmaModel {
   thisPK: string = "";
   code: string = "";
-  orgName: string = "";
   innerName: string = "";
+  orgName: string = "";
   ownerName: string = "";
   taxpayerNumber: string = "";
   address: string = "";
@@ -30,8 +25,8 @@ export class PharmaModel {
   init(data: PharmaModel): PharmaModel {
     this.thisPK = data.thisPK;
     this.code = data.code;
-    this.orgName = data.orgName;
     this.innerName = data.innerName;
+    this.orgName = data.orgName;
     this.ownerName = data.ownerName;
     this.taxpayerNumber = data.taxpayerNumber;
     this.address = data.address;
@@ -53,8 +48,8 @@ export class PharmaModel {
   copyLhsFromRhs(lhs: PharmaModel, rhs: PharmaModel): void {
     lhs.thisPK = rhs.thisPK;
     lhs.code = rhs.code;
-    lhs.orgName = rhs.orgName;
     lhs.innerName = rhs.innerName;
+    lhs.orgName = rhs.orgName;
     lhs.ownerName = rhs.ownerName;
     lhs.taxpayerNumber = rhs.taxpayerNumber;
     lhs.address = rhs.address;
