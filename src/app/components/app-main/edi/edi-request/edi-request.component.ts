@@ -149,6 +149,7 @@ export class EdiRequestComponent extends FComponentBase {
     for (const pharmaBuff of ablePharma) {
       const pharma = FExtensions.applyClass(EDIUploadPharmaModel, obj => {
         obj.pharmaPK = pharmaBuff.thisPK;
+        obj.parseMedicine(pharmaBuff.medicineList);
       });
       for (const fileBuff of pharmaBuff.uploadFileBuffModel) {
         const blobName = FExtensions.getEDIUploadBlobName(fileBuff.ext);
@@ -171,6 +172,7 @@ export class EdiRequestComponent extends FComponentBase {
         pharma.fileList.push(uploadFile);
       }
       uploadModel.pharmaList.push(pharma);
+      console.log(pharma);
     }
 
     return ret;
