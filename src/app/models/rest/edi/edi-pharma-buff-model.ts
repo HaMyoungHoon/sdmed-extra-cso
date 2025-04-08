@@ -5,7 +5,6 @@ export class EDIPharmaBuffModel {
   thisPK: string = "";
   code: string = "";
   orgName: string = "";
-  innerName: string = "";
   medicineList: EDIMedicineBuffModel[] = [];
   uploadFileBuffModel: UploadFileBuffModel[] = [];
 }

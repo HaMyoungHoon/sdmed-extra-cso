@@ -4,11 +4,11 @@ import {UserRole} from "../../../../models/rest/user/user-role";
 import * as FExtensions from "../../../../guards/f-extensions";
 import * as FConstants from "../../../../guards/f-constants";
 import * as FImageCache from "../../../../guards/f-image-cache";
-import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {EdiListService} from "../../../../services/rest/edi-list.service";
 import {Calendar} from "primeng/calendar";
 import {StringToEDIStateDesc} from "../../../../models/rest/edi/edi-state";
 import {EDIType} from "../../../../models/rest/edi/edi-type";
+import {ExtraEDIListResponse} from "../../../../models/rest/edi/extra-edi-list-response";
 
 @Component({
   selector: "app-edi-list",
@@ -22,8 +22,8 @@ export class EdiListComponent extends FComponentBase{
   startDate: Date = FExtensions.plusMonths(new Date(), -1);
   endDate: Date = new Date();
   isSorted: boolean | null = null;
-  initValue: EDIUploadModel[] = [];
-  viewList: EDIUploadModel[] = [];
+  initValue: ExtraEDIListResponse[] = [];
+  viewList: ExtraEDIListResponse[] = [];
   constructor(private thisService: EdiListService) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
   }
@@ -53,7 +53,7 @@ export class EdiListComponent extends FComponentBase{
   async addEdi(): Promise<void> {
     await this.router.navigate([`/${FConstants.EDI_REQUEST_URL}`]);
   }
-  async open(data: EDIUploadModel): Promise<void> {
+  async open(data: ExtraEDIListResponse): Promise<void> {
     await this.router.navigate([`/${FConstants.EDI_LIST_URL}/${data.thisPK}`]);
   }
   async startDateChange(data: any): Promise<void> {
@@ -92,40 +92,40 @@ export class EdiListComponent extends FComponentBase{
   get endDateTooltip(): string {
     return "edi-list.header.end-date";
   }
-  getApplyDate(data: EDIUploadModel): string {
+  getApplyDate(data: ExtraEDIListResponse): string {
     return `${data.year}-${data.month}`;
   }
-  getItemOrgName(item: EDIUploadModel): string {
+  getItemOrgName(item: ExtraEDIListResponse): string {
     if (item.ediType == EDIType.DEFAULT) {
       return item.orgName;
     }
 
     return `${item.orgName} (${item.tempOrgName})`
   }
-  getItemPharmaName(item: EDIUploadModel): string {
+  getItemPharmaName(item: ExtraEDIListResponse): string {
     if (item.pharmaList.length <= 0) {
       return "???";
     }
     if (item.pharmaList.length == 1) {
-      return item.pharmaList[0].orgName;
+      return item.pharmaList[0];
     }
-    return `${item.pharmaList[0].orgName} (${item.pharmaList.length})`;
+    return `${item.pharmaList[0]} (${item.pharmaList.length})`;
   }
-  isPrimary(item: EDIUploadModel): boolean {
+  isPrimary(item: ExtraEDIListResponse): boolean {
     return this.isNewPlace(item) || this.isTransferPlace(item);
   }
-  isNewPlace(item: EDIUploadModel): boolean {
+  isNewPlace(item: ExtraEDIListResponse): boolean {
     return item.ediType == EDIType.NEW;
   }
-  isTransferPlace(item: EDIUploadModel): boolean {
+  isTransferPlace(item: ExtraEDIListResponse): boolean {
     return item.ediType == EDIType.TRANSFER;
   }
-  pharmaListTooltip(item: EDIUploadModel): string {
+  pharmaListTooltip(item: ExtraEDIListResponse): string {
     if (item.pharmaList.length <= 0) {
       return "";
     }
     let ret = "";
-    item.pharmaList.forEach(x => ret += `${x.orgName}\n`);
+    item.pharmaList.forEach(x => ret += `${x}\n`);
     return ret;
   }
 

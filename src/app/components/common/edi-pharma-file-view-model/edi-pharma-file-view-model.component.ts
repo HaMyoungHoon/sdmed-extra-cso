@@ -6,12 +6,12 @@ import {NgIf} from "@angular/common";
 import {PrimeTemplate} from "primeng/api";
 import {Tooltip} from "primeng/tooltip";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
-import {EDIUploadPharmaModel} from "../../../models/rest/edi/edi-upload-pharma-model";
 import * as FConstants from "../../../guards/f-constants";
 import * as FExtensions from "../../../guards/f-extensions";
 import {EDIState} from "../../../models/rest/edi/edi-state";
 import {EDIUploadPharmaFileModel} from "../../../models/rest/edi/edi-upload-pharma-file-model";
 import {ProgressSpinner} from "primeng/progressspinner";
+import {ExtraEDIPharma} from "../../../models/rest/edi/extra-edi-pharma";
 
 @Component({
   selector: "app-edi-pharma-file-view-model",
@@ -22,14 +22,14 @@ import {ProgressSpinner} from "primeng/progressspinner";
 })
 export class EdiPharmaFileViewModelComponent {
   @ViewChild("inputFiles") inputFiles!: ElementRef<HTMLInputElement>;
-  @Input() pharmaModel: EDIUploadPharmaModel = new EDIUploadPharmaModel();
+  @Input() pharmaModel: ExtraEDIPharma = new ExtraEDIPharma();
   @Output() downloadPharmaItemEvent: EventEmitter<EDIUploadPharmaFileModel> = new EventEmitter();
   @Output() removeEDIPharmaItemEvent: EventEmitter<{event: Event, item: EDIUploadPharmaFileModel}> = new EventEmitter();
   @Output() viewPharmaItemEvent: EventEmitter<{list: EDIUploadPharmaFileModel[], item: EDIUploadPharmaFileModel}> = new EventEmitter();
   @Output() error: EventEmitter<{title: string, msg?: string}> = new EventEmitter();
   @Output() warn: EventEmitter<{title: string, msg?: string}> = new EventEmitter();
-  @Output() changeFile: EventEmitter<EDIUploadPharmaModel> = new EventEmitter();
-  @Output() uploadAdditionalFileEvent: EventEmitter<EDIUploadPharmaModel> = new EventEmitter();
+  @Output() changeFile: EventEmitter<ExtraEDIPharma> = new EventEmitter();
+  @Output() uploadAdditionalFileEvent: EventEmitter<ExtraEDIPharma> = new EventEmitter();
   activeIndex: number = 0;
   uploadActiveIndex: number = 0;
   imageCacheUrl: {blobUrl: string, objectUrl: string}[] = [];
