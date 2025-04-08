@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import {HttpResponseInterceptorService} from "../common/http-response-interceptor.service";
 import {RestResult} from "../../models/common/rest-result";
-import {EDIApplyDateModel} from "../../models/rest/edi/edi-apply-date-model";
+import {ExtraEdiApplyDateResponse} from "../../models/rest/edi/extra-edi-apply-date-response";
 import {HospitalModel} from "../../models/rest/hospital/hospital-model";
 import {EDIUploadModel} from "../../models/rest/edi/edi-upload-model";
-import {EDIPharmaBuffModel} from "../../models/rest/edi/edi-pharma-buff-model";
+import {ExtraEdiPharmaBuffModel} from "../../models/rest/edi/extra-edi-pharma-buff-model";
 import {EDIMedicineBuffModel} from "../../models/rest/edi/edi-medicine-buff-model";
-import {EDIHosBuffModel} from "../../models/rest/edi/edi-hos-buff-model";
+import {ExtraEDIHosBuffModel} from "../../models/rest/edi/extra-edi-hos-buff-model";
 
 @Injectable({
   providedIn: "root"
@@ -16,17 +16,17 @@ export class EdiRequestService {
 
   constructor(private httpResponse: HttpResponseInterceptorService) { }
 
-  getApplyDateList(): Promise<RestResult<EDIApplyDateModel[]>> {
+  getApplyDateList(): Promise<RestResult<ExtraEdiApplyDateResponse[]>> {
     return this.httpResponse.get(`${this.baseUrl}/list/applyDate`);
   }
-  getHospitalList(applyDate: string): Promise<RestResult<EDIHosBuffModel[]>> {
+  getHospitalList(applyDate: string): Promise<RestResult<ExtraEDIHosBuffModel[]>> {
     this.httpResponse.addParam("applyDate", applyDate);
     return this.httpResponse.get(`${this.baseUrl}/list/hospital`);
   }
-  getPharmaListAll(): Promise<RestResult<EDIPharmaBuffModel[]>> {
+  getPharmaListAll(): Promise<RestResult<ExtraEdiPharmaBuffModel[]>> {
     return this.httpResponse.get(`${this.baseUrl}/list/pharma`);
   }
-  getPharmaList(hosPK: string, applyDate: string): Promise<RestResult<EDIPharmaBuffModel[]>> {
+  getPharmaList(hosPK: string, applyDate: string): Promise<RestResult<ExtraEdiPharmaBuffModel[]>> {
     this.httpResponse.addParam("applyDate", applyDate);
     return this.httpResponse.get(`${this.baseUrl}/list/pharma/${hosPK}`);
   }

@@ -29,7 +29,7 @@
     </ng-template>
     <ng-template #body let-item>
       <tr [ngClass]="tableNgClass(item)">
-        <td>{{ellipsis(item.medicineIngredientModel.mainIngredientName)}}</td>
+        <td>{{ellipsis(item.mainIngredientName)}}</td>
         <td>{{ellipsis(item.clientName)}}</td>
         <td>{{ellipsis(item.makerName)}}</td>
         <td>{{ellipsis(item.orgName)}}</td>

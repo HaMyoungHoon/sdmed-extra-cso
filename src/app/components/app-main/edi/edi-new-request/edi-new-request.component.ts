@@ -1,12 +1,12 @@
 import {Component} from "@angular/core";
 import {FComponentBase} from "../../../../guards/f-component-base";
-import {EDIApplyDateModel} from "../../../../models/rest/edi/edi-apply-date-model";
+import {ExtraEdiApplyDateResponse} from "../../../../models/rest/edi/extra-edi-apply-date-response";
 import {EdiRequestService} from "../../../../services/rest/edi-request.service";
 import {UserRole} from "../../../../models/rest/user/user-role";
 import * as FExtensions from "../../../../guards/f-extensions";
 import * as FConstants from "../../../../guards/f-constants";
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
-import {EDIPharmaBuffModel} from "../../../../models/rest/edi/edi-pharma-buff-model";
+import {ExtraEdiPharmaBuffModel} from "../../../../models/rest/edi/extra-edi-pharma-buff-model";
 import {EDIUploadPharmaModel} from "../../../../models/rest/edi/edi-upload-pharma-model";
 import {allEDITypeArray, StringToEDIType, StringToEDITypeDesc} from "../../../../models/rest/edi/edi-type";
 import {Subject, takeUntil} from "rxjs";
@@ -24,9 +24,9 @@ export class EdiNewRequestComponent extends FComponentBase {
   selectHospitalBuff: string = "";
   ediTypeList: string[] = [];
   selectedEDIType: string = "";
-  applyDateList: EDIApplyDateModel[] = [];
-  selectApplyDate?: EDIApplyDateModel;
-  pharmaList: EDIPharmaBuffModel[] = [];
+  applyDateList: ExtraEdiApplyDateResponse[] = [];
+  selectApplyDate?: ExtraEdiApplyDateResponse;
+  pharmaList: ExtraEdiPharmaBuffModel[] = [];
   saveAble: boolean = false;
   constructor(private thisService: EdiRequestService) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
@@ -168,14 +168,14 @@ export class EdiNewRequestComponent extends FComponentBase {
     return ret;
   }
 
-  pharmaItemChange(pharmaItem: EDIPharmaBuffModel): void {
+  pharmaItemChange(pharmaItem: ExtraEdiPharmaBuffModel): void {
     const target = this.pharmaList.find(x => x.thisPK == pharmaItem.thisPK);
     if (target) {
       target.uploadFileBuffModel = pharmaItem.uploadFileBuffModel;
     }
     this.checkSavable();
   }
-  listItemApplyDateModel(data: EDIApplyDateModel): string {
+  listItemApplyDateModel(data: ExtraEdiApplyDateResponse): string {
     return `${data.year}-${data.month}`;
   }
   checkSavable(): void {

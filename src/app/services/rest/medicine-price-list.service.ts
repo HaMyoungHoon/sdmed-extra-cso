@@ -3,6 +3,7 @@ import {HttpResponseInterceptorService} from "../common/http-response-intercepto
 import {RestResult} from "../../models/common/rest-result";
 import {MedicineModel} from "../../models/rest/medicine/medicine-model";
 import {MedicinePriceModel} from "../../models/rest/medicine/medicine-price-model";
+import {ExtraMedicinePriceResponse} from "../../models/rest/medicine/extra-medicine-price-response";
 
 @Injectable({
   providedIn: "root"
@@ -12,7 +13,7 @@ export class MedicinePriceListService {
 
   constructor(private httpResponse: HttpResponseInterceptorService) { }
 
-  getList(): Promise<RestResult<MedicineModel[]>> {
+  getList(): Promise<RestResult<ExtraMedicinePriceResponse[]>> {
     return this.httpResponse.get(`${this.baseUrl}/list`);
   }
 }

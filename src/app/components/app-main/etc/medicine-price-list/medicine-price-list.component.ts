@@ -3,8 +3,8 @@ import {FComponentBase} from "../../../../guards/f-component-base";
 import * as FExtensions from "../../../../guards/f-extensions";
 import * as FConstants from "../../../../guards/f-constants";
 import {Table} from "primeng/table";
-import {MedicineModel} from "../../../../models/rest/medicine/medicine-model";
 import {MedicinePriceListService} from "../../../../services/rest/medicine-price-list.service";
+import {ExtraMedicinePriceResponse} from "../../../../models/rest/medicine/extra-medicine-price-response";
 
 @Component({
   selector: "app-medicine-price-list",
@@ -17,8 +17,8 @@ export class MedicinePriceListComponent extends FComponentBase {
   @ViewChild("inputPriceUploadExcel") inputPriceUploadExcel!: ElementRef<HTMLInputElement>;
   @ViewChild("inputMainIngredientUploadExcel") inputMainIngredientUploadExcel!: ElementRef<HTMLInputElement>;
   applyDate: Date = new Date();
-  initValue: MedicineModel[] = [];
-  medicineModel: MedicineModel[] = [];
+  initValue: ExtraMedicinePriceResponse[] = [];
+  medicineModel: ExtraMedicinePriceResponse[] = [];
   isSorted: boolean | null = null;
   constructor(private thisService: MedicinePriceListService) {
     super();
@@ -40,32 +40,15 @@ export class MedicinePriceListComponent extends FComponentBase {
     this.fDialogService.warn("get medicine", ret.msg);
   }
 
-  getApplyDate(data: MedicineModel): string {
-    if (data.medicinePriceModel.length <= 0) {
-      return "None";
-    }
-
-    return FExtensions.dateToYYYYMMdd(data.medicinePriceModel[0].applyDate);
-  }
-  disablePriceHistory(data: MedicineModel): boolean {
-    return data.medicinePriceModel.length <= 0;
-  }
-
   async refresh(): Promise<void> {
     return await this.getMedicinePriceList();
   }
 
   get filterFields(): string[] {
-    return ["medicineIngredientModel.mainIngredientName", "clientName", "makerName", "orgName"];
-  }
-  get uploadPriceTooltip(): string {
-    return "medicine-price-list.price-excel";
-  }
-  get uploadMainIngredient(): string {
-    return "medicine-price-list.main-ingredient-excel";
+    return ["mainIngredientName", "clientName", "makerName", "orgName"];
   }
 
-  tableNgClass(item: MedicineModel): {"zero-price": boolean} {
+  tableNgClass(item: ExtraMedicinePriceResponse): {"zero-price": boolean} {
     return {"zero-price": item.maxPrice === 0};
   }
 

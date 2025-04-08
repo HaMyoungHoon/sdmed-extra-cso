@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from "@angular/core";
-import {EDIPharmaBuffModel} from "../../../models/rest/edi/edi-pharma-buff-model";
+import {ExtraEdiPharmaBuffModel} from "../../../models/rest/edi/extra-edi-pharma-buff-model";
 import {Panel} from "primeng/panel";
 import {Button} from "primeng/button";
 import {GalleriaModule} from "primeng/galleria";
@@ -20,10 +20,10 @@ import {ProgressSpinner} from "primeng/progressspinner";
 })
 export class EdiPharmaFileCombineModelComponent {
   @ViewChild("inputFiles") inputFiles!: ElementRef<HTMLInputElement>;
-  @Input() pharmaItem: EDIPharmaBuffModel = new EDIPharmaBuffModel();
+  @Input() pharmaItem: ExtraEdiPharmaBuffModel = new ExtraEdiPharmaBuffModel();
   @Output() error: EventEmitter<{title: string, msg?: string}> = new EventEmitter();
   @Output() warn: EventEmitter<{title: string, msg?: string}> = new EventEmitter();
-  @Output() changeFile: EventEmitter<EDIPharmaBuffModel> = new EventEmitter();
+  @Output() changeFile: EventEmitter<ExtraEdiPharmaBuffModel> = new EventEmitter();
   activeIndex: number = 0;
   isDragging: boolean = false;
   isLoading: boolean = false;

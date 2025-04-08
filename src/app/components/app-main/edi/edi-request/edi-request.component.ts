@@ -4,14 +4,14 @@ import {UserRole} from "../../../../models/rest/user/user-role";
 import {EdiRequestService} from "../../../../services/rest/edi-request.service";
 import * as FExtensions from "../../../../guards/f-extensions";
 import * as FConstants from "../../../../guards/f-constants";
-import {EDIApplyDateModel} from "../../../../models/rest/edi/edi-apply-date-model";
-import {EDIPharmaBuffModel} from "../../../../models/rest/edi/edi-pharma-buff-model";
+import {ExtraEdiApplyDateResponse} from "../../../../models/rest/edi/extra-edi-apply-date-response";
+import {ExtraEdiPharmaBuffModel} from "../../../../models/rest/edi/extra-edi-pharma-buff-model";
 import {EDIMedicineBuffModel} from "../../../../models/rest/edi/edi-medicine-buff-model";
 import {EDIUploadModel} from "../../../../models/rest/edi/edi-upload-model";
 import {EDIUploadPharmaModel} from "../../../../models/rest/edi/edi-upload-pharma-model";
 import {EDIUploadPharmaMedicineModel} from "../../../../models/rest/edi/edi-upload-pharma-medicine-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
-import {EDIHosBuffModel} from "../../../../models/rest/edi/edi-hos-buff-model";
+import {ExtraEDIHosBuffModel} from "../../../../models/rest/edi/extra-edi-hos-buff-model";
 
 @Component({
   selector: "app-edi-request",
@@ -20,11 +20,11 @@ import {EDIHosBuffModel} from "../../../../models/rest/edi/edi-hos-buff-model";
   standalone: false,
 })
 export class EdiRequestComponent extends FComponentBase {
-  applyDateList: EDIApplyDateModel[] = [];
-  selectApplyDate?: EDIApplyDateModel;
-  hospitalList: EDIHosBuffModel[] = [];
-  pharmaList: EDIPharmaBuffModel[] = [];
-  selectHospital?: EDIHosBuffModel;
+  applyDateList: ExtraEdiApplyDateResponse[] = [];
+  selectApplyDate?: ExtraEdiApplyDateResponse;
+  hospitalList: ExtraEDIHosBuffModel[] = [];
+  pharmaList: ExtraEdiPharmaBuffModel[] = [];
+  selectHospital?: ExtraEDIHosBuffModel;
   saveAble: boolean = false;
   constructor(private thisService: EdiRequestService) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
@@ -187,7 +187,7 @@ export class EdiRequestComponent extends FComponentBase {
     this.checkSavable();
   }
 
-  mergePharmaMedicine(pharmaList: EDIPharmaBuffModel[], medicineList: EDIMedicineBuffModel[]): void {
+  mergePharmaMedicine(pharmaList: ExtraEdiPharmaBuffModel[], medicineList: EDIMedicineBuffModel[]): void {
     const medicineMap = medicineList.reduce((acc, medicine) => {
       if (!acc[medicine.pharmaPK]) {
         acc[medicine.pharmaPK] = [];
@@ -214,14 +214,14 @@ export class EdiRequestComponent extends FComponentBase {
     return ret;
   }
 
-  pharmaItemChange(pharmaItem: EDIPharmaBuffModel): void {
+  pharmaItemChange(pharmaItem: ExtraEdiPharmaBuffModel): void {
     const target = this.pharmaList.find(x => x.thisPK == pharmaItem.thisPK);
     if (target) {
       target.uploadFileBuffModel = pharmaItem.uploadFileBuffModel;
     }
     this.checkSavable();
   }
-  listItemApplyDateModel(data: EDIApplyDateModel): string {
+  listItemApplyDateModel(data: ExtraEdiApplyDateResponse): string {
     return `${data.year}-${data.month}`;
   }
   checkSavable(): void {
