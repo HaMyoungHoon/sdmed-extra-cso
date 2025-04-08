@@ -1,18 +1,15 @@
 import {RestResult} from "../models/common/rest-result";
-import {UserDataModel} from "../models/rest/user/user-data-model";
 import * as FExtensions from "./f-extensions";
 import {MyInfoService} from "../services/rest/my-info.service";
 import {CommonService} from "../services/rest/common.service";
 import {AzureBlobService} from "../services/rest/azure-blob.service";
 import {ElementRef} from "@angular/core";
 import {FDialogService} from "../services/common/f-dialog.service";
-import {stringArrayToUserRole, userRoleToFlag} from "../models/rest/user/user-role";
-import {StatusDescToUserStatus} from "../models/rest/user/user-status";
 import {UserFileModel} from "../models/rest/user/user-file-model";
 import {UserFileType} from "../models/rest/user/user-file-type";
-import {getUserBlobName} from "./f-extensions";
+import {ExtraMyInfoResponse} from "../models/rest/user/extra-my-info-response";
 
-export async function imageSelected(event: any, data: UserDataModel, userFileType: UserFileType, service: MyInfoService, commonService: CommonService, azureBlobService: AzureBlobService): Promise<RestResult<UserFileModel>> {
+export async function imageSelected(event: any, data: ExtraMyInfoResponse, userFileType: UserFileType, service: MyInfoService, commonService: CommonService, azureBlobService: AzureBlobService): Promise<RestResult<UserFileModel>> {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {
     const file = input.files[0];

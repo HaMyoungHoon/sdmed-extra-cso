@@ -2,7 +2,6 @@ import {RestResult} from "../models/common/rest-result";
 import {SortEvent} from "primeng/api";
 import {Table} from "primeng/table";
 import * as FContentsType from "./f-contents-type";
-import {EDIUploadFileModel} from "../models/rest/edi/edi-upload-file-model";
 import * as FAmhohwa from "./f-amhohwa";
 import * as FConstants from "./f-constants";
 import {QnAFileModel} from "../models/rest/qna/qna-file-model";
@@ -323,15 +322,6 @@ export function getEDIUploadBlobName(ext: string): string {
   const userName = FAmhohwa.getDecodeUserID();
   return `edi/${userName}/${currentDateYYYYMMdd()}/${FAmhohwa.getRandomUUID()}.${ext}`;
 }
-export function getEDIUploadFileModel(file: File, blobStorageInfo: BlobStorageInfoModel, ext: string, mimeType: string): EDIUploadFileModel {
-  const blobUrl = `${blobStorageInfo.blobUrl}/${blobStorageInfo.blobContainerName}/${blobStorageInfo.blobName}`;
-  return applyClass(EDIUploadFileModel, (obj) => {
-    obj.blobUrl = blobUrl;
-    obj.blobName = blobStorageInfo.blobName;
-    obj.originalFilename = ableFilename(file.name);
-    obj.mimeType = mimeType;
-  });
-}
 export function getEDIUploadPharmaFileModel(file: File, blobStorageInfo: BlobStorageInfoModel, ext: string, mimeType: string): EDIUploadPharmaFileModel {
   const blobUrl = `${blobStorageInfo.blobUrl}/${blobStorageInfo.blobContainerName}/${blobStorageInfo.blobName}`;
   return applyClass(EDIUploadPharmaFileModel, (obj) => {
@@ -351,14 +341,6 @@ export function userFileListToViewModel(userFileList: UserFileModel[]): FileView
   }));
 }
 
-export function ediFileListToViewModel(ediFileList: EDIUploadFileModel[]): FileViewModel[] {
-  return ediFileList.map(x => applyClass(FileViewModel, (obj) => {
-    obj.mimeType = x.mimeType;
-    obj.blobUrl = x.blobUrl;
-    obj.filename = ableFilename(x.originalFilename);
-    obj.ext = getExtMimeType(x.mimeType);
-  }));
-}
 export function ediPharmaFileListToViewModel(ediFileList: EDIUploadPharmaFileModel[]): FileViewModel[] {
   return ediFileList.map(x => applyClass(FileViewModel, (obj) => {
     obj.mimeType = x.mimeType;

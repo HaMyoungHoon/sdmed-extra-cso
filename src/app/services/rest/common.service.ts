@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import {RestResult} from "../../models/common/rest-result";
 import {UserStatus} from "../../models/rest/user/user-status";
-import {UserDataModel} from "../../models/rest/user/user-data-model";
 import {HttpResponseInterceptorService} from "../common/http-response-interceptor.service";
 import {HttpResponse} from "@angular/common/http";
 import {BlobStorageInfoModel} from "../../models/rest/blob-storage-info-model";
@@ -22,10 +21,6 @@ export class CommonService {
   multiSign(token: string): Promise<RestResult<string>> {
     this.httpResponse.addParam("token", token);
     return this.httpResponse.get(`${this.baseUrl}/multiSign`);
-  }
-  signUp(confirmPW: string, data: UserDataModel): Promise<RestResult<UserDataModel>> {
-    this.httpResponse.addParam("confirmPW", confirmPW);
-    return this.httpResponse.post(`${this.baseUrl}/signUp`, data);
   }
   tokenRefresh(): Promise<RestResult<string>> {
     return this.httpResponse.post(`${this.baseUrl}/tokenRefresh`);

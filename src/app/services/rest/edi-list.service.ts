@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import {HttpResponseInterceptorService} from "../common/http-response-interceptor.service";
-import {EDIUploadModel} from "../../models/rest/edi/edi-upload-model";
 import {RestResult} from "../../models/common/rest-result";
-import {EDIUploadFileModel} from "../../models/rest/edi/edi-upload-file-model";
 import {EDIUploadPharmaFileModel} from "../../models/rest/edi/edi-upload-pharma-file-model";
 import {ExtraEDIListResponse} from "../../models/rest/edi/extra-edi-list-response";
 import {ExtraEDIDetailResponse} from "../../models/rest/edi/extra-edi-detail-response";

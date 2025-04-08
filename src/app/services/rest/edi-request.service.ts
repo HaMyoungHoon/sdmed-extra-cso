@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import {HttpResponseInterceptorService} from "../common/http-response-interceptor.service";
 import {RestResult} from "../../models/common/rest-result";
 import {ExtraEdiApplyDateResponse} from "../../models/rest/edi/extra-edi-apply-date-response";
-import {HospitalModel} from "../../models/rest/hospital/hospital-model";
 import {EDIUploadModel} from "../../models/rest/edi/edi-upload-model";
 import {ExtraEdiPharmaBuffModel} from "../../models/rest/edi/extra-edi-pharma-buff-model";
 import {EDIMedicineBuffModel} from "../../models/rest/edi/edi-medicine-buff-model";

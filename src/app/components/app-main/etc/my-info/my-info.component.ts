@@ -2,7 +2,6 @@ import {ChangeDetectorRef, Component, ElementRef, input, ViewChild} from "@angul
 import {FComponentBase} from "../../../../guards/f-component-base";
 import {flagToRoleDesc, UserRole} from "../../../../models/rest/user/user-role";
 import {MyInfoService} from "../../../../services/rest/my-info.service";
-import {UserDataModel} from "../../../../models/rest/user/user-data-model";
 import * as FExtensions from "../../../../guards/f-extensions";
 import * as FConstants from "../../../../guards/f-constants";
 import * as FAmhohwa from "../../../../guards/f-amhohwa";
@@ -10,11 +9,12 @@ import * as FUserInfoMethod from "../../../../guards/f-user-info-method";
 import {transformToBoolean} from "primeng/utils";
 import {Subject, takeUntil} from "rxjs";
 import {statusToUserStatusDesc} from "../../../../models/rest/user/user-status";
-import {HospitalModel} from "../../../../models/rest/hospital/hospital-model";
 import {UserFileType} from "../../../../models/rest/user/user-file-type";
 import {UserTrainingModel} from "../../../../models/rest/user/user-training-model";
 import {UploadFileBuffModel} from "../../../../models/common/upload-file-buff-model";
 import {UserTrainingFileAddComponent} from "../../../common/user-training-file-add/user-training-file-add.component";
+import {ExtraMyInfoResponse} from "../../../../models/rest/user/extra-my-info-response";
+import {ExtraMyInfoHospital} from "../../../../models/rest/user/extra-my-info-hospital";
 
 @Component({
   selector: "app-my-info",
@@ -28,8 +28,8 @@ export class MyInfoComponent extends FComponentBase {
   @ViewChild("bankAccountImageInput") bankAccountImageInput!: ElementRef<HTMLInputElement>
   @ViewChild("csoReportImageInput") csoReportImageInput!: ElementRef<HTMLInputElement>
   @ViewChild("marketingContractImageInput") marketingContractImageInput!: ElementRef<HTMLInputElement>
-  userDataModel: UserDataModel = new UserDataModel();
-  selectedHosData: HospitalModel = new HospitalModel();
+  userDataModel: ExtraMyInfoResponse = new ExtraMyInfoResponse();
+  selectedHosData: ExtraMyInfoHospital = new ExtraMyInfoHospital();
   constructor(private thisService: MyInfoService, private cd: ChangeDetectorRef) {
     super(Array<UserRole>(UserRole.Admin, UserRole.CsoAdmin, UserRole.BusinessMan));
   }
@@ -50,7 +50,7 @@ export class MyInfoComponent extends FComponentBase {
       e => this.fDialogService.error("getData"));
     this.setLoading(false);
     if (ret.result) {
-      this.userDataModel = ret.data ?? new UserDataModel();
+      this.userDataModel = ret.data ?? new ExtraMyInfoResponse();
       this.cd.detectChanges();
       await this.userTrainingFileAdd.readyImage();
       return;

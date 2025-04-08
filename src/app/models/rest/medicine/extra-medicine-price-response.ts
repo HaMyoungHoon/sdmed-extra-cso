@@ -1,4 +1,5 @@
 export class ExtraMedicinePriceResponse {
+  thisPK: string = "";
   mainIngredientCode: string = "";
   mainIngredientName: string = "";
   clientName?: string = "";
