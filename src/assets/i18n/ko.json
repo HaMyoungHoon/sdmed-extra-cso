@@ -22,6 +22,12 @@
       "sub-3": "QnA"
     }
   },
+  "menu-4": {
+    "title": "app",
+    "sub-menu": {
+      "sub-1": "안드로이드"
+    }
+  },
   "menu-config": {
     "label": {
       "expired": "로그인 만료일"

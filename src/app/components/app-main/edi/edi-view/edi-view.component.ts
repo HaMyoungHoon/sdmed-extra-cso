@@ -57,7 +57,7 @@ export class EdiViewComponent extends FComponentBase {
     const ret = await FExtensions.restTry(async() => await this.thisService.getData(this.thisPK),
       e => this.fDialogService.error("getData", e));
     if (ret.result) {
-      this.uploadModel = ret.data ?? new EDIUploadModel();
+      this.uploadModel = ret.data ?? new ExtraEDIDetailResponse();
       this.uploadModel.pharmaList.forEach(x => {
         if (x.fileList == undefined) {
           x.fileList = [];

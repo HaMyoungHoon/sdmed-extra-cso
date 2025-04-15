@@ -22,6 +22,12 @@
       "sub-3": "qna"
     }
   },
+  "menu-4": {
+    "title": "app",
+    "sub-menu": {
+      "sub-1": "android"
+    }
+  },
   "menu-config": {
     "label": {
       "expired": "login expired"

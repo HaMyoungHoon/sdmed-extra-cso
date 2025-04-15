@@ -28,6 +28,8 @@ export const QNA_LIST_URL: string = "qnaList";
 export const QNA_WRITE_URL: string = "qnaWrite";
 export const QNA_VIEW_URL: string = "qnaList/:thisPK";
 
+export const ANDROID_DOWNLOAD_LINK: string = "https://devsdmed1.blob.core.windows.net/devsdmed1/download/SD%20extra-CSO.apk";
+
 export const ASSETS_NO_IMAGE: string = "assets/image/no-image-1920.png";
 export const ASSETS_ZIP_IMAGE: string = "assets/image/zip-image.png";
 export const ASSETS_PDF_IMAGE: string = "assets/image/pdf-image.png";

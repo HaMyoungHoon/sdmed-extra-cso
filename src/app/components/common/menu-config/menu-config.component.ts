@@ -127,4 +127,7 @@ export class MenuConfigComponent {
   itemViewBox(item: MenuItem): string {
     return item["viewBox"];
   }
+  openUrl(url: string): void {
+    window.open(url, "_blank");
+  }
 }

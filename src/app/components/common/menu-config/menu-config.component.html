@@ -23,9 +23,31 @@
           <span [class]="item.icon"></span>
           <span class="ml-2">{{item.label | translate}}</span>
         </a>
+        <a pRipple class="foreground-orange font-bold" (click)="openUrl(item.url)" *ngIf="item.url">
+          <span [class]="item.icon"></span>
+          <span class="ml-2">{{item.label | translate}}</span>
+        </a>
       </ng-template>
       <ng-template #item let-item>
-        <a pRipple class="flex align-items-center p-menu-item-link" [routerLink]="item.routerLink">
+        <a pRipple class="flex align-items-center p-menu-item-link" [routerLink]="item.routerLink" *ngIf="item.routerLink">
+          <div *ngIf="!isSVGIcon(item)">
+            <span [class]="item.icon"></span>
+          </div>
+          <div *ngIf="isSVGIcon(item)">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" [attr.height]="itemHeight(item)" [attr.width]="itemWidth(item)"
+                   [attr.viewBox]="itemViewBox(item)" [attr.fill]="fillColor()">
+                <path [attr.d]="itemPath(item)" />
+              </svg>
+            </span>
+          </div>
+          <span class="ml-2">{{item.label | translate}}</span>
+          <p-badge *ngIf="item.badge" class="ml-auto" [value]="item.badge" />
+          <span *ngIf="item.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">
+            {{item.shortcut}}
+          </span>
+        </a>
+        <a pRipple class="flex align-items-center p-menu-item-link" (click)="openUrl(item.url)" *ngIf="item.url">
           <div *ngIf="!isSVGIcon(item)">
             <span [class]="item.icon"></span>
           </div>
