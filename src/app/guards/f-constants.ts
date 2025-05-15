@@ -28,7 +28,7 @@ export const QNA_LIST_URL: string = "qnaList";
 export const QNA_WRITE_URL: string = "qnaWrite";
 export const QNA_VIEW_URL: string = "qnaList/:thisPK";
 
-export const ANDROID_DOWNLOAD_LINK: string = "https://devsdmed1.blob.core.windows.net/devsdmed1/download/SD%20extra-CSO.apk";
+export const ANDROID_DOWNLOAD_LINK: string = "https://mhhablob1.blob.core.windows.net/mhhablob1/download/SD-Extra-CSO.apk";
 
 export const ASSETS_NO_IMAGE: string = "assets/image/no-image-1920.png";
 export const ASSETS_ZIP_IMAGE: string = "assets/image/zip-image.png";
