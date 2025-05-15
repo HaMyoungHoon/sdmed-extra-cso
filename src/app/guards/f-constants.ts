@@ -46,8 +46,8 @@ export const REGEX_CHECK_PASSWORD_0: RegExp = /^(?=.*[A-Za-z가-힣ㄱ-ㅎㅏ-�
 export const REGEX_CHECK_PASSWORD_1: RegExp = /^(?=.*[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
 export const REGEX_CHECK_PASSWORD_2: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
 
-export const MAP_GOOGLE_API_KEY = "AIzaSyAXbfpHy7uOHr2cFKAMqpNfapHJ-yynm3k";
-export const MAP_GOOGLE_ID = "c4e783549a7f4ba6 ";
+export const MAP_GOOGLE_API_KEY = "AIzaSyAcz6O5HVUam-TG_vuR7Hc6CNSuuvSiDsc";
+export const MAP_GOOGLE_ID = "e3ab2c4c1d5bfc9a12de95c8 ";
 
 export let DEF_LAT: number = 37.5020656;
 export let DEF_LNG: number = 126.8880897;
